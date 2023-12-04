@@ -125,7 +125,7 @@ export default function Home() {
                 </Button>
               </Col>
               <Col md={6}>
-                <Image src="/sign-section-cutted.png" fluid />
+                <Image src="/sign-section-cutted.png" fluid alt="fit-man" />
               </Col>
             </Row>
           </Container>
