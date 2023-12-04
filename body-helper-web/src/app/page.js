@@ -1,14 +1,14 @@
-import Image from "next/image";
-import Header from "../components/Header.jsx";
-import Footer from "@/components/Footer.jsx";
+import HeroCarousel from "@/components/HeroCarousel";
+
 export default function Home() {
   return (
     <>
-      <Header />
+      <section className="hero-section-home">
+        <HeroCarousel />
+      </section>
       <main>
         <p>Hello world</p>
       </main>
-      <Footer />
     </>
   );
 }
