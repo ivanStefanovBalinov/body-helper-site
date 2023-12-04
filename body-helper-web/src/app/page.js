@@ -9,7 +9,7 @@ export default function Home() {
         <HeroCarousel />
       </section>
       <main>
-        <section className="black-bg">
+        <section className="dark-bg">
           <Container>
             <Row>
               <h1 className="section-main-header">
@@ -120,7 +120,7 @@ export default function Home() {
                   and take the first step towards a healthier, happier you.
                   Let's transform together!
                 </h5>
-                <Button variant="dark" rounded size="lg">
+                <Button variant="dark" size="lg" className="my-3">
                   Sing In
                 </Button>
               </Col>
@@ -129,6 +129,9 @@ export default function Home() {
               </Col>
             </Row>
           </Container>
+        </section>
+        <section className="dark-bg">
+          <h1 className="section-main-header">Latest Posts</h1>
         </section>
       </main>
     </>
