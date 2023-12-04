@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Header from "../components/Header.jsx";
+import Footer from "@/components/Footer.jsx";
 export default function Home() {
   return (
     <>
@@ -7,6 +8,7 @@ export default function Home() {
       <main>
         <p>Hello world</p>
       </main>
+      <Footer />
     </>
   );
 }

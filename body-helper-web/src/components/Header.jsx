@@ -9,7 +9,7 @@ const Header = () => {
   };
   const userInfo = false;
   return (
-    <header>
+    <header style={{ marginBottom: "50px" }}>
       <Navbar bg="dark" fixed="top" variant="dark" expand="lg" collapseOnSelect>
         <Container>
           <Navbar.Brand>Body-Helper</Navbar.Brand>
@@ -21,7 +21,6 @@ const Header = () => {
               <Nav.Link>Food Calculator</Nav.Link>
               <Nav.Link>Blog</Nav.Link>
               <Nav.Link>About Us</Nav.Link>
-
               {userInfo ? (
                 <NavDropdown>
                   <NavDropdown.Item>Profile</NavDropdown.Item>
