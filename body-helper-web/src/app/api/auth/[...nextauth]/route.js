@@ -22,15 +22,32 @@ export const authOptions = {
       },
       async authorize(credentials, req) {
         await connectDB();
-        const user = await User.find({ email: credentials.email });
-        console.log("[CREDENTIALS]:", credentials, "[USER]:", user);
+        const user = await User.findOne({ email: credentials.email }).select(
+          "+password"
+        );
+
+        const isMatch = await user.comparePassword(credentials.password);
+
+        if (!isMatch) {
+          throw new Error("Invalid credentials");
+        }
+
+        return user;
       },
     }),
   ],
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    session({ session, user }) {
-      session.user.id = user.id;
-      return session;
+    async session({ session, user }) {
+      if (await user) {
+        session.user = {
+          id: user._id,
+          email: user.email,
+          username: user.username,
+        };
+      }
+      console.log("SESSION:", session, "USER:", await user);
+      return Promise.resolve(session);
     },
   },
 };
