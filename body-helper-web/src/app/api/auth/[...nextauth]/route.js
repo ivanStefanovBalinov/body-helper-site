@@ -31,7 +31,7 @@ export const authOptions = {
         if (!isMatch) {
           throw new Error("Invalid credentials");
         }
-
+        console.log(user);
         return user;
       },
     }),
