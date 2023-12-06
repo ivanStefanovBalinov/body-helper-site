@@ -4,8 +4,13 @@ const UserSchema = new Schema(
   {
     username: {
       type: String,
-      required: [true, "Please add title"],
-      unique: true,
+      required: [true, "Please add username"],
+      trim: true,
+      maxlength: [20, "Name can not be more than 50 characters"],
+    },
+    name: {
+      type: String,
+      required: [true, "Please add username"],
       trim: true,
       maxlength: [20, "Name can not be more than 50 characters"],
     },
@@ -17,6 +22,10 @@ const UserSchema = new Schema(
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
         "Please add valid email",
       ],
+    },
+    image: {
+      type: String,
+      default: "/images/default-user-avatar.png",
     },
     password: {
       type: String,

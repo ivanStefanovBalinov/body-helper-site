@@ -1,6 +1,6 @@
 const { NextResponse } = require("next/server");
 import connectDB from "../../../../../../db/connectdb";
-import User from "../../../../../../db/models/Users.model";
+import User from "../../../../../../db/models/User.model";
 
 export async function PUT(request, { params }) {
   //Alternative way to get Id from context is to destructure it in params of function

@@ -2,10 +2,18 @@
 import React from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { FaUser } from "react-icons/fa";
+import Link from "next/link";
 const Header = () => {
   const LogoutHandler = () => {
     alert("logout");
   };
+  const navItems = [
+    { path: "/", title: "Home" },
+    { path: "/recipes", title: "Recipes" },
+    { path: "/foodcalculator", title: "Food Calculator" },
+    { path: "/blog", title: "Blog" },
+    { path: "/about", title: "About Us" },
+  ];
   const userInfo = false;
   return (
     <header style={{ marginBottom: "50px" }}>
@@ -15,11 +23,11 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/recipes">Recipes</Nav.Link>
-              <Nav.Link href="/foodcalculator">Food Calculator</Nav.Link>
-              <Nav.Link href="/blog">Blog</Nav.Link>
-              <Nav.Link href="/about">About Us</Nav.Link>
+              {navItems.map((item) => (
+                <Link className="nav-items" href={item.path} key={item.path}>
+                  {item.title}
+                </Link>
+              ))}
               {userInfo ? (
                 <NavDropdown>
                   <NavDropdown.Item>Profile</NavDropdown.Item>
@@ -29,10 +37,10 @@ const Header = () => {
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
-                <Nav.Link href="/login">
+                <Link className="nav-items" href="/login">
                   <FaUser />
                   Sign In
-                </Nav.Link>
+                </Link>
               )}
             </Nav>
           </Navbar.Collapse>
