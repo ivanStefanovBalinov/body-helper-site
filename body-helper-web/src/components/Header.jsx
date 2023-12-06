@@ -1,12 +1,12 @@
 "use client";
 import React from "react";
-import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, Container, Dropdown, Button } from "react-bootstrap";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { FaUser } from "react-icons/fa";
 import Link from "next/link";
 const Header = () => {
-  const LogoutHandler = () => {
-    alert("logout");
-  };
+  const { data: session } = useSession();
+
   const navItems = [
     { path: "/", title: "Home" },
     { path: "/recipes", title: "Recipes" },
@@ -14,7 +14,7 @@ const Header = () => {
     { path: "/blog", title: "Blog" },
     { path: "/about", title: "About Us" },
   ];
-  const userInfo = false;
+
   return (
     <header style={{ marginBottom: "50px" }}>
       <Navbar bg="dark" fixed="top" variant="dark" expand="lg" collapseOnSelect>
@@ -28,19 +28,47 @@ const Header = () => {
                   {item.title}
                 </Link>
               ))}
-              {userInfo ? (
-                <NavDropdown>
-                  <NavDropdown.Item>Profile</NavDropdown.Item>
+              {session ? (
+                <Dropdown>
+                  <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                    Profile
+                  </Dropdown.Toggle>
 
-                  <NavDropdown.Item onClick={LogoutHandler}>
-                    Logout
-                  </NavDropdown.Item>
-                </NavDropdown>
+                  <Dropdown.Menu>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                      }}>
+                      <div className="user-avatar-wrapper">
+                        <img
+                          src={session.user.image}
+                          alt={`session.user.name`}
+                          className="user-avatar"
+                        />
+                      </div>
+                      <p>Hi, {session.user.name}</p>
+                    </div>
+                    <Dropdown.Divider />
+                    <Dropdown.Item>
+                      <Link href="/profile">Profile</Link>
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                      <Link href="/" onClick={() => signOut()}>
+                        Logout
+                      </Link>
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
               ) : (
-                <Link className="nav-items" href="/login">
+                <Button
+                  variant="dark"
+                  onClick={() => signIn()}
+                  style={{ display: "flex", gap: "5px", alignItems: "center" }}>
                   <FaUser />
                   Sign In
-                </Link>
+                </Button>
               )}
             </Nav>
           </Navbar.Collapse>

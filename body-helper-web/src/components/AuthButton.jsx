@@ -8,7 +8,6 @@ import React from "react";
 const AuthButton = () => {
   const { data: session } = useSession();
   if (session) {
-    console.log(session);
     return (
       <>
         Signed in as {session.user.email} <br />{" "}

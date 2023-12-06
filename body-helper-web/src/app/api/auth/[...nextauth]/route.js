@@ -1,11 +1,16 @@
 import NExtAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import NextAuth from "next-auth/next";
 import connectDB from "../../../../../db/connectdb";
 import User from "../../../../../db/models/User.Schema";
 
 export const authOptions = {
   providers: [
+    GoogleProvider({
+      clientId: process.env.GCP_CLIENT_ID,
+      clientSecret: process.env.GCP_SECRET,
+    }),
     CredentialsProvider({
       name: "Email & Password",
       credentials: {
