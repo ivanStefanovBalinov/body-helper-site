@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import connectDB from "../../../../../db/connectdb";
-import User from "../../../../../db/models/Users.model";
+import User from "../../../../../db/models/User.Schema";
 
 export async function POST(request) {
   const { email, password } = await request.json();
@@ -32,7 +32,7 @@ export async function POST(request) {
   }
 
   return NextResponse.json(
-    { message: `User ${user.username} Sign in`, success: true },
+    { message: `User ${user.name} Sign in`, success: true },
     { status: 200 }
   );
 }

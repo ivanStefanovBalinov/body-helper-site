@@ -1,8 +1,8 @@
 import NExtAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import User from "../../../../../db/models/Users.model";
 import NextAuth from "next-auth/next";
 import connectDB from "../../../../../db/connectdb";
+import User from "../../../../../db/models/User.Schema";
 
 export const authOptions = {
   providers: [
@@ -31,25 +31,15 @@ export const authOptions = {
         if (!isMatch) {
           throw new Error("Invalid credentials");
         }
-        console.log(user);
+
+        if (!user) {
+          return null;
+        }
         return user;
       },
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
-  callbacks: {
-    async session({ session, user }) {
-      if (await user) {
-        session.user = {
-          id: user._id,
-          email: user.email,
-          username: user.username,
-        };
-      }
-      console.log("SESSION:", session, "USER:", await user);
-      return Promise.resolve(session);
-    },
-  },
 };
 
 const handler = NextAuth(authOptions);

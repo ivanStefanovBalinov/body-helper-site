@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import connectDB from "../../../../../db/connectdb";
-import User from "../../../../../db/models/Users.model";
+import User from "../../../../../db/models/User.Schema";
 
 export async function GET(request, context) {
   const { params } = context;
@@ -14,7 +14,7 @@ export async function GET(request, context) {
     );
   }
   return NextResponse.json(
-    { data: { username: user.username, email: user.email }, success: true },
+    { data: { name: user.name, email: user.email }, success: true },
     { status: 200 }
   );
 }
@@ -37,7 +37,7 @@ export async function PUT(request, { params }) {
   return NextResponse.json(
     {
       data: {
-        username: user.username,
+        name: user.name,
         email: user.email,
         message: "User info successfully updated.",
       },
