@@ -2,11 +2,6 @@ import { NextResponse } from "next/server";
 import connectDB from "../../../../db/connectdb";
 import User from "../../../../db/models/User.Schema";
 
-export async function GET(request) {
-  connectDB();
-  return NextResponse.json({ message: "GET ALL USERS" });
-}
-
 export async function POST(request) {
   const { username, name, email, password, image } = await request.json();
   await connectDB();

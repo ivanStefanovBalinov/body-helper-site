@@ -7,7 +7,8 @@ import Link from "next/link";
 const Header = () => {
   const { data: session, status } = useSession();
 
-  console.log("CLIENT:", session, "STATUS:", status);
+  console.log("CLIENT SESSION:", session);
+
   const navItems = [
     { path: "/", title: "Home" },
     { path: "/recipes", title: "Recipes" },
@@ -29,7 +30,7 @@ const Header = () => {
                   {item.title}
                 </Link>
               ))}
-              {session ? (
+              {status === "authenticated" && session ? (
                 <Dropdown>
                   <Dropdown.Toggle variant="dark" id="dropdown-basic">
                     Profile
@@ -70,6 +71,11 @@ const Header = () => {
                   <FaUser />
                   Sign In
                 </Button>
+              )}
+              {status === "authenticated" && session.user.isAdmin && (
+                <Link className="nav-items" href="/admin">
+                  Admin Panel
+                </Link>
               )}
             </Nav>
           </Navbar.Collapse>
