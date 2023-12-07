@@ -1,4 +1,5 @@
 import HeroCarousel from "@/components/HeroCarousel";
+import { useSession } from "next-auth/react";
 
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 
@@ -44,6 +45,7 @@ export default function Home() {
       text: "Stay motivated by tracking your progress seamlessly within the your personal table and calculator. Celebrate milestones, set new goals, and witness the positive changes happening in your body and mind.",
     },
   ];
+
   return (
     <>
       <section className="hero-section-home">

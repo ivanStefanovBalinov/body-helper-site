@@ -4,6 +4,13 @@ import NextAuth from "next-auth/next";
 import connectDB from "../../../../../db/connectdb";
 import User from "../../../../../db/models/User.Schema";
 
+//TEST EMAIL: john@email.com
+//Password: 123456
+
+//I create this variable "fetchedUser" because it is the only way i found to paste data from
+//authorize function to callbacks function.
+let fetchedUser = false;
+
 export const authOptions = {
   providers: [
     GoogleProvider({
@@ -39,6 +46,7 @@ export const authOptions = {
           throw new Error("Invalid credentials");
         }
         console.log(user);
+        fetchedUser = user;
         return user;
       },
     }),
@@ -52,8 +60,9 @@ export const authOptions = {
       return token;
     },
     async session({ session, token, user }) {
-      session.accessToken = token.accessToken;
-
+      // session.accessToken = token.accessToken;
+      session.user.userId = fetchedUser._id;
+      session.user.isAdmin = fetchedUser.isAdmin;
       return session;
     },
   },
