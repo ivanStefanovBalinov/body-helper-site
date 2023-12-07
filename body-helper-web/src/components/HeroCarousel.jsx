@@ -3,38 +3,40 @@ import React from "react";
 import { Carousel, Image } from "react-bootstrap";
 
 const HeroCarousel = () => {
+  const carouselInfo = [
+    {
+      image: "/carousel-1.jpg",
+      header: "Elevate Your Limits, Embrace Your Potential",
+      text: "Break free from the confines of your comfort zone and discover the untapped possibilities that await on your path to a transformative body and mind",
+    },
+    {
+      image: "/carousel-3.jpg",
+      header: "Sculpt Your Future, One Rep at a Time",
+      text: "Break free from the confines of your comfort zone and discover the untapped possibilities that await on your path to a transformative body and mind",
+    },
+    {
+      image: "/carousel-1.jpg",
+      header: "Elevate Your Limits, Embrace Your Potential",
+      text: "Break free from the confines of your comfort zone and discover the untapped possibilities that await on your path to a transformative body and mind.",
+    },
+    {
+      image: "/carousel-2.jpg",
+      header: "Unleash Your Inner Warrior",
+      text: "Forge the body you desire and sculpt a future of vitality and confidence, rep by rep, as you rewrite the narrative of your own physical evolution.",
+    },
+  ];
   return (
     <>
       <Carousel>
-        <Carousel.Item>
-          <Image src="/carousel-1.jpg" fluid className="carousel-image" />
-          <Carousel.Caption>
-            <h3>Elevate Your Limits, Embrace Your Potential</h3>
-            <p>
-              Break free from the confines of your comfort zone and discover the
-              untapped possibilities that await on your path to a transformative
-              body and mind.
-            </p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <Image src="/carousel-3.jpg" fluid className="carousel-image" />
-          <Carousel.Caption>
-            <h3>Sculpt Your Future, One Rep at a Time</h3>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <Image src="/carousel-2.jpg" fluid className="carousel-image" />
-          <Carousel.Caption>
-            <h3>"Unleash Your Inner Warrior</h3>
-            <p>
-              Forge the body you desire and sculpt a future of vitality and
-              confidence, rep by rep, as you rewrite the narrative of your own
-              physical evolution.
-            </p>
-          </Carousel.Caption>
-        </Carousel.Item>
+        {carouselInfo.map((item, index) => (
+          <Carousel.Item key={index + 1}>
+            <Image src={item.image} fluid className="carousel-image" />
+            <Carousel.Caption>
+              <h3>{item.header}</h3>
+              <p>{item.text}</p>
+            </Carousel.Caption>
+          </Carousel.Item>
+        ))}
       </Carousel>
     </>
   );

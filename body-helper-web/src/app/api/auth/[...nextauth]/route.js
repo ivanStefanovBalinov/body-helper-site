@@ -1,4 +1,3 @@
-import NExtAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import NextAuth from "next-auth/next";
@@ -30,21 +29,34 @@ export const authOptions = {
         const user = await User.findOne({ email: credentials.email }).select(
           "+password"
         );
+        if (!user) {
+          return null;
+        }
 
         const isMatch = await user.comparePassword(credentials.password);
 
         if (!isMatch) {
           throw new Error("Invalid credentials");
         }
-
-        if (!user) {
-          return null;
-        }
+        console.log(user);
         return user;
       },
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.accessToken = user.access_token;
+      }
+      return token;
+    },
+    async session({ session, token, user }) {
+      session.accessToken = token.accessToken;
+
+      return session;
+    },
+  },
 };
 
 const handler = NextAuth(authOptions);
