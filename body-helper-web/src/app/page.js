@@ -3,6 +3,47 @@ import HeroCarousel from "@/components/HeroCarousel";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 
 export default function Home() {
+  const firstSectionContent = [
+    {
+      title: "Fueling Performance with Nutrient-Rich Meals",
+      text: "Enhance your fitness journey by nourishing your body with nutrient-dense meals. Prioritize a balance of lean proteins, complex carbs, and veggies. This synergy of nutrition supports muscle growth, sustained energy, and optimal performance during both weightlifting and cardio workouts.",
+    },
+    {
+      title: "Strategic Meal Timing for Workouts",
+      text: "Optimize your workout sessions by strategically timing your meals. Consume a mix of protein and carbs before weightlifting for strength, and prioritize post-cardio meals to replenish energy stores. This tailored approach ensures sustained endurance and efficient recovery.",
+    },
+    {
+      title: "Strength through Weightlifting, Endurance through Cardio",
+      text: "Incorporate a well-rounded fitness routine with a mix of weightlifting and cardio. Weightlifting builds muscle and boosts metabolism, while cardio enhances endurance and burns calories. Together, they create a powerful synergy for a comprehensive and effective body transformation.",
+    },
+    {
+      title: "Strength through Weightlifting, Endurance through Cardio",
+      text: "Customize your fitness routine based on how your body responds to weightlifting and cardio. Adjust intensity, duration, and type of exercises to suit your goals and individual needs. This adaptability ensures a sustainable and personalized path to a healthier, fitter you.",
+    },
+  ];
+
+  const orderedListData = [
+    {
+      strong: "Personalized Plans:",
+      text: "Benefit from custom-tailored workout routines and meal plans that adapt to your fitness level, preferences, and goals. Your journey is unique, and so is our approach.",
+    },
+    {
+      strong: "Expert Guidance:",
+      text: "Our team of experienced fitness and nutrition experts is here to guide you every step of the way. From form correction to dietary advice, you'll have the support you need to achieve your goals.",
+    },
+    {
+      strong: "Versatile Workouts:",
+      text: "Enjoy a variety of workouts, including dynamic weightlifting sessions to build strength and cardio routines for endurance. Our diverse range of exercises keeps your routine exciting and effective.",
+    },
+    {
+      strong: "Nutrient-Rich Meals:",
+      text: "Say goodbye to bland diets. Our meal plans are not only nutritious but also delicious. We believe in the power of enjoying what you eat while nourishing your body.",
+    },
+    {
+      strong: "Track Your Progress:",
+      text: "Stay motivated by tracking your progress seamlessly within the your personal table and calculator. Celebrate milestones, set new goals, and witness the positive changes happening in your body and mind.",
+    },
+  ];
   return (
     <>
       <section className="hero-section-home">
@@ -16,48 +57,12 @@ export default function Home() {
                 Integrated Fitness Blueprint: Nutrition, Weightlifting, and
                 Cardio Mastery.
               </h1>
-              <Col md={6} className="my-2">
-                <h5>Fueling Performance with Nutrient-Rich Meals</h5>
-                <p>
-                  Enhance your fitness journey by nourishing your body with
-                  nutrient-dense meals. Prioritize a balance of lean proteins,
-                  complex carbs, and veggies. This synergy of nutrition supports
-                  muscle growth, sustained energy, and optimal performance
-                  during both weightlifting and cardio workouts.
-                </p>
-              </Col>
-              <Col md={6} className="my-2">
-                <h5>Strategic Meal Timing for Workouts</h5>
-                <p>
-                  Optimize your workout sessions by strategically timing your
-                  meals. Consume a mix of protein and carbs before weightlifting
-                  for strength, and prioritize post-cardio meals to replenish
-                  energy stores. This tailored approach ensures sustained
-                  endurance and efficient recovery.
-                </p>
-              </Col>
-              <Col md={6} className="my-2">
-                <h5>
-                  Strength through Weightlifting, Endurance through Cardio
-                </h5>
-                <p>
-                  Incorporate a well-rounded fitness routine with a mix of
-                  weightlifting and cardio. Weightlifting builds muscle and
-                  boosts metabolism, while cardio enhances endurance and burns
-                  calories. Together, they create a powerful synergy for a
-                  comprehensive and effective body transformation.
-                </p>
-              </Col>
-              <Col md={6} className="my-2">
-                <h5>Adapt Workouts to Your Body's Response</h5>
-                <p>
-                  Customize your fitness routine based on how your body responds
-                  to weightlifting and cardio. Adjust intensity, duration, and
-                  type of exercises to suit your goals and individual needs.
-                  This adaptability ensures a sustainable and personalized path
-                  to a healthier, fitter you
-                </p>
-              </Col>
+              {firstSectionContent.map((column, index) => (
+                <Col md={6} className="my-2" key={index + 1}>
+                  <h5>{column.title}</h5>
+                  <p>{column.text}</p>
+                </Col>
+              ))}
             </Row>
           </Container>
         </section>
@@ -81,39 +86,12 @@ export default function Home() {
 
                 <h4>Here's why you should join us:</h4>
                 <ol>
-                  <li>
-                    <strong>Personalized Plans:</strong>
-                    Benefit from custom-tailored workout routines and meal plans
-                    that adapt to your fitness level, preferences, and goals.
-                    Your journey is unique, and so is our approach.
-                  </li>
-                  <li>
-                    <strong>Expert Guidance:</strong>
-                    Our team of experienced fitness and nutrition experts is
-                    here to guide you every step of the way. From form
-                    correction to dietary advice, you'll have the support you
-                    need to achieve your goals.
-                  </li>
-                  <li>
-                    <strong>Versatile Workouts:</strong>
-                    Enjoy a variety of workouts, including dynamic weightlifting
-                    sessions to build strength and cardio routines for
-                    endurance. Our diverse range of exercises keeps your routine
-                    exciting and effective.
-                  </li>
-                  <li>
-                    <strong>Nutrient-Rich Meals:</strong>
-                    Say goodbye to bland diets. Our meal plans are not only
-                    nutritious but also delicious. We believe in the power of
-                    enjoying what you eat while nourishing your body.
-                  </li>
-                  <li>
-                    <strong>Track Your Progress::</strong>
-                    Stay motivated by tracking your progress seamlessly within
-                    the your personal table and calculator. Celebrate
-                    milestones, set new goals, and witness the positive changes
-                    happening in your body and mind.
-                  </li>
+                  {orderedListData.map((li, index) => (
+                    <li key={index + 1}>
+                      <strong>{li.strong}</strong>
+                      {li.text}
+                    </li>
+                  ))}
                 </ol>
                 <h5>
                   Are you ready to revolutionize your fitness journey? Join us

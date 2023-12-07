@@ -5,8 +5,9 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { FaUser } from "react-icons/fa";
 import Link from "next/link";
 const Header = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
+  console.log("CLIENT:", session, "STATUS:", status);
   const navItems = [
     { path: "/", title: "Home" },
     { path: "/recipes", title: "Recipes" },
