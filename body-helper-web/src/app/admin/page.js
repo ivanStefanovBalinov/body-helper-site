@@ -1,5 +1,11 @@
+import AdminScreen from "@/screens/Admin/AdminScreen";
+
 const AdminPage = () => {
-  return <div>AdminPage</div>;
+  return (
+    <>
+      <AdminScreen />
+    </>
+  );
 };
 
 export default AdminPage;
