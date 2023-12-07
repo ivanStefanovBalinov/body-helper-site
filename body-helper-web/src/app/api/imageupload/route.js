@@ -1,49 +1,62 @@
 import { NextResponse } from "next/server";
-import multer from "multer";
+import { writeFile } from "fs/promises";
+import path, { join } from "path";
+import { promisify } from "util";
+import formidable from "formidable";
+import fs from "fs";
 
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, "/body-helper-web/public/uploads/articles/");
-  },
-  filename(req, file, cb) {
-    cb(
-      null,
-      `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`
-    );
-  },
-});
+const writeFileAsync = promisify(fs.writeFile);
 
-function fileFilter(req, file, cb) {
-  const fileTypes = /jpe?g|jpg|png|webp/;
-  const mimetypes = /image\/jpe?g|image\/png|image\/webp/;
+export async function POST(request) {
+  // const data = await request.formData();
+  // const file = data.get("image");
 
-  const extname = fileTypes.test(
-    path.extname(file.originalname).toLocaleLowerCase()
-  );
-  const mimetype = mimetypes.test(file.mimetype);
-  if (extname && mimetype) {
-    return cb(null, true);
-  } else {
-    cb(new Error("The only allowed formats are jpg, jpeg, png, webp."));
-  }
-}
+  const form = new formidable.IncomingForm();
+  form.uploadDir = path.join(process.cwd(), "public/uploads/articles");
 
-const upload = multer({
-  storage,
-  fileFilter,
-});
-
-const uploadSingleImage = upload.single("image");
-
-export async function POST(request, response) {
-  uploadSingleImage(request, response, function (err) {
-    if (err) {
-      response.status(400).send({ message: err.message });
-    }
-
-    NextResponse.json({
-      message: "Image uploaded successfully",
-      image: `/uploads/articles/${request.file.filename}`,
+  const fields = await new Promise((resolve, reject) => {
+    form.parse(request, (err, fields, files) => {
+      if (err) return reject(err);
+      resolve({ fields, files });
     });
   });
+
+  const uploadedFile = fields.files.image;
+
+  if (!uploadedFile) {
+    return NextResponse.json(
+      { message: "Upload fail...", success: false },
+      { status: 500 }
+    );
+  }
+
+  console.log("[UPLOADED FILE:]", uploadedFile);
+
+  const path = path.join(
+    process.cwd(),
+    "public/uploads/articles",
+    uploadedFile.name
+  );
+
+  await writeFileAsync(path, fs.readFileSync(uploadedFile.path));
+
+  return NextResponse.json({ message: "Image uploaded" });
+
+  // if (!file) {
+  //   return NextResponse.json(
+  //     { message: "Upload fail...", success: false },
+  //     { status: 500 }
+  //   );
+  // }
+  // console.log("DATA:", data, "FILE:", file);
+  // console.log("CURRENT_DIR:", process.cwd());
+
+  // const bytes = await file.arrayBuffer();
+  // const buffer = Buffer.from(bytes);
+
+  // const path = join(process.cwd(), "public/uploads/articles", file.name);
+  // // await writeFile(path, buffer);
+  // await writeFile(path, file);
+
+  // return NextResponse.json({ message: "Uploading..." });
 }
