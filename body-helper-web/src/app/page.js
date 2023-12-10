@@ -1,9 +1,11 @@
 import HeroCarousel from "@/components/HeroCarousel";
 import { useSession } from "next-auth/react";
+import { Button, Col, Container, Row, Image as BtImage } from "react-bootstrap";
+import { getLatestArticles } from "../../lib/articles";
+import Image from "next/image";
+import Link from "next/link";
 
-import { Button, Col, Container, Image, Row } from "react-bootstrap";
-
-export default function Home() {
+export default async function Home() {
   const firstSectionContent = [
     {
       title: "Fueling Performance with Nutrient-Rich Meals",
@@ -45,6 +47,9 @@ export default function Home() {
       text: "Stay motivated by tracking your progress seamlessly within the your personal table and calculator. Celebrate milestones, set new goals, and witness the positive changes happening in your body and mind.",
     },
   ];
+
+  const articles = await getLatestArticles();
+  console.log("ARTICLES:", articles);
 
   return (
     <>
@@ -105,13 +110,42 @@ export default function Home() {
                 </Button>
               </Col>
               <Col md={6}>
-                <Image src="/sign-section-cutted.png" fluid alt="fit-man" />
+                <BtImage src="/sign-section-cutted.png" alt="fit-man" fill />
               </Col>
             </Row>
           </Container>
         </section>
         <section className="dark-bg">
           <h1 className="section-main-header">Latest Posts</h1>
+          <Container>
+            {articles.map((article) => (
+              <div className="article-wrapper">
+                <Row>
+                  <Col md={3}>
+                    <div style={{ height: "200px", position: "relative" }}>
+                      <Image
+                        className="article-img"
+                        src={article.image}
+                        alt={article.title}
+                        fill
+                      />
+                    </div>
+                  </Col>
+                  <Col md={9}>
+                    <h2>{article.title}</h2>
+                    <p>{article.summary}</p>
+                    <Button variant="dark">
+                      <Link
+                        style={{ color: "white" }}
+                        href={`/blog/${article.slug}`}>
+                        Read more
+                      </Link>
+                    </Button>
+                  </Col>
+                </Row>
+              </div>
+            ))}
+          </Container>
         </section>
       </main>
     </>
