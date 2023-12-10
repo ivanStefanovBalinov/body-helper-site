@@ -62,6 +62,9 @@ const articleSchema = new mongoose.Schema(
       type: String,
       default: "Body Helper Team",
     },
+    slug: {
+      type: String,
+    },
   },
   {
     timestamps: true,
@@ -69,5 +72,5 @@ const articleSchema = new mongoose.Schema(
 );
 
 const Article =
-  mongoose.model.Article || mongoose.model("Article", articleSchema);
+  mongoose.models.Article || mongoose.model("Article", articleSchema);
 export default Article;

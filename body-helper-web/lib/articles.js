@@ -4,6 +4,8 @@ import connectDB from "../db/connectdb";
 import Article from "../db/models/Article.model";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/dist/server/api-utils";
+import xss from "xss";
+import slugify from "slugify";
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -14,6 +16,8 @@ cloudinary.config({
 function isInvalidText(text) {
   return !text || text.trim() === "";
 }
+
+//Create Article function
 
 export async function createArticle(prevState, formData) {
   const article = {
@@ -48,14 +52,28 @@ export async function createArticle(prevState, formData) {
         console.log(error);
         return;
       }
-      const newArticle = { ...article, image: result.secure_url };
+      const newArticle = {
+        ...article,
+        image: result.secure_url,
+        slug: slugify(article.title, { lower: true }),
+        content: xss(article.content),
+      };
 
       await connectDB();
       await Article.create(newArticle);
+      console.log("Article is uploaded successfully");
     })
     .end(buffer);
 
   revalidatePath("/", "layout");
   //Must change redirect path
   //   redirect("/");
+}
+
+//GET LAST ARTICLES
+export async function getLatestArticles() {
+  await connectDB();
+  const articles = await Article.find({});
+  // !!NOTE || GET ONLY LATEST LATER
+  return articles;
 }
