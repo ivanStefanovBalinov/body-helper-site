@@ -33,6 +33,9 @@ const articleSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
+    summary: {
+      type: String,
+    },
     image: {
       type: String,
       required: true,
@@ -52,7 +55,7 @@ const articleSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
-    source: {
+    sources: {
       type: String,
     },
     author: {
@@ -65,5 +68,6 @@ const articleSchema = new mongoose.Schema(
   }
 );
 
-const Article = mongoose.model("Article", articleSchema);
+const Article =
+  mongoose.model.Article || mongoose.model("Article", articleSchema);
 export default Article;
