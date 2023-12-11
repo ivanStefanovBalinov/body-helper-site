@@ -88,3 +88,11 @@ export async function getAllArticles() {
   revalidatePath("/blog");
   return articles;
 }
+
+//GET ARTICLE WITH SLUG
+export async function getArticle(slug) {
+  await connectDB();
+  const article = await Article.findOne({ slug: slug });
+
+  return article;
+}

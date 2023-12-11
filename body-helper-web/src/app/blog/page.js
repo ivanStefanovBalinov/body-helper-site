@@ -4,13 +4,14 @@ import { Button, Col, Container, Nav, Navbar, Row } from "react-bootstrap";
 import { getAllArticles } from "../../../lib/articles";
 import Link from "next/link";
 import { FaRegCalendarAlt } from "react-icons/fa";
+import { notFound } from "next/navigation";
 
 const Blog = async () => {
   const articles = await getAllArticles();
   if (!articles) {
-    return;
+    notFound();
   }
-  console.log(articles);
+
   return (
     <>
       <Container>
@@ -21,19 +22,7 @@ const Blog = async () => {
           </div>
         </header>
         <main>
-          <section>
-            <Row>
-              <Col md={7}>
-                <Navbar>
-                  <Nav>
-                    <Link href="/">Training</Link>
-                    <Link href="/">Nutrition</Link>
-                    <Link href="/">Health</Link>
-                  </Nav>
-                </Navbar>
-              </Col>
-              <Col md={5}></Col>
-            </Row>
+          <section style={{ marginTop: "50px" }}>
             {articles.map((article) => (
               <div className="article-wrapper" key={article._id}>
                 <Row

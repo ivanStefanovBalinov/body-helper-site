@@ -72,7 +72,8 @@ p {
   }
 }
 
-.hero-section {
+.hero-section,
+.blog-hero-section {
   width: 100%;
   height: 80vh;
   position: relative;
@@ -94,5 +95,18 @@ p {
     width: 100%;
     padding: 2rem 0;
     text-align: center;
+  }
+}
+
+.blog-hero-section {
+  width: 100%;
+  height: 50vh;
+  margin: auto;
+
+  img {
+    filter: blur(0.4rem);
+  }
+  h2 {
+    font-size: 2.5rem;
   }
 }
