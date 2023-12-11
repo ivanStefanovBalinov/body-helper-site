@@ -110,3 +110,39 @@ p {
     font-size: 2.5rem;
   }
 }
+
+.date-rating-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.rating {
+  display: flex;
+  gap: 3px;
+  .star-container {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+  }
+}
+.login-span {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.comment-list {
+  margin-top: 30px;
+  li {
+    time {
+      font-style: italic;
+      color: #aaa;
+    }
+    .comment-info {
+      display: flex;
+      gap: 10px;
+    }
+  }
+}

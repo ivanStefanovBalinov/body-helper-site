@@ -6,6 +6,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/dist/server/api-utils";
 import xss from "xss";
 import slugify from "slugify";
+import User from "../db/models/User.Schema";
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -95,4 +96,33 @@ export async function getArticle(slug) {
   const article = await Article.findOne({ slug: slug });
 
   return article;
+}
+
+//CREATE NEW COMMENT
+export async function createArticleComment(commentInfo) {
+  const { rating, comment, userEmail, slug } = commentInfo;
+
+  await connectDB();
+
+  const article = await Article.findOne({ slug: slug });
+  const user = await User.findOne({ email: userEmail });
+
+  const newComment = {
+    name: user.username,
+    rating: Number(rating),
+    comment,
+    user: user._id,
+  };
+
+  article.comments.push(newComment);
+
+  article.numComments = article.comments.length;
+
+  article.rating =
+    article.comments.reduce((acc, currComment) => acc + currComment.rating, 0) /
+    article.comments.length;
+
+  await article.save();
+
+  revalidatePath("/", "layout");
 }

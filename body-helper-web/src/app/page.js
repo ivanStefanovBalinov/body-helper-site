@@ -5,6 +5,7 @@ import { getLatestArticles } from "../../lib/articles";
 import Image from "next/image";
 import Link from "next/link";
 import { FaRegCalendarAlt } from "react-icons/fa";
+import Rating from "@/components/Rating";
 
 export default async function Home() {
   const firstSectionContent = [
@@ -140,10 +141,18 @@ export default async function Home() {
                   </Col>
                   <Col md={9}>
                     <h2>{article.title}</h2>
-                    <time>
-                      <FaRegCalendarAlt />{" "}
-                      {article.createdAt.toString().substring(3, 15)}
-                    </time>
+                    <div className="date-rating-wrapper">
+                      <time>
+                        <FaRegCalendarAlt />{" "}
+                        {article.createdAt.toString().substring(3, 15)}
+                      </time>
+                      {
+                        <Rating
+                          value={article.rating}
+                          text={`${article.numComments} reviews`}
+                        />
+                      }
+                    </div>
                     <p>{article.summary}</p>
                     <Button variant="dark">
                       <Link

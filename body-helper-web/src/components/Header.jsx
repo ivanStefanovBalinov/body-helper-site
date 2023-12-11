@@ -4,10 +4,10 @@ import { Navbar, Nav, Container, Dropdown, Button } from "react-bootstrap";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { FaUser } from "react-icons/fa";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 const Header = () => {
   const { data: session, status } = useSession();
-
-  console.log("CLIENT SESSION:", session);
+  const path = usePathname();
 
   const navItems = [
     { path: "/", title: "Home" },
@@ -26,7 +26,14 @@ const Header = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               {navItems.map((item) => (
-                <Link className="nav-items" href={item.path} key={item.path}>
+                <Link
+                  className={
+                    path.startsWith(item.path) && item.path !== "/"
+                      ? "active nav-items"
+                      : "nav-items"
+                  }
+                  href={item.path}
+                  key={item.path}>
                   {item.title}
                 </Link>
               ))}
