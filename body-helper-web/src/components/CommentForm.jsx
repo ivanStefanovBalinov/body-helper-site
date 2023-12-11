@@ -1,17 +1,15 @@
 "use client";
 import { useSession, signIn } from "next-auth/react";
-import Link from "next/link";
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
-useSession;
 
-const CommentForm = ({ slug, serverAction }) => {
+const CommentForm = ({ slug, serverAction, comments }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
 
   const { data: session, status } = useSession();
-
+  console.log(session);
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
@@ -29,6 +27,7 @@ const CommentForm = ({ slug, serverAction }) => {
       toast.error("Comment submission failed. Please try again.");
     }
   };
+
   return (
     <>
       {!session || status === "unauthenticated" ? (
@@ -64,6 +63,10 @@ const CommentForm = ({ slug, serverAction }) => {
               value={comment}
               onChange={(e) => setComment(e.target.value)}></Form.Control>
           </Form.Group>
+          <p className="comment-warning">
+            *Each user can comment on each article only once. If you try to
+            comment again the comment will not be published.
+          </p>
           <Button type="submit" variant="dark">
             Submit
           </Button>
