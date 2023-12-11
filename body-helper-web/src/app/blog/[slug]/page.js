@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { getArticle } from "../../../../lib/articles";
-import { Button, Container } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Rating from "@/components/Rating";
 
 const BlogArticles = async ({ params }) => {
   const slug = params.slug;
@@ -23,14 +24,24 @@ const BlogArticles = async ({ params }) => {
           </div>
         </header>
         <main>
-          <Button
-            variant="dark"
-            size="lg"
-            style={{ color: "white", margin: "15px 0px" }}>
-            <Link style={{ color: "white" }} href="/blog">
-              Back
-            </Link>
-          </Button>
+          <Row style={{ alignItems: "center" }}>
+            <Col md={10}>
+              <Button
+                variant="dark"
+                size="lg"
+                style={{ color: "white", margin: "15px 0px" }}>
+                <Link style={{ color: "white" }} href="/blog">
+                  Back
+                </Link>
+              </Button>
+            </Col>
+            <Col md={2}>
+              <Rating
+                value={article.rating}
+                text={`${article.numComments} reviews`}
+              />
+            </Col>
+          </Row>
           <article>
             <h3>Summary:</h3>
             <p>{article.summary}</p>
@@ -40,6 +51,9 @@ const BlogArticles = async ({ params }) => {
                 __html: article.content,
               }}></p>
           </article>
+          <section className="dark-bg">
+            <h2>Comment</h2>
+          </section>
         </main>
       </Container>
     </>

@@ -5,6 +5,7 @@ import { getAllArticles } from "../../../lib/articles";
 import Link from "next/link";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { notFound } from "next/navigation";
+import Rating from "@/components/Rating";
 
 const Blog = async () => {
   const articles = await getAllArticles();
@@ -45,10 +46,18 @@ const Blog = async () => {
                   </Col>
                   <Col md={9}>
                     <h2>{article.title}</h2>
-                    <time>
-                      <FaRegCalendarAlt />{" "}
-                      {article.createdAt.toString().substring(3, 15)}
-                    </time>
+                    <div className="date-rating-wrapper">
+                      <time>
+                        <FaRegCalendarAlt />{" "}
+                        {article.createdAt.toString().substring(3, 15)}
+                      </time>
+                      {
+                        <Rating
+                          value={article.rating}
+                          text={`${article.numComments} reviews`}
+                        />
+                      }
+                    </div>
                     <p>{article.summary}</p>
                     <Button variant="dark">
                       <Link
