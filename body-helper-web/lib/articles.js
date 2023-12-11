@@ -70,10 +70,29 @@ export async function createArticle(prevState, formData) {
   //   redirect("/");
 }
 
-//GET LAST ARTICLES
+//GET LATEST ARTICLES
 export async function getLatestArticles() {
   await connectDB();
   const articles = await Article.find({});
-  // !!NOTE || GET ONLY LATEST LATER
+  const latestArticles = articles.reverse().slice(0, 4);
+
+  revalidatePath("/");
+  return latestArticles;
+}
+
+//GET ALL ARTICLES
+export async function getAllArticles() {
+  await connectDB();
+  const articles = await Article.find({});
+
+  revalidatePath("/blog");
   return articles;
+}
+
+//GET ARTICLE WITH SLUG
+export async function getArticle(slug) {
+  await connectDB();
+  const article = await Article.findOne({ slug: slug });
+
+  return article;
 }

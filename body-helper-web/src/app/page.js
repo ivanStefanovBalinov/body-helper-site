@@ -4,6 +4,7 @@ import { Button, Col, Container, Row, Image as BtImage } from "react-bootstrap";
 import { getLatestArticles } from "../../lib/articles";
 import Image from "next/image";
 import Link from "next/link";
+import { FaRegCalendarAlt } from "react-icons/fa";
 
 export default async function Home() {
   const firstSectionContent = [
@@ -49,7 +50,6 @@ export default async function Home() {
   ];
 
   const articles = await getLatestArticles();
-  console.log("ARTICLES:", articles);
 
   return (
     <>
@@ -57,7 +57,7 @@ export default async function Home() {
         <HeroCarousel />
       </section>
       <main>
-        <section className="dark-bg">
+        <section>
           <Container>
             <Row>
               <h1 className="section-main-header">
@@ -110,7 +110,7 @@ export default async function Home() {
                 </Button>
               </Col>
               <Col md={6}>
-                <BtImage src="/sign-section-cutted.png" alt="fit-man" fill />
+                <BtImage src="/sign-section-cutted.png" alt="fit-man" fluid />
               </Col>
             </Row>
           </Container>
@@ -119,10 +119,17 @@ export default async function Home() {
           <h1 className="section-main-header">Latest Posts</h1>
           <Container>
             {articles.map((article) => (
-              <div className="article-wrapper">
-                <Row>
+              <div className="article-wrapper" key={article._id}>
+                <Row
+                  style={{
+                    marginBottom: "20px",
+                  }}>
                   <Col md={3}>
-                    <div style={{ height: "200px", position: "relative" }}>
+                    <div
+                      style={{
+                        height: "200px",
+                        position: "relative",
+                      }}>
                       <Image
                         className="article-img"
                         src={article.image}
@@ -133,6 +140,10 @@ export default async function Home() {
                   </Col>
                   <Col md={9}>
                     <h2>{article.title}</h2>
+                    <time>
+                      <FaRegCalendarAlt />{" "}
+                      {article.createdAt.toString().substring(3, 15)}
+                    </time>
                     <p>{article.summary}</p>
                     <Button variant="dark">
                       <Link
