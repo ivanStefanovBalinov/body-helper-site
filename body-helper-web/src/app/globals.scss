@@ -127,3 +127,22 @@ p {
     flex-direction: row;
   }
 }
+.login-span {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.comment-list {
+  margin-top: 30px;
+  li {
+    time {
+      font-style: italic;
+      color: #aaa;
+    }
+    .comment-info {
+      display: flex;
+      gap: 10px;
+    }
+  }
+}

@@ -1,9 +1,10 @@
 import Image from "next/image";
-import { getArticle } from "../../../../lib/articles";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { createArticleComment, getArticle } from "../../../../lib/articles";
+import { Button, Col, Container, ListGroup, Row } from "react-bootstrap";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Rating from "@/components/Rating";
+import CommentForm from "@/components/CommentForm";
 
 const BlogArticles = async ({ params }) => {
   const slug = params.slug;
@@ -14,12 +15,13 @@ const BlogArticles = async ({ params }) => {
   }
 
   article.content = article.content.replace(/\n/g, "<br />");
+
   return (
     <>
       <Container>
         <header>
           <div className="blog-hero-section">
-            <Image src={article.image} fill />
+            <Image src={article.image} alt={article.title} fill />
             <h2>{article.title}</h2>
           </div>
         </header>
@@ -51,8 +53,36 @@ const BlogArticles = async ({ params }) => {
                 __html: article.content,
               }}></p>
           </article>
-          <section className="dark-bg">
+          <section>
             <h2>Comment</h2>
+            <Row>
+              <Col md={6}>
+                <CommentForm serverAction={createArticleComment} slug={slug} />
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                {article.comments.length === 0 ? (
+                  <h3>This article has no comments yet. </h3>
+                ) : (
+                  <ul className="list-group comment-list">
+                    {article.comments.map((comment) => (
+                      <li className="list-group-item" key={comment.createdAt}>
+                        <div className="comment-info">
+                          <strong>{comment.name}</strong>
+                          <Rating value={comment.rating} />
+                        </div>
+                        <time>
+                          {comment.createdAt.toString().substring(3, 15)}
+                        </time>
+
+                        <p>{comment.comment}</p>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </Col>
+            </Row>
           </section>
         </main>
       </Container>

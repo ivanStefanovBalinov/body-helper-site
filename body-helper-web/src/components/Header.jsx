@@ -7,8 +7,6 @@ import Link from "next/link";
 const Header = () => {
   const { data: session, status } = useSession();
 
-  console.log("CLIENT SESSION:", session);
-
   const navItems = [
     { path: "/", title: "Home" },
     { path: "/recipes", title: "Recipes" },

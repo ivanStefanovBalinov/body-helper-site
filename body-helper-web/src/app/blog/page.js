@@ -18,7 +18,7 @@ const Blog = async () => {
       <Container>
         <header>
           <div className="hero-section">
-            <Image src={heroImg} fill />
+            <Image src={heroImg} alt="Bodybuilder photo" fill />
             <h2>Blog</h2>
           </div>
         </header>
