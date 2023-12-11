@@ -68,7 +68,7 @@ export async function createArticle(prevState, formData) {
 
   revalidatePath("/", "layout");
   //Must change redirect path
-  //   redirect("/");
+  redirect("/blog");
 }
 
 //GET LATEST ARTICLES
@@ -113,6 +113,14 @@ export async function createArticleComment(commentInfo) {
     comment,
     user: user._id,
   };
+
+  const isUserAlreadyComment = article.comments.find(
+    (comment) => comment.user.toString() === user._id.toString()
+  );
+
+  if (isUserAlreadyComment) {
+    return;
+  }
 
   article.comments.push(newComment);
 

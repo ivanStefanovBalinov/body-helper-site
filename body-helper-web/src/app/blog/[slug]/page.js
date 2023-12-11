@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { createArticleComment, getArticle } from "../../../../lib/articles";
-import { Button, Col, Container, ListGroup, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Rating from "@/components/Rating";
@@ -11,6 +11,7 @@ const BlogArticles = async ({ params }) => {
   const article = await getArticle(slug);
 
   if (!article) {
+    //I MUST CREATE NOT FOUND PAGE
     notFound();
   }
 
