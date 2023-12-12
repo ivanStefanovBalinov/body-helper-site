@@ -6,6 +6,7 @@ import Link from "next/link";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import Rating from "@/components/Rating";
 import nutritionSectionImg from "../../public/nutiotion-section.jpg";
+import { getLatestRecipes } from "../../lib/recipes";
 
 export default async function Home() {
   const firstSectionContent = [
@@ -51,6 +52,7 @@ export default async function Home() {
   ];
 
   const articles = await getLatestArticles();
+  const recipes = await getLatestRecipes();
 
   return (
     <>
@@ -243,6 +245,41 @@ export default async function Home() {
                 collection of recipes is a testament to that philosophy. Check
                 out our newest recipes.
               </p>
+              {recipes.map((recipe) => (
+                <Col>
+                  <div
+                    className="card"
+                    style={{ width: "400px" }}
+                    key={recipe._id.toString()}>
+                    <img
+                      src={recipe.image}
+                      className="card-img-top"
+                      alt={recipe.title}
+                    />
+                    <div className="card-body">
+                      <h5 className="card-title">{recipe.title}</h5>
+                      <div className="date-rating-wrapper card-date-rating">
+                        <time>
+                          <FaRegCalendarAlt />{" "}
+                          {recipe.createdAt.toString().substring(3, 15)}
+                        </time>
+                        {
+                          <Rating
+                            value={recipe.rating}
+                            text={`${recipe.numComments} reviews`}
+                          />
+                        }
+                      </div>
+                      <p className="card-text">{recipe.summary}</p>
+                      <a
+                        href={`/recipes/${recipe.slug}`}
+                        className="btn btn-dark">
+                        Check Recipe
+                      </a>
+                    </div>
+                  </div>
+                </Col>
+              ))}
             </Row>
           </Container>
         </section>
