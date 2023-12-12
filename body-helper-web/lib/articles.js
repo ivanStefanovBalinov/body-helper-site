@@ -7,16 +7,13 @@ import { redirect } from "next/dist/server/api-utils";
 import xss from "xss";
 import slugify from "slugify";
 import User from "../db/models/User.Schema";
+import { isInvalidText } from "./helperFunctions";
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
-function isInvalidText(text) {
-  return !text || text.trim() === "";
-}
 
 //Create Article function
 
