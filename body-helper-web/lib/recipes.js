@@ -14,12 +14,18 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export async function createRecipe(prevState, formData) {
+export async function createRecipe(formData) {
   const recipe = {
     title: formData.get("title"),
     summary: formData.get("summary"),
     ingredients: formData.get("ingredients"),
     instructions: formData.get("instructions"),
+    calories: formData.get("calories"),
+    protein: formData.get("protein"),
+    fats: formData.get("fats"),
+    carbs: formData.get("carbs"),
+    fiber: formData.get("fiber"),
+    sugar: formData.get("sugar"),
     author: formData.get("author"),
     image: formData.get("image"),
   };
@@ -30,12 +36,16 @@ export async function createRecipe(prevState, formData) {
     isInvalidText(recipe.ingredients) ||
     isInvalidText(recipe.author) ||
     isInvalidText(recipe.ingredients) ||
+    isInvalidText(recipe.carbs) ||
+    isInvalidText(recipe.calories) ||
+    isInvalidText(recipe.protein) ||
+    isInvalidText(recipe.fats) ||
+    isInvalidText(recipe.fiber) ||
+    isInvalidText(recipe.sugar) ||
     !recipe.image ||
     recipe.image.size === 0
   ) {
-    return {
-      message: "Upload failed! Please check fields for missing data.",
-    };
+    throw new Error("Upload failed! Please check fields for missing data.");
   }
 
   const arrayBuffer = await recipe.image.arrayBuffer();
@@ -51,7 +61,8 @@ export async function createRecipe(prevState, formData) {
         ...recipe,
         image: result.secure_url,
         slug: slugify(recipe.title, { lower: true }),
-        content: xss(recipe.content),
+        ingredients: xss(recipe.ingredients),
+        instructions: xss(recipe.instructions),
       };
 
       await connectDB();

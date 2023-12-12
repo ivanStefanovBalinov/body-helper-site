@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
 
-const CommentForm = ({ slug, serverAction, comments }) => {
+const CommentForm = ({ slug, serverAction }) => {
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
 
