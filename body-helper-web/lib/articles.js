@@ -7,7 +7,12 @@ import { redirect } from "next/dist/server/api-utils";
 import xss from "xss";
 import slugify from "slugify";
 import User from "../db/models/User.Schema";
-import { isInvalidText } from "./helperFunctions";
+import {
+  getAllData,
+  getDataBySlug,
+  getLatestData,
+  isInvalidText,
+} from "./helperFunctions";
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -70,29 +75,17 @@ export async function createArticle(prevState, formData) {
 
 //GET LATEST ARTICLES
 export async function getLatestArticles() {
-  await connectDB();
-  const articles = await Article.find({});
-  const latestArticles = articles.reverse().slice(0, 4);
-
-  revalidatePath("/");
-  return latestArticles;
+  return await getLatestData(Article, 4, "/");
 }
 
 //GET ALL ARTICLES
 export async function getAllArticles() {
-  await connectDB();
-  const articles = await Article.find({});
-
-  revalidatePath("/blog");
-  return articles;
+  return await getAllData(Article, "/blog");
 }
 
 //GET ARTICLE WITH SLUG
 export async function getArticle(slug) {
-  await connectDB();
-  const article = await Article.findOne({ slug: slug });
-
-  return article;
+  return await getDataBySlug(Article, slug);
 }
 
 //CREATE NEW COMMENT

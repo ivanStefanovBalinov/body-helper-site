@@ -6,7 +6,12 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/dist/server/api-utils";
 import xss from "xss";
 import slugify from "slugify";
-import { isInvalidText } from "./helperFunctions";
+import {
+  getAllData,
+  getDataBySlug,
+  getLatestData,
+  isInvalidText,
+} from "./helperFunctions";
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -73,5 +78,20 @@ export async function createRecipe(formData) {
 
   revalidatePath("/", "layout");
 
-  //   redirect("/blog");
+  // redirect("/recipes");
+}
+
+//GET LATEST RECIPES
+export async function getLatestRecipes() {
+  return await getLatestData(Recipe, 4, "/");
+}
+
+//GET ALL RECIPES
+export async function getAllRecipes() {
+  return await getAllData(Recipe, "/blog");
+}
+
+//GET RECIPES WITH SLUG
+export async function getRecipe(slug) {
+  return await getDataBySlug(Recipe, slug);
 }
