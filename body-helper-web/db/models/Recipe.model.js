@@ -44,7 +44,31 @@ const recipeSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    content: {
+    instructions: {
+      type: String,
+      required: true,
+    },
+    calories: {
+      type: String,
+      required: true,
+    },
+    protein: {
+      type: String,
+      required: true,
+    },
+    fats: {
+      type: String,
+      required: true,
+    },
+    carbs: {
+      type: String,
+      required: true,
+    },
+    fiber: {
+      type: String,
+      required: true,
+    },
+    sugar: {
       type: String,
       required: true,
     },
@@ -72,6 +96,5 @@ const recipeSchema = new mongoose.Schema(
   }
 );
 
-const Recipe =
-  mongoose.models.Recipe || mongoose.model("Article", recipeSchema);
+const Recipe = mongoose.models.Recipe || mongoose.model("Recipe", recipeSchema);
 export default Recipe;
