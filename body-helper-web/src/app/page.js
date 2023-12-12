@@ -1,11 +1,11 @@
 import HeroCarousel from "@/components/HeroCarousel";
-import { useSession } from "next-auth/react";
 import { Button, Col, Container, Row, Image as BtImage } from "react-bootstrap";
 import { getLatestArticles } from "../../lib/articles";
 import Image from "next/image";
 import Link from "next/link";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import Rating from "@/components/Rating";
+import nutritionSectionImg from "../../public/nutiotion-section.jpg";
 
 export default async function Home() {
   const firstSectionContent = [
@@ -165,6 +165,85 @@ export default async function Home() {
                 </Row>
               </div>
             ))}
+          </Container>
+        </section>
+        <section>
+          <h1 className="section-main-header">
+            The Vital Role of Nutrition in Your Training Journey
+          </h1>
+          <Container>
+            <p className="section-main-header">
+              In the pursuit of fitness and peak performance, it's crucial to
+              recognize the integral role that nutrition plays in shaping your
+              training outcomes. Consider your body as a high-performance
+              machine—without the right fuel, it won't function optimally.
+            </p>
+            <Row>
+              <Col md={4}>
+                <h2>Fuel for Performance</h2>
+                <p>
+                  Imagine a car trying to run on low-quality fuel; it might
+                  sputter and struggle. Similarly, your body requires the right
+                  balance of nutrients to power through workouts efficiently.
+                  Proteins, carbohydrates, fats, vitamins, and minerals are the
+                  essential components that contribute to sustained energy
+                  levels, muscle repair, and overall well-being.
+                </p>
+                <h2>Muscle Repair and Growth</h2>
+                <p>
+                  After a workout, your muscles undergo stress and require
+                  repair. Proteins, known as the building blocks of muscles,
+                  play a key role in this recovery process. Incorporating
+                  protein-rich foods into your diet helps repair damaged
+                  tissues, promoting muscle growth and overall strength. Don't
+                  underestimate the power of post-workout nutrition in enhancing
+                  your body's ability to bounce back stronger.
+                </p>
+              </Col>
+              <Col md={4}>
+                <div className="nutrition-img-wrapper">
+                  <Image
+                    src={nutritionSectionImg}
+                    alt="waist measurement"
+                    fill
+                  />
+                </div>
+              </Col>
+              <Col md={4}>
+                <h2>Maximizing Workouts</h2>
+                <p>
+                  Nutrition serves as the cornerstone for maximizing the
+                  effectiveness of your workouts. Whether you're lifting
+                  weights, running, or engaging in any form of exercise, your
+                  body demands adequate fuel for endurance, strength, and
+                  recovery. Consuming a balanced diet ensures you have the
+                  energy reserves needed to push through challenging sessions
+                  and make the most of your training time.
+                </p>
+                <h2>Holistic Well-being</h2>
+                <p>
+                  Beyond physical gains, proper nutrition positively impacts
+                  your mental and emotional well-being. Nutrient-dense foods
+                  contribute to better cognitive function, mood stability, and
+                  overall vitality. When you nourish your body with the right
+                  nutrients, you enhance your ability to tackle challenges, stay
+                  focused, and maintain a positive mindset throughout your
+                  training journey.
+                </p>
+              </Col>
+            </Row>
+            <Row>
+              <h1 className="section-main-header">
+                Wholesome Delights: Nourishing Your Body with Healthy Recipes
+              </h1>
+              <p>
+                Welcome to our Healthy Recipes corner, where taste meets
+                nutrition in a symphony of wholesome delights. We believe that
+                eating well should never mean sacrificing flavor, and our
+                collection of recipes is a testament to that philosophy. Check
+                out our newest recipes.
+              </p>
+            </Row>
           </Container>
         </section>
       </main>
