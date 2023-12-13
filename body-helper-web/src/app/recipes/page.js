@@ -93,6 +93,7 @@ const Recipes = async () => {
                         />
                         <div className="card-body">
                           <h5 className="card-title">{recipe.title}</h5>
+
                           <NutrientDetails
                             calories={recipe.calories}
                             protein={recipe.protein}

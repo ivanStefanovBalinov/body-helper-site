@@ -53,6 +53,7 @@ const BlogArticles = async ({ params }) => {
               dangerouslySetInnerHTML={{
                 __html: article.content,
               }}></p>
+            <p>Author: {article.author}</p>
           </article>
           <section>
             <h2>Comment</h2>

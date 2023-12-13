@@ -7,6 +7,7 @@ import { redirect } from "next/dist/server/api-utils";
 import xss from "xss";
 import slugify from "slugify";
 import {
+  createComment,
   getAllData,
   getDataBySlug,
   getLatestData,
@@ -94,4 +95,9 @@ export async function getAllRecipes() {
 //GET RECIPES WITH SLUG
 export async function getRecipe(slug) {
   return await getDataBySlug(Recipe, slug);
+}
+
+//POST COMMENT FOR RECIPE
+export async function commentRecipe(commentInfo) {
+  return await createComment(Recipe, commentInfo);
 }
