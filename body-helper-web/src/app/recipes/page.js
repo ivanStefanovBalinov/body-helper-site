@@ -10,15 +10,20 @@ import { LuSalad } from "react-icons/lu";
 import { TbBreadOff } from "react-icons/tb";
 import { GiFruitBowl } from "react-icons/gi";
 import Link from "next/link";
+import { GiMeat } from "react-icons/gi";
+import { FaFishFins } from "react-icons/fa6";
 import MealCategories from "@/components/MealCategories";
+
 const Recipes = async () => {
   const recipes = await getAllRecipes();
   const latestRecipeIndex = recipes.length - 1;
 
   const mealCategory = [
     { title: "Chicken", icon: <GiChickenOven /> },
-    { title: "Salad", icon: <LuSalad /> },
+    { title: "Meat", icon: <GiMeat /> },
+    { title: "Sea Food", icon: <FaFishFins /> },
     { title: "Low Carbs", icon: <TbBreadOff /> },
+    { title: "Salad", icon: <LuSalad /> },
     { title: "Vegetarian", icon: <GiFruitBowl /> },
   ];
   return (
@@ -71,7 +76,7 @@ const Recipes = async () => {
           <Row>
             <h3>Browse Recipes</h3>
             {mealCategory.map((category) => (
-              <Col md={3} key={category.title}>
+              <Col md={2} key={category.title}>
                 <MealCategories title={category.title} icon={category.icon} />
               </Col>
             ))}
@@ -80,7 +85,7 @@ const Recipes = async () => {
             {recipes.map((recipe, index) => {
               if (index !== latestRecipeIndex) {
                 return (
-                  <Col md={4}>
+                  <Col md={4} key={recipe._id.toString()}>
                     <Link
                       className="recipe-link-card"
                       href={`/recipes/${recipe.slug}`}
