@@ -8,6 +8,7 @@ import xss from "xss";
 import slugify from "slugify";
 import User from "../db/models/User.Schema";
 import {
+  createComment,
   getAllData,
   getDataBySlug,
   getLatestData,
@@ -90,37 +91,5 @@ export async function getArticle(slug) {
 
 //CREATE NEW COMMENT
 export async function createArticleComment(commentInfo) {
-  const { rating, comment, userEmail, slug } = commentInfo;
-
-  await connectDB();
-
-  const article = await Article.findOne({ slug: slug });
-  const user = await User.findOne({ email: userEmail });
-
-  const newComment = {
-    name: user.username,
-    rating: Number(rating),
-    comment,
-    user: user._id,
-  };
-
-  const isUserAlreadyComment = article.comments.find(
-    (comment) => comment.user.toString() === user._id.toString()
-  );
-
-  if (isUserAlreadyComment) {
-    return;
-  }
-
-  article.comments.push(newComment);
-
-  article.numComments = article.comments.length;
-
-  article.rating =
-    article.comments.reduce((acc, currComment) => acc + currComment.rating, 0) /
-    article.comments.length;
-
-  await article.save();
-
-  revalidatePath("/", "layout");
+  return await createComment(Article, commentInfo);
 }
