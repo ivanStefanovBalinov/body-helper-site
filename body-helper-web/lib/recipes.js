@@ -83,7 +83,7 @@ export async function createRecipe(formData) {
 
 //GET LATEST RECIPES
 export async function getLatestRecipes() {
-  return await getLatestData(Recipe, 4, "/");
+  return await getLatestData(Recipe, 6, "/");
 }
 
 //GET ALL RECIPES

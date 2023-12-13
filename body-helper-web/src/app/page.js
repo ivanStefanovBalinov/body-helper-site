@@ -246,11 +246,8 @@ export default async function Home() {
                 out our newest recipes.
               </p>
               {recipes.map((recipe) => (
-                <Col>
-                  <div
-                    className="card"
-                    style={{ width: "400px" }}
-                    key={recipe._id.toString()}>
+                <Col key={recipe._id.toString()}>
+                  <div className="card" style={{ width: "400px" }}>
                     <img
                       src={recipe.image}
                       className="card-img-top"
@@ -271,15 +268,25 @@ export default async function Home() {
                         }
                       </div>
                       <p className="card-text">{recipe.summary}</p>
-                      <a
+                      <Link
                         href={`/recipes/${recipe.slug}`}
                         className="btn btn-dark">
                         Check Recipe
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </Col>
               ))}
+              <p>
+                "Explore a world of culinary delights beyond our latest recipes!
+                Dive into a treasure trove of flavors waiting to be discovered.
+                Don't miss out—check out our full collection of mouthwatering
+                recipes and embark on a delicious journey with each dish. Your
+                next culinary adventure awaits!"
+              </p>
+              <Link href="/recipes" className="btn btn-dark">
+                Explore all recipes
+              </Link>
             </Row>
           </Container>
         </section>
