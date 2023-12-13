@@ -1,9 +1,17 @@
 import React from "react";
 import { GiFlame } from "react-icons/gi";
-const NutrientDetails = ({ calories, protein, carbs, fats, sugar, fiber }) => {
+const NutrientDetails = ({
+  calories,
+  protein,
+  carbs,
+  fats,
+  sugar,
+  fiber,
+  title,
+}) => {
   return (
     <div className="nutrition-detail-wrapper">
-      <h4>Nutrients per portion</h4>
+      {title && <h4>Nutrients per portion</h4>}
       <div className="nutrient-detail-item">
         <div style={{ display: "flex", alignItems: "center" }}>
           <GiFlame />
@@ -29,18 +37,22 @@ const NutrientDetails = ({ calories, protein, carbs, fats, sugar, fiber }) => {
         </div>
         <p>{fats}</p>
       </div>
-      <div className="nutrient-detail-item">
-        <div>
-          <strong>Fiber</strong>
+      {fiber && (
+        <div className="nutrient-detail-item">
+          <div>
+            <strong>Fiber</strong>
+          </div>
+          <p>{fiber}</p>
         </div>
-        <p>{fiber}</p>
-      </div>
-      <div className="nutrient-detail-item">
-        <div>
-          <strong>Sugar</strong>
+      )}
+      {sugar && (
+        <div className="nutrient-detail-item">
+          <div>
+            <strong>Sugar</strong>
+          </div>
+          <p>{sugar}</p>
         </div>
-        <p>{sugar}</p>
-      </div>
+      )}
     </div>
   );
 };
