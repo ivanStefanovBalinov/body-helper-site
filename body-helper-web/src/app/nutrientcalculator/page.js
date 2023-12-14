@@ -1,6 +1,7 @@
 import { Col, Container, Row } from "react-bootstrap";
 import heroImg from "../../../public/food-scale.jpg";
 import Image from "next/image";
+import NutrientCalculator from "@/components/Nutrient Calculator/NutrientCalculator";
 const reasons = [
   {
     strong: "Balanced Nutrition:",
@@ -78,6 +79,7 @@ const FoodCalculator = () => {
             healthier choices. Give it a try and take a step towards a more
             conscious and balanced approach to your nutrition!
           </p>
+          <NutrientCalculator />
         </section>
       </Container>
     </>
