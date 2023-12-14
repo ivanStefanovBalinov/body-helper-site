@@ -30,7 +30,7 @@ const Recipe = async ({ params }) => {
               variant="dark"
               size="lg"
               style={{ color: "white", margin: "15px 0px" }}>
-              <Link style={{ color: "white" }} href="/blog">
+              <Link style={{ color: "white" }} href="/recipes">
                 Back
               </Link>
             </Button>
