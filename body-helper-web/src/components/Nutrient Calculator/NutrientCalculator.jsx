@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Form, Row, Col, ListGroup, Button, Card } from "react-bootstrap";
+import { FaDeleteLeft } from "react-icons/fa6";
 
 const NutrientCalculator = () => {
   const [foodList, setFoodList] = useState([]);
@@ -94,10 +95,17 @@ const NutrientCalculator = () => {
   };
 
   const onChangeValuesAddFoodForm = (e) => {
-    setNewFood((prevState) => ({
-      ...prevState,
-      [e.target.name]: e.target.value,
-    }));
+    if (e.target.type === "number") {
+      setNewFood((prevState) => ({
+        ...prevState,
+        [e.target.name]: parseFloat(e.target.value),
+      }));
+    } else {
+      setNewFood((prevState) => ({
+        ...prevState,
+        [e.target.name]: e.target.value,
+      }));
+    }
   };
 
   const addNewFood = async (e) => {
@@ -129,6 +137,13 @@ const NutrientCalculator = () => {
     });
   };
 
+  const removeFoodFromListHandler = (title) => {
+    const filteredFoodList = foodList.filter((food) => food.value !== title);
+    setFoodList(filteredFoodList);
+    if (foodList.length === 1) {
+      localStorage.removeItem("foodList");
+    }
+  };
   return (
     <>
       <h2>Nutrient Calculator</h2>
@@ -265,9 +280,18 @@ const NutrientCalculator = () => {
               )}
               {foodList.map((item) => {
                 return (
-                  <ListGroup.Item key={item.value + Math.random() * 100}>
+                  <ListGroup.Item key={item.value + Math.random() * 10051312}>
                     <div>
-                      <h5>{item.value}</h5>
+                      <h5>
+                        {item.value}{" "}
+                        <button
+                          className="del-btn"
+                          onClick={() => removeFoodFromListHandler(item.value)}>
+                          <FaDeleteLeft
+                            style={{ color: "red", cursor: "pointer" }}
+                          />
+                        </button>
+                      </h5>
                       <h6>per {item.weight}g</h6>
                     </div>
                     <div className="calc-nutrients-wrapper">{`Calories:${item.calories} Protein:${item.protein} Carbs:${item.carbs} Fats:${item.fat}`}</div>
