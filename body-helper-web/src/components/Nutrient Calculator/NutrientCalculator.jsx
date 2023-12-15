@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Form, Row, Col, ListGroup, Button, Card } from "react-bootstrap";
 
 const NutrientCalculator = () => {
-  const BASE_URL = process.env.BASE_URL;
   const [foodList, setFoodList] = useState([]);
   const [foodWeight, setFoodWeight] = useState(0);
   const [food, setFood] = useState("");
@@ -11,6 +10,14 @@ const NutrientCalculator = () => {
   const [mealNutrients, setMealNutrients] = useState({});
   const [datalist, setDataList] = useState([]);
   const [isQuantity, setIsQuantity] = useState(true);
+  const [newFood, setNewFood] = useState({
+    value: "",
+    calories: "",
+    protein: "",
+    fat: "",
+    carbs: "",
+  });
+  const [reload, setReload] = useState(false);
 
   const sumMealNutrition = (arr) =>
     arr.reduce(
@@ -31,11 +38,11 @@ const NutrientCalculator = () => {
         method: "GET",
       });
       const data = await response.json();
-      console.log(BASE_URL);
+
       setDataList(data.foods);
     };
     fetchData();
-  }, []);
+  }, [reload]);
 
   useEffect(() => {
     const storedFoodList = JSON.parse(localStorage.getItem("foodList"));
@@ -84,6 +91,42 @@ const NutrientCalculator = () => {
 
     setFoodList((prevState) => [...prevState, newFood]);
     setFood("");
+  };
+
+  const onChangeValuesAddFoodForm = (e) => {
+    setNewFood((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const addNewFood = async (e) => {
+    e.preventDefault();
+
+    if (
+      newFood.calories.length === 0 ||
+      newFood.value.length === 0 ||
+      newFood.protein.length === 0 ||
+      newFood.fat.length === 0 ||
+      newFood.carbs.length === 0
+    ) {
+      return;
+    }
+    await fetch("http://localhost:3000/api/foods", {
+      method: "POST",
+      body: JSON.stringify(newFood),
+    });
+    const newFoodForList = { ...newFood, weight: 100 };
+    setFoodList((prevState) => [...prevState, newFoodForList]);
+    setIsFoodItemExist(true);
+    setReload(!reload);
+    setNewFood({
+      value: "",
+      calories: "",
+      protein: "",
+      fat: "",
+      carbs: "",
+    });
   };
 
   return (
@@ -136,17 +179,79 @@ const NutrientCalculator = () => {
             {!isQuantity && (
               <p className="comment-warning red">Please select quantity.</p>
             )}
-            {!isFoodItemExist && (
-              <div>
-                <p className="comment-warning red">
-                  *We do not find this food. You could add it to our food list
-                  easy.{" "}
-                </p>
-                <Button variant="dark">Add Food</Button>
-              </div>
-            )}
           </Row>
         </Form>
+        {!isFoodItemExist && (
+          <div>
+            <p className="comment-warning red">
+              *We do not find this food. You could add it to our food list easy.{" "}
+            </p>
+            <Form onSubmit={addNewFood}>
+              <Form.Group as={Col} md={4} className="my-2">
+                <Form.Control
+                  required
+                  type="text"
+                  value={newFood.value}
+                  name="value"
+                  placeholder="Food name"
+                  onChange={onChangeValuesAddFoodForm}
+                />
+              </Form.Group>
+              <Row>
+                <Form.Group as={Col} md={4} className="my-2">
+                  <Form.Control
+                    required
+                    type="number"
+                    value={newFood.calories}
+                    name="calories"
+                    placeholder="Calories per 100g"
+                    onChange={onChangeValuesAddFoodForm}
+                  />
+                  <Form.Control
+                    className="my-2"
+                    required
+                    type="number"
+                    name="protein"
+                    value={newFood.protein}
+                    placeholder="Proteins per 100g"
+                    onChange={onChangeValuesAddFoodForm}
+                  />
+                </Form.Group>
+                <Form.Group as={Col} md={4} className="my-2">
+                  <Form.Control
+                    required
+                    type="number"
+                    name="fat"
+                    value={newFood.fat}
+                    placeholder="Fats per 100g"
+                    onChange={onChangeValuesAddFoodForm}
+                  />
+                  <Form.Control
+                    className="my-2"
+                    required
+                    type="number"
+                    name="carbs"
+                    value={newFood.carbs}
+                    placeholder="Carbs per 100g"
+                    onChange={onChangeValuesAddFoodForm}
+                  />
+                </Form.Group>
+              </Row>
+              <Button
+                type="submit"
+                variant="dark"
+                disabled={
+                  newFood.calories.length === 0 ||
+                  newFood.value.length === 0 ||
+                  newFood.protein.length === 0 ||
+                  newFood.fat.length === 0 ||
+                  newFood.carbs.length === 0
+                }>
+                Add Food
+              </Button>
+            </Form>
+          </div>
+        )}
         <Row className="my-5">
           <Col md={6}>
             <ListGroup variant="flush" className="food-list">
