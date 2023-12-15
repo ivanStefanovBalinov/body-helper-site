@@ -212,6 +212,7 @@ const NutrientCalculator = () => {
     { value: "Cashews", calories: 553, protein: 18, fat: 44, carbs: 30 },
     { value: "Dates", calories: 282, protein: 2.5, fat: 0.4, carbs: 75 },
   ];
+
   const [foodList, setFoodList] = useState([]);
   const [foodWeight, setFoodWeight] = useState(0);
   const [food, setFood] = useState("");
@@ -232,9 +233,20 @@ const NutrientCalculator = () => {
     );
 
   useEffect(() => {
-    console.log(datalist.length);
+    const storedFoodList = JSON.parse(localStorage.getItem("foodList"));
+    console.log(storedFoodList);
+    if (storedFoodList !== null) {
+      setFoodList(storedFoodList);
+    }
+  }, []);
+
+  useEffect(() => {
     const calculatedMealNutrients = sumMealNutrition(foodList);
     setMealNutrients(calculatedMealNutrients);
+
+    if (foodList.length !== 0) {
+      localStorage.setItem("foodList", JSON.stringify(foodList));
+    }
   }, [foodList]);
 
   const submitHandler = (e) => {
@@ -304,6 +316,7 @@ const NutrientCalculator = () => {
                 onClick={() => {
                   setFoodList([]);
                   setMealNutrients({});
+                  localStorage.removeItem("foodList");
                 }}>
                 Clear
               </Button>
@@ -323,7 +336,12 @@ const NutrientCalculator = () => {
           <Col md={6}>
             <ListGroup variant="flush" className="food-list">
               {foodList.length === 0 && (
-                <h2 className="food-list-h2">*Your food list is empty</h2>
+                <>
+                  <h2 className="food-list-h2">*Your food list is empty</h2>
+                  <h5 className="food-list-h2">
+                    *Add food via the inputs above
+                  </h5>
+                </>
               )}
               {foodList.map((item) => {
                 return (
