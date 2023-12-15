@@ -274,3 +274,18 @@ p {
   color: red;
   margin-top: 10px;
 }
+
+.food-list {
+  height: 400px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 5px #ccc;
+  overflow: scroll;
+
+  .food-list-h2 {
+    text-align: center;
+    margin: 10px;
+    color: #ccc;
+    font-style: italic;
+    text-decoration: underline;
+  }
+}

@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Form, Row, Col, ListGroup, Button, Card } from "react-bootstrap";
 
 const NutrientCalculator = () => {
@@ -212,6 +212,7 @@ const NutrientCalculator = () => {
     { value: "Cashews", calories: 553, protein: 18, fat: 44, carbs: 30 },
     { value: "Dates", calories: 282, protein: 2.5, fat: 0.4, carbs: 75 },
   ];
+
   const [foodList, setFoodList] = useState([]);
   const [foodWeight, setFoodWeight] = useState(0);
   const [food, setFood] = useState("");
@@ -231,6 +232,23 @@ const NutrientCalculator = () => {
       { calories: 0, protein: 0, carbs: 0, fat: 0, weight: 0 }
     );
 
+  useEffect(() => {
+    const storedFoodList = JSON.parse(localStorage.getItem("foodList"));
+    console.log(storedFoodList);
+    if (storedFoodList !== null) {
+      setFoodList(storedFoodList);
+    }
+  }, []);
+
+  useEffect(() => {
+    const calculatedMealNutrients = sumMealNutrition(foodList);
+    setMealNutrients(calculatedMealNutrients);
+
+    if (foodList.length !== 0) {
+      localStorage.setItem("foodList", JSON.stringify(foodList));
+    }
+  }, [foodList]);
+
   const submitHandler = (e) => {
     e.preventDefault();
     if (food.length === 0 || !food) {
@@ -249,15 +267,11 @@ const NutrientCalculator = () => {
       protein: Math.ceil(wantedFood.protein * (foodWeight / 100)),
       fat: Math.ceil(wantedFood.fat * (foodWeight / 100)),
       carbs: Math.ceil(wantedFood.carbs * (foodWeight / 100)),
-      weight: foodWeight,
+      weight: Number(foodWeight),
     };
 
     setFoodList((prevState) => [...prevState, newFood]);
-    setMealNutrients((prevState) =>
-      Object.assign(prevState, sumMealNutrition(foodList))
-    );
-
-    console.log("MEAL NUTRITION:", mealNutrients);
+    setFood("");
   };
 
   return (
@@ -302,6 +316,7 @@ const NutrientCalculator = () => {
                 onClick={() => {
                   setFoodList([]);
                   setMealNutrients({});
+                  localStorage.removeItem("foodList");
                 }}>
                 Clear
               </Button>
@@ -319,11 +334,18 @@ const NutrientCalculator = () => {
         </Form>
         <Row className="my-5">
           <Col md={6}>
-            <p className="my-3">*Your food list</p>
-            <ListGroup variant="flush">
+            <ListGroup variant="flush" className="food-list">
+              {foodList.length === 0 && (
+                <>
+                  <h2 className="food-list-h2">*Your food list is empty</h2>
+                  <h5 className="food-list-h2">
+                    *Add food via the inputs above
+                  </h5>
+                </>
+              )}
               {foodList.map((item) => {
                 return (
-                  <ListGroup.Item key={item.value}>
+                  <ListGroup.Item key={item.value + Math.random() * 100}>
                     <div>
                       <h5>{item.value}</h5>
                       <h6>per {item.weight}g</h6>
