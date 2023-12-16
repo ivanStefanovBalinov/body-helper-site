@@ -102,3 +102,24 @@ export async function getRecipe(slug) {
 export async function commentRecipe(commentInfo) {
   return await createComment(Recipe, commentInfo);
 }
+
+//GET RECIPES BY CATEGORY
+export async function getRecipesByCategory(slug) {
+  connectDB();
+  const recipes = await Recipe.find({});
+
+  if (!recipes) {
+    throw new Error("Resources was not founded");
+  }
+
+  const recipesByCategory = recipes.filter(
+    (recipe) => recipe.category === slug
+  );
+
+  console.log("RECIPES:", recipesByCategory);
+  if (!recipesByCategory) {
+    throw new Error("Recipes in this category not founded");
+  }
+
+  return recipesByCategory;
+}

@@ -5,7 +5,7 @@ const MealCategories = ({ title, icon }) => {
   return (
     <Link
       className="meal-category-item"
-      href={`/recipes/category/${title.toLowerCase()}`}>
+      href={`/recipes/category/${title.toLowerCase().replace(/\s/g, "")}`}>
       {icon}
       <p>{title}</p>
     </Link>
