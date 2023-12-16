@@ -78,6 +78,10 @@ const recipeSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+    category: {
+      type: String,
+      required: true,
+    },
     numComments: {
       type: Number,
       required: true,

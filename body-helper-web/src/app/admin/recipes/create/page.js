@@ -55,6 +55,17 @@ const CreateRecipe = () => {
                 <label htmlFor="summary">Short Summary</label>
                 <input type="text" id="summary" name="summary" required />
               </div>
+              <div>
+                <label htmlFor="category">Category</label>
+                <select id="category" name="category" required>
+                  <option value={"chicken"}>Select category</option>
+                  <option value={"meat"}>Meat</option>
+                  <option value={"seafood"}>Sea Food</option>
+                  <option value={"lowcarbs"}>Low Carbs</option>
+                  <option value={"salad"}>Salad</option>
+                  <option value={"vegetarian"}>Vegetarian</option>
+                </select>
+              </div>
               <h4 style={{ color: "#aaa", margin: "20px 0px" }}>Details:</h4>
               <div>
                 <label htmlFor="calories">Calories</label>

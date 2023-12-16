@@ -173,6 +173,7 @@ const NutrientCalculator = () => {
                 <option value={200}>200 g</option>
                 <option value={300}>300 g</option>
                 <option value={400}>400 g</option>
+                <option value={500}>500 g</option>
               </Form.Select>
             </Form.Group>
             <Col md={3}>
