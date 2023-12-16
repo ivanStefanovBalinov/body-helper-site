@@ -58,7 +58,8 @@ const CreateRecipe = () => {
               <div>
                 <label htmlFor="category">Category</label>
                 <select id="category" name="category" required>
-                  <option value={"chicken"}>Select category</option>
+                  <option value={""}>Select category</option>
+                  <option value={"chicken"}>Chicken</option>
                   <option value={"meat"}>Meat</option>
                   <option value={"seafood"}>Sea Food</option>
                   <option value={"lowcarbs"}>Low Carbs</option>

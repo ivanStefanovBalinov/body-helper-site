@@ -76,7 +76,7 @@ const Recipes = async () => {
           <Row>
             <h3>Browse Recipes</h3>
             {mealCategory.map((category) => (
-              <Col md={2} key={category.title}>
+              <Col md={2} sm={6} xs={6} key={category.title}>
                 <MealCategories title={category.title} icon={category.icon} />
               </Col>
             ))}
