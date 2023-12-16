@@ -34,6 +34,7 @@ export async function createRecipe(formData) {
     sugar: formData.get("sugar"),
     author: formData.get("author"),
     image: formData.get("image"),
+    category: formData.get("category"),
   };
 
   if (
