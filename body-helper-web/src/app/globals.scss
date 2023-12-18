@@ -327,3 +327,16 @@ img {
     }
   }
 }
+
+.about-img-wrapper,
+.about-img-wrapper-xl {
+  position: relative;
+  height: 300px;
+}
+
+.about-img-wrapper-xl {
+  height: 480px;
+  img {
+    object-position: bottom;
+  }
+}
