@@ -1,7 +1,19 @@
 import Image from "next/image";
 import { Col, Container, Row } from "react-bootstrap";
+import { FaFacebook } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
+import { FaSquareXTwitter } from "react-icons/fa6";
+import { FaInstagramSquare } from "react-icons/fa";
+import { FaTiktok } from "react-icons/fa6";
 
 const About = () => {
+  const socials = [
+    { icon: <FaFacebook />, link: "/" },
+    { icon: <FaLinkedin />, link: "/" },
+    { icon: <FaSquareXTwitter />, link: "/" },
+    { icon: <FaInstagramSquare />, link: "/" },
+    { icon: <FaTiktok />, link: "/" },
+  ];
   return (
     <>
       <Container>
@@ -70,6 +82,14 @@ const About = () => {
               enjoyable reality for everyone
             </p>
           </Col>
+        </Row>
+        <Row className="my-5">
+          <h2 style={{ textAlign: "center" }}>Join our social networks</h2>
+          {socials.map((item, index) => (
+            <Col key={index + 1} className="social-links">
+              <a href={item.link}>{item.icon}</a>
+            </Col>
+          ))}
         </Row>
       </Container>
     </>
