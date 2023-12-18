@@ -88,6 +88,7 @@ const NutrientCalculator = () => {
       fat: Math.ceil(wantedFood.fat * (foodWeight / 100)),
       carbs: Math.ceil(wantedFood.carbs * (foodWeight / 100)),
       weight: Number(foodWeight),
+      id: Math.ceil(Math.random() * 23176312),
     };
 
     setFoodList((prevState) => [...prevState, newFood]);
@@ -137,8 +138,8 @@ const NutrientCalculator = () => {
     });
   };
 
-  const removeFoodFromListHandler = (title) => {
-    const filteredFoodList = foodList.filter((food) => food.value !== title);
+  const removeFoodFromListHandler = (id) => {
+    const filteredFoodList = foodList.filter((food) => food.id !== id);
     setFoodList(filteredFoodList);
     if (foodList.length === 1) {
       localStorage.removeItem("foodList");
@@ -287,7 +288,7 @@ const NutrientCalculator = () => {
                         {item.value}{" "}
                         <button
                           className="del-btn"
-                          onClick={() => removeFoodFromListHandler(item.value)}>
+                          onClick={() => removeFoodFromListHandler(item.id)}>
                           <FaDeleteLeft
                             style={{ color: "red", cursor: "pointer" }}
                           />
