@@ -327,3 +327,35 @@ img {
     }
   }
 }
+
+.about-img-wrapper,
+.about-img-wrapper-xl {
+  position: relative;
+  height: 300px;
+}
+
+.about-img-wrapper-xl {
+  height: 480px;
+  img {
+    object-position: bottom;
+  }
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+  svg {
+    width: 80px;
+    height: 100px;
+    color: #afafaf;
+    transition: 0.3s ease-in;
+  }
+
+  &:hover {
+    svg {
+      color: #525252;
+    }
+  }
+}
