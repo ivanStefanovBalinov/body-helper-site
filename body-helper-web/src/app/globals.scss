@@ -359,3 +359,18 @@ img {
     }
   }
 }
+
+.profile-avatar {
+  width: 300px;
+  position: relative;
+  height: 300px;
+  margin: auto;
+}
+
+.calories-bad {
+  color: red !important;
+}
+
+.calories-ok {
+  color: green !important;
+}
