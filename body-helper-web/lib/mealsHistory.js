@@ -15,7 +15,7 @@ export async function addMealToTable(mealDetails) {
   await connectDB();
 
   const user = await User.findOne({ email: email });
-
+  console.log(user);
   if (!user) {
     return;
   }
@@ -29,7 +29,7 @@ export async function addMealToTable(mealDetails) {
 
   user.historyOfMeals.push(newMealsDetails);
 
-  await user.save();
+  //   await user.save();
 
   revalidatePath("/profile");
 }

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import defaultAvatar from "../../../public/images/default-user-avatar.png";
 import NutrientCalculator from "@/components/Nutrient Calculator/NutrientCalculator";
 
@@ -36,6 +36,18 @@ const totalCalories =
   userInfo.historyOfMeals.lunchCalories +
   userInfo.historyOfMeals.dinner;
 
+// const addMeal = async () => {
+//   const data = {
+//     breakfastCalories: 550,
+//     lunchCalories: 700,
+//     snackCalories: 120,
+//     dinnerCalories: 900,
+//     email: session.user.email,
+//   };
+
+//   // await addMealToTable(data);
+// };
+
 const ProfileScreen = () => {
   return (
     <Container>
@@ -48,6 +60,7 @@ const ProfileScreen = () => {
       <Row className="my-3">
         <h2>History of meals </h2>
         <Col md={9}>
+          {/* <Button variant="dark">Add</Button> */}
           <table class="table">
             <thead>
               <tr>
