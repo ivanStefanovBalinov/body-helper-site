@@ -1,28 +1,33 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 
-const mealsSchema = mongoose.Schema({
-  breakfastCalories: {
-    type: Number,
-    default: 0,
+const mealsSchema = mongoose.Schema(
+  {
+    breakfastCalories: {
+      type: Number,
+      default: 0,
+    },
+    lunchCalories: {
+      type: Number,
+      default: 0,
+    },
+    snackCalories: {
+      type: Number,
+      default: 0,
+    },
+    dinnerCalories: {
+      type: Number,
+      default: 0,
+    },
+    total: {
+      type: Number,
+      default: 0,
+    },
   },
-  lunchCalories: {
-    type: Number,
-    default: 0,
-  },
-  snackCalories: {
-    type: Number,
-    default: 0,
-  },
-  dinnerCalories: {
-    type: Number,
-    default: 0,
-  },
-  total: {
-    type: Number,
-    default: 0,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 const UserSchema = new Schema(
   {
