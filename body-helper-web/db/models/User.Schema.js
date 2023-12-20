@@ -1,6 +1,35 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
-const UserSchema = new Schema(
+
+const mealsSchema = mongoose.Schema(
+  {
+    breakfastCalories: {
+      type: Number,
+      default: 0,
+    },
+    lunchCalories: {
+      type: Number,
+      default: 0,
+    },
+    snackCalories: {
+      type: Number,
+      default: 0,
+    },
+    dinnerCalories: {
+      type: Number,
+      default: 0,
+    },
+    total: {
+      type: Number,
+      default: 0,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const UserSchema = new mongoose.Schema(
   {
     username: {
       type: String,
@@ -33,6 +62,22 @@ const UserSchema = new Schema(
       minlength: 6,
       select: false,
     },
+    height: {
+      type: Number,
+    },
+    weight: {
+      type: Number,
+    },
+    ages: {
+      type: Number,
+    },
+    targetWeight: {
+      type: Number,
+    },
+    dailyCalories: {
+      type: Number,
+    },
+    historyOfMeals: [],
     resetPasswordToken: {
       type: String,
     },
@@ -63,6 +108,14 @@ UserSchema.pre("save", async function (next) {
 UserSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
+
+mealsSchema.pre("save", function () {
+  this.total =
+    this.breakfastCalories +
+    this.snackCalories +
+    this.lunchCalories +
+    this.dinnerCalories;
+});
 
 const User = mongoose.models.User || mongoose.model("User", UserSchema);
 
