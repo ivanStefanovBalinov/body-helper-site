@@ -1,8 +1,12 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import defaultAvatar from "../../../public/images/default-user-avatar.png";
-import NutrientCalculator from "@/components/Nutrient Calculator/NutrientCalculator";
+import { MdDelete } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
+import { useSession } from "next-auth/react";
+import AddMealsModal from "@/components/addMealsModal";
 
 const userInfo = {
   name: "John Doe",
@@ -30,11 +34,11 @@ const userInfo = {
   ],
 };
 
-const totalCalories =
-  userInfo.historyOfMeals.breakfastCalories +
-  userInfo.historyOfMeals.snackCalories +
-  userInfo.historyOfMeals.lunchCalories +
-  userInfo.historyOfMeals.dinner;
+// const totalCalories =
+//   userInfo.historyOfMeals.breakfastCalories +
+//   userInfo.historyOfMeals.snackCalories +
+//   userInfo.historyOfMeals.lunchCalories +
+//   userInfo.historyOfMeals.dinner;
 
 // const addMeal = async () => {
 //   const data = {
@@ -42,26 +46,33 @@ const totalCalories =
 //     lunchCalories: 700,
 //     snackCalories: 120,
 //     dinnerCalories: 900,
-//     email: session.user.email,
+//     email: "ivan@email.com",
 //   };
 
-//   // await addMealToTable(data);
+//   await addMealToTable(data);
 // };
 
 const ProfileScreen = () => {
+  const { data: session } = useSession();
+  const [showModal, setShowModal] = useState(false);
+  useEffect(() => {
+    console.log("MODAL:", showModal);
+  }, [showModal]);
   return (
     <Container>
       <Row>
         <div className="profile-avatar">
-          <Image src={userInfo.image || defaultAvatar} fill />
+          <Image src={userInfo.image || defaultAvatar} alt="user photo" fill />
         </div>
-        <h3 style={{ textAlign: "center" }}>Hi {userInfo.name}</h3>
+        <h3 style={{ textAlign: "center" }}>Hi {session?.user.name}</h3>
       </Row>
       <Row className="my-3">
         <h2>History of meals </h2>
+        <Button variant="dark" onClick={() => setShowModal(true)}>
+          Add
+        </Button>
         <Col md={9}>
-          {/* <Button variant="dark">Add</Button> */}
-          <table class="table">
+          <table className="table">
             <thead>
               <tr>
                 <th scope="col">Data</th>
@@ -70,10 +81,11 @@ const ProfileScreen = () => {
                 <th scope="col">Lunch </th>
                 <th scope="col">Dinner </th>
                 <th scope="col">Total </th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
-              {userInfo.historyOfMeals.map((mealsCalories, index) => (
+              {userInfo?.historyOfMeals.map((mealsCalories, index) => (
                 <tr key={index + 1}>
                   <th scope="row">{mealsCalories.date} </th>
                   <td>{mealsCalories.breakfastCalories} cal</td>
@@ -96,12 +108,17 @@ const ProfileScreen = () => {
                       mealsCalories.dinner}
                     cal
                   </td>
+                  <td>
+                    <MdDelete className="table-del-btn" />{" "}
+                    <MdEdit className="table-edit-btn" />
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </Col>
       </Row>
+      {showModal && <AddMealsModal onClick={() => setShowModal(false)} />}
     </Container>
   );
 };

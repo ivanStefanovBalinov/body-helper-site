@@ -374,3 +374,46 @@ img {
 .calories-ok {
   color: green !important;
 }
+
+.table-del-btn,
+.table-edit-btn {
+  color: red;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+}
+
+.table-edit-btn {
+  color: green;
+}
+
+.modal-wrapper {
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  .modal {
+    padding: 20px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 700px;
+    height: 270px;
+    background: rgb(209, 193, 193);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+
+    h2 {
+      text-align: center;
+    }
+  }
+}
