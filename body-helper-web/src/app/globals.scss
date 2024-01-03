@@ -398,13 +398,13 @@ img {
   left: 0;
   right: 0;
   .modal {
-    padding: 20px;
+    padding: 40px;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
     width: 700px;
-    height: 270px;
-    background: rgb(209, 193, 193);
+    height: 540px;
+    background: rgb(236, 236, 236);
     position: absolute;
     top: 0;
     bottom: 0;
@@ -416,4 +416,12 @@ img {
       text-align: center;
     }
   }
+}
+
+.close-modal-btn {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  top: 10px;
+  right: 10px;
 }
