@@ -23,6 +23,10 @@ const mealsSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    date: {
+      type: String,
+      default: Date.now().toString(),
+    },
   },
   {
     timestamps: true,

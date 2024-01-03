@@ -75,7 +75,7 @@ const ProfileScreen = () => {
           <table className="table">
             <thead>
               <tr>
-                <th scope="col">Data</th>
+                <th scope="col">Date</th>
                 <th scope="col">Breakfast </th>
                 <th scope="col">Snack </th>
                 <th scope="col">Lunch </th>

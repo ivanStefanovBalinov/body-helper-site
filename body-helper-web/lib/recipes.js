@@ -116,7 +116,6 @@ export async function getRecipesByCategory(slug) {
     (recipe) => recipe.category === slug
   );
 
-  console.log("RECIPES:", recipesByCategory);
   if (!recipesByCategory) {
     throw new Error("Recipes in this category not founded");
   }
