@@ -55,9 +55,26 @@ const userInfo = {
 const ProfileScreen = () => {
   const { data: session } = useSession();
   const [showModal, setShowModal] = useState(false);
-  useEffect(() => {
-    console.log("MODAL:", showModal);
-  }, [showModal]);
+  const [userData, setUserData] = useState();
+  const [userEmail, setUserEmail] = useState(session?.user.email);
+  const userMail = session.user.email;
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const response = await fetch(
+  //       "http://localhost:3000/api/users/getusersmeals",
+  //       {
+  //         method: "POST",
+  //         body: JSON.stringify({ email: session.user.email }),
+  //       }
+  //     );
+  //     const data = await response.json();
+  //     console.log("DATA FROM API:", data);
+  //   };
+  //   fetchData();
+  // }, [session]);
+
+  const hideModal = () => setShowModal(false);
   return (
     <Container>
       <Row>
@@ -118,7 +135,13 @@ const ProfileScreen = () => {
           </table>
         </Col>
       </Row>
-      {showModal && <AddMealsModal onClick={() => setShowModal(false)} />}
+      {showModal && (
+        <AddMealsModal
+          email={session.user.email}
+          onClick={hideModal}
+          closeModal={hideModal}
+        />
+      )}
     </Container>
   );
 };
