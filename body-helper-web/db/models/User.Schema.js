@@ -81,7 +81,7 @@ const UserSchema = new mongoose.Schema(
     dailyCalories: {
       type: Number,
     },
-    historyOfMeals: [],
+    historyOfMeals: [mealsSchema],
     resetPasswordToken: {
       type: String,
     },
