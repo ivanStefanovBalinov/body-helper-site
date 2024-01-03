@@ -1,8 +1,9 @@
 "use client";
+
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 
-const AddMealsModal = ({ onClick }) => {
+const AddMealsModal = ({ onClick, email, closeModal }) => {
   const [formData, setFormData] = useState({
     date: "",
     breakfastCalories: 0,
@@ -11,17 +12,23 @@ const AddMealsModal = ({ onClick }) => {
     dinnerCalories: 0,
   });
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    const data = { ...formData, email: email };
 
-    // setFormData({
-    //   date: "",
-    //   breakfastCalories: 0,
-    //   lunchCalories: 0,
-    //   snackCalories: 0,
-    //   dinnerCalories: 0,
-    // });
+    console.log("DATA:", data);
+    await fetch("http://localhost:3000/api/users/addmeals", {
+      method: "POST",
+      body: JSON.stringify(data),
+    });
+    setFormData({
+      date: "",
+      breakfastCalories: 0,
+      lunchCalories: 0,
+      snackCalories: 0,
+      dinnerCalories: 0,
+    });
+    closeModal();
   };
 
   const onChangeHandler = (e) =>

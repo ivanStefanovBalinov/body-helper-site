@@ -15,7 +15,7 @@ export async function POST(request) {
   await connectDB();
 
   const user = await User.findOne({ email: email });
-  console.log("USER:", user);
+
   if (!user) {
     return NextResponse.json(
       {
@@ -33,8 +33,6 @@ export async function POST(request) {
     dinnerCalories: dinnerCalories,
     date: date,
   };
-
-  console.log("NEW DATA:", newMealsDetails);
 
   await user.historyOfMeals.push(newMealsDetails);
 
