@@ -75,6 +75,12 @@ const UserSchema = new mongoose.Schema(
     ages: {
       type: Number,
     },
+    gender: {
+      type: String,
+    },
+    activity: {
+      type: String,
+    },
     desireWeight: {
       type: Number,
     },

@@ -7,6 +7,8 @@ const UpdateUserCharacteristicForm = ({ onClick, email, closeModal }) => {
     weight: 0,
     ages: 0,
     desireWeight: 0,
+    gender: "",
+    activity: "",
   });
   const [isError, setIsError] = useState(false);
 
@@ -20,8 +22,8 @@ const UpdateUserCharacteristicForm = ({ onClick, email, closeModal }) => {
       formData.weight > 300 ||
       formData.ages < 10 ||
       formData.ages > 90 ||
-      formData.desireWight < 40 ||
-      formData.desireWight > 100
+      formData.desireWeight < 40 ||
+      formData.desireWeight > 100
     ) {
       setIsError(true);
     }
@@ -36,6 +38,7 @@ const UpdateUserCharacteristicForm = ({ onClick, email, closeModal }) => {
       weight: 0,
       ages: 0,
       desireWeight: 0,
+      gender: "",
     });
 
     setIsError(false);
@@ -98,6 +101,46 @@ const UpdateUserCharacteristicForm = ({ onClick, email, closeModal }) => {
               onChange={onChangeHandler}
               min={40}
               max={100}
+            />
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Activity</Form.Label>
+            <Form.Control
+              as="select"
+              name="activity"
+              onChange={onChangeHandler}>
+              <option value="">Select your activity type...</option>
+              <option value="1.2">Sedentary - little or no exercise</option>
+              <option value="1.375">
+                Lightly active light - exercise/sports 1-3 days/week
+              </option>
+              <option value="1.55">
+                Moderately active - moderate exercise/sports 3-5 days/week
+              </option>
+              <option value="1.725">
+                Very active hard exercise/sports 6-7 days a week
+              </option>
+              <option value="1.9">
+                Extra active very hard exercise/sports & physical job or 2x
+                training
+              </option>
+            </Form.Control>
+          </Form.Group>
+          <Form.Group className="checkbox-container">
+            <Form.Label>Gender</Form.Label>
+            <Form.Check
+              type="checkbox"
+              label="Male"
+              name="gender"
+              onChange={onChangeHandler}
+              value={"male"}
+            />
+            <Form.Check
+              type="checkbox"
+              label="Female"
+              name="gender"
+              onChange={onChangeHandler}
+              value={"female"}
             />
           </Form.Group>
           {isError && (
