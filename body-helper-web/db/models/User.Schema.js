@@ -75,7 +75,7 @@ const UserSchema = new mongoose.Schema(
     ages: {
       type: Number,
     },
-    targetWeight: {
+    desireWeight: {
       type: Number,
     },
     dailyCalories: {
