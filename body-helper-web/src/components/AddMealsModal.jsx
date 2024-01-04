@@ -16,7 +16,6 @@ const AddMealsModal = ({ onClick, email, closeModal }) => {
     e.preventDefault();
     const data = { ...formData, email: email };
 
-    console.log("DATA:", data);
     await fetch("http://localhost:3000/api/users/addmeals", {
       method: "POST",
       body: JSON.stringify(data),

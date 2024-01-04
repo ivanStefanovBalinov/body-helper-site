@@ -11,50 +11,6 @@ import Loader from "@/components/Loader";
 import { IoSettingsSharp } from "react-icons/io5";
 import UpdateUserCharacteristicForm from "@/components/UpdateUserCharacteristicForm";
 
-// const userInfo = {
-//   name: "John Doe",
-//   image: undefined,
-//   height: 187,
-//   weight: 100,
-//   ages: 33,
-//   targetWeight: 90,
-//   dailyCalories: 1900,
-//   historyOfMeals: [
-//     {
-//       date: "18.12.23",
-//       breakfastCalories: 650,
-//       lunchCalories: 720,
-//       snackCalories: 160,
-//       dinner: 850,
-//     },
-//     {
-//       date: "19.12.23",
-//       breakfastCalories: 790,
-//       lunchCalories: 620,
-//       snackCalories: 300,
-//       dinner: 650,
-//     },
-//   ],
-// };
-
-// const totalCalories =
-//   userInfo.historyOfMeals.breakfastCalories +
-//   userInfo.historyOfMeals.snackCalories +
-//   userInfo.historyOfMeals.lunchCalories +
-//   userInfo.historyOfMeals.dinner;
-
-// const addMeal = async () => {
-//   const data = {
-//     breakfastCalories: 550,
-//     lunchCalories: 700,
-//     snackCalories: 120,
-//     dinnerCalories: 900,
-//     email: "ivan@email.com",
-//   };
-
-//   await addMealToTable(data);
-// };
-
 const ProfileScreen = () => {
   const { data: session, status } = useSession();
   const [showModal, setShowModal] = useState(false);
@@ -78,9 +34,20 @@ const ProfileScreen = () => {
             body: JSON.stringify({ email: session.user.email }),
           }
         );
-        const userMealsData = await response.json();
-        console.log(userMealsData.user);
-        setUserMealsData(userMealsData.user.historyOfMeals);
+        const data = await response.json();
+        console.log(data.user);
+        const userData = data.user;
+        const userCharacteristics = {
+          height: userData.height,
+          weight: userData.weight,
+          ages: userData.ages,
+          desireWeight: userData.desireWeight,
+          dailyCalories: 0,
+          image: undefined,
+        };
+
+        setUserMealsData(userData.historyOfMeals);
+        setUserInfo(userCharacteristics);
       };
       fetchData();
     }
