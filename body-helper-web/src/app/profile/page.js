@@ -14,6 +14,7 @@ import UpdateUserCharacteristicForm from "@/components/UpdateUserCharacteristicF
 const ProfileScreen = () => {
   const { data: session, status } = useSession();
   const [showModal, setShowModal] = useState(false);
+  const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [userMealsData, setUserMealsData] = useState([]);
   const [userInfo, setUserInfo] = useState({
     height: 0,
@@ -21,6 +22,7 @@ const ProfileScreen = () => {
     ages: 0,
     desireWeight: 0,
     dailyCalories: 0,
+    gender: "",
     image: undefined,
   });
 
@@ -44,6 +46,8 @@ const ProfileScreen = () => {
           desireWeight: userData.desireWeight,
           dailyCalories: 0,
           image: undefined,
+          gender: userData.gender,
+          dailyCalories: userData.dailyCalories,
         };
 
         setUserMealsData(userData.historyOfMeals);
@@ -54,6 +58,7 @@ const ProfileScreen = () => {
   }, [status, session]);
 
   const hideModal = () => setShowModal(false);
+  const hideUpdateModal = () => setShowUpdateModal(false);
 
   if (status === "loading") {
     return <Loader />;
@@ -119,17 +124,18 @@ const ProfileScreen = () => {
               <h4>{session.user.name} characteristics</h4>
               <IoSettingsSharp
                 className="table-edit-btn"
-                onClick={() => setShowModal(true)}
+                onClick={() => setShowUpdateModal(true)}
               />
             </div>
-            <ListGroup.Item>Height {userInfo.height} cm</ListGroup.Item>
-            <ListGroup.Item>Weight {userInfo.weight} kg</ListGroup.Item>
-            <ListGroup.Item>Ages {userInfo.ages} y.o.</ListGroup.Item>
+            <ListGroup.Item>Height: {userInfo.height} cm</ListGroup.Item>
+            <ListGroup.Item>Weight: {userInfo.weight} kg</ListGroup.Item>
+            <ListGroup.Item>Ages: {userInfo.ages} y.o.</ListGroup.Item>
+            <ListGroup.Item>Gender: {userInfo.gender} </ListGroup.Item>
             <ListGroup.Item>
-              Desired Weight {userInfo.desireWeight} kg{" "}
+              Desired Weight: {userInfo.desireWeight} kg{" "}
             </ListGroup.Item>
             <ListGroup.Item>
-              Daily Calories {userInfo.dailyCalories} cal
+              Daily Calories: {userInfo.dailyCalories} cal
             </ListGroup.Item>
           </ListGroup>
         </Col>
@@ -141,11 +147,11 @@ const ProfileScreen = () => {
           closeModal={hideModal}
         />
       )}
-      {showModal && (
+      {showUpdateModal && (
         <UpdateUserCharacteristicForm
           email={session.user.email}
-          onClick={hideModal}
-          closeModal={hideModal}
+          onClick={hideUpdateModal}
+          closeModal={hideUpdateModal}
         />
       )}
     </Container>

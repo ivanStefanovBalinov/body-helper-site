@@ -16,9 +16,22 @@ export async function POST(request) {
 }
 
 export async function PUT(request) {
-  const { height, weight, email, ages, desireWeight } = await request.json();
+  const { height, weight, email, ages, desireWeight, gender, activity } =
+    await request.json();
 
   await connectDB();
+
+  const dailyCalories = () => {
+    if (gender === "male") {
+      const basalMetabolicRate =
+        88.362 + 13.397 * desireWeight + 4.799 * height - 5.677 * ages;
+      return Math.round(basalMetabolicRate * activity);
+    } else {
+      const basalMetabolicRate =
+        447.593 + 9.247 * desireWeight + 3.098 * height - 4.33 * ages;
+      return Math.round(basalMetabolicRate * activity);
+    }
+  };
 
   const filter = { email: email };
   const update = {
@@ -26,6 +39,9 @@ export async function PUT(request) {
     weight: weight,
     ages: ages,
     desireWeight: desireWeight,
+    gender: gender,
+    activity: activity,
+    dailyCalories: dailyCalories(),
   };
 
   const user = await User.findOneAndUpdate(filter, update, {
