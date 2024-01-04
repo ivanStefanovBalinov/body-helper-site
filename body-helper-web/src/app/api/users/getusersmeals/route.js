@@ -14,8 +14,5 @@ export async function POST(request) {
     );
   }
 
-  return NextResponse.json(
-    { data: user.historyOfMeals, success: true },
-    { status: 200 }
-  );
+  return NextResponse.json({ user: user, success: true }, { status: 200 });
 }

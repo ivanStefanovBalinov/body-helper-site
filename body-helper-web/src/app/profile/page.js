@@ -1,38 +1,41 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, ListGroup, Row } from "react-bootstrap";
 import defaultAvatar from "../../../public/images/default-user-avatar.png";
 import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { useSession } from "next-auth/react";
 import AddMealsModal from "@/components/addMealsModal";
+import Loader from "@/components/Loader";
+import { IoSettingsSharp } from "react-icons/io5";
+import UpdateUserCharacteristicForm from "@/components/UpdateUserCharacteristicForm";
 
-const userInfo = {
-  name: "John Doe",
-  image: undefined,
-  height: 187,
-  weight: 100,
-  ages: 33,
-  targetWeight: 90,
-  dailyCalories: 1900,
-  historyOfMeals: [
-    {
-      date: "18.12.23",
-      breakfastCalories: 650,
-      lunchCalories: 720,
-      snackCalories: 160,
-      dinner: 850,
-    },
-    {
-      date: "19.12.23",
-      breakfastCalories: 790,
-      lunchCalories: 620,
-      snackCalories: 300,
-      dinner: 650,
-    },
-  ],
-};
+// const userInfo = {
+//   name: "John Doe",
+//   image: undefined,
+//   height: 187,
+//   weight: 100,
+//   ages: 33,
+//   targetWeight: 90,
+//   dailyCalories: 1900,
+//   historyOfMeals: [
+//     {
+//       date: "18.12.23",
+//       breakfastCalories: 650,
+//       lunchCalories: 720,
+//       snackCalories: 160,
+//       dinner: 850,
+//     },
+//     {
+//       date: "19.12.23",
+//       breakfastCalories: 790,
+//       lunchCalories: 620,
+//       snackCalories: 300,
+//       dinner: 650,
+//     },
+//   ],
+// };
 
 // const totalCalories =
 //   userInfo.historyOfMeals.breakfastCalories +
@@ -55,7 +58,15 @@ const userInfo = {
 const ProfileScreen = () => {
   const { data: session, status } = useSession();
   const [showModal, setShowModal] = useState(false);
-  const [userData, setUserData] = useState([]);
+  const [userMealsData, setUserMealsData] = useState([]);
+  const [userInfo, setUserInfo] = useState({
+    height: 0,
+    weight: 0,
+    ages: 0,
+    desireWeight: 0,
+    dailyCalories: 0,
+    image: undefined,
+  });
 
   useEffect(() => {
     if (status === "authenticated" && session) {
@@ -67,14 +78,19 @@ const ProfileScreen = () => {
             body: JSON.stringify({ email: session.user.email }),
           }
         );
-        const meals = await response.json();
-        setUserData(meals.data);
+        const userMealsData = await response.json();
+        console.log(userMealsData.user);
+        setUserMealsData(userMealsData.user.historyOfMeals);
       };
       fetchData();
     }
   }, [status, session]);
 
   const hideModal = () => setShowModal(false);
+
+  if (status === "loading") {
+    return <Loader />;
+  }
   return (
     <Container>
       <Row>
@@ -84,10 +100,13 @@ const ProfileScreen = () => {
         <h3 style={{ textAlign: "center" }}>Hi {session?.user.name}</h3>
       </Row>
       <Row className="my-3">
-        <h2>History of meals </h2>
-        <Button variant="dark" onClick={() => setShowModal(true)}>
-          Add
-        </Button>
+        <Col md={9} className="table-header">
+          <h2>History of meals </h2>
+          <Button variant="dark" onClick={() => setShowModal(true)}>
+            Add
+          </Button>
+        </Col>
+
         <Col md={9}>
           <table className="table">
             <thead>
@@ -102,7 +121,7 @@ const ProfileScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {userData.map((mealsCalories, index) => (
+              {userMealsData.map((mealsCalories, index) => (
                 <tr key={index + 1}>
                   <th scope="row">{mealsCalories.date} </th>
                   <td>{mealsCalories.breakfastCalories} cal</td>
@@ -127,9 +146,36 @@ const ProfileScreen = () => {
             </tbody>
           </table>
         </Col>
+        <Col md={3} className="user-characteristics">
+          <ListGroup variant="flush">
+            <div className="user-characteristics-h-wrapper">
+              <h4>{session.user.name} characteristics</h4>
+              <IoSettingsSharp
+                className="table-edit-btn"
+                onClick={() => setShowModal(true)}
+              />
+            </div>
+            <ListGroup.Item>Height {userInfo.height} cm</ListGroup.Item>
+            <ListGroup.Item>Weight {userInfo.weight} kg</ListGroup.Item>
+            <ListGroup.Item>Ages {userInfo.ages} y.o.</ListGroup.Item>
+            <ListGroup.Item>
+              Desired Weight {userInfo.desireWeight} kg{" "}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              Daily Calories {userInfo.dailyCalories} cal
+            </ListGroup.Item>
+          </ListGroup>
+        </Col>
       </Row>
       {showModal && (
         <AddMealsModal
+          email={session.user.email}
+          onClick={hideModal}
+          closeModal={hideModal}
+        />
+      )}
+      {showModal && (
+        <UpdateUserCharacteristicForm
           email={session.user.email}
           onClick={hideModal}
           closeModal={hideModal}
