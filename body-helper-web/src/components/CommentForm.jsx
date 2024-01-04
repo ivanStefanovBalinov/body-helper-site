@@ -9,7 +9,7 @@ const CommentForm = ({ slug, serverAction }) => {
   const [comment, setComment] = useState("");
 
   const { data: session, status } = useSession();
-  console.log(session);
+
   const submitHandler = async (e) => {
     e.preventDefault();
     try {

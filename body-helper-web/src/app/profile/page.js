@@ -37,7 +37,7 @@ const ProfileScreen = () => {
           }
         );
         const data = await response.json();
-        console.log(data.user);
+
         const userData = data.user;
         const userCharacteristics = {
           height: userData.height,
