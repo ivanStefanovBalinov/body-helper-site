@@ -14,3 +14,29 @@ export async function POST(request) {
   }
   return NextResponse.json({ user, success: true }, { status: 201 });
 }
+
+export async function PUT(request) {
+  const { height, weight, email, ages, desireWeight } = await request.json();
+
+  await connectDB();
+
+  const filter = { email: email };
+  const update = {
+    height: height,
+    weight: weight,
+    ages: ages,
+    desireWeight: desireWeight,
+  };
+
+  const user = await User.findOneAndUpdate(filter, update, {
+    new: true,
+  });
+
+  if (!user) {
+    return NextResponse.json(
+      { message: "Registration Failed", success: false },
+      { status: 400 }
+    );
+  }
+  return NextResponse.json({ user: user, success: true }, { status: 201 });
+}
