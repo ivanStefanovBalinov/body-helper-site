@@ -53,26 +53,26 @@ const userInfo = {
 // };
 
 const ProfileScreen = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [showModal, setShowModal] = useState(false);
-  const [userData, setUserData] = useState();
-  const [userEmail, setUserEmail] = useState(session?.user.email);
-  const userMail = session.user.email;
+  const [userData, setUserData] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const response = await fetch(
-  //       "http://localhost:3000/api/users/getusersmeals",
-  //       {
-  //         method: "POST",
-  //         body: JSON.stringify({ email: session.user.email }),
-  //       }
-  //     );
-  //     const data = await response.json();
-  //     console.log("DATA FROM API:", data);
-  //   };
-  //   fetchData();
-  // }, [session]);
+  useEffect(() => {
+    if (status === "authenticated" && session) {
+      const fetchData = async () => {
+        const response = await fetch(
+          "http://localhost:3000/api/users/getusersmeals",
+          {
+            method: "POST",
+            body: JSON.stringify({ email: session.user.email }),
+          }
+        );
+        const meals = await response.json();
+        setUserData(meals.data);
+      };
+      fetchData();
+    }
+  }, [status, session]);
 
   const hideModal = () => setShowModal(false);
   return (
@@ -102,27 +102,20 @@ const ProfileScreen = () => {
               </tr>
             </thead>
             <tbody>
-              {userInfo?.historyOfMeals.map((mealsCalories, index) => (
+              {userData.map((mealsCalories, index) => (
                 <tr key={index + 1}>
                   <th scope="row">{mealsCalories.date} </th>
                   <td>{mealsCalories.breakfastCalories} cal</td>
                   <td>{mealsCalories.snackCalories} cal</td>
                   <td>{mealsCalories.lunchCalories} cal</td>
-                  <td>{mealsCalories.dinner} cal</td>
+                  <td>{mealsCalories.dinnerCalories} cal</td>
                   <td
                     className={
-                      userInfo.dailyCalories >=
-                      mealsCalories.breakfastCalories +
-                        mealsCalories.snackCalories +
-                        mealsCalories.lunchCalories +
-                        mealsCalories.dinner
+                      userInfo.dailyCalories >= mealsCalories.total
                         ? "calories-ok"
                         : "calories-bad"
                     }>
-                    {mealsCalories.breakfastCalories +
-                      mealsCalories.snackCalories +
-                      mealsCalories.lunchCalories +
-                      mealsCalories.dinner}
+                    {mealsCalories.total}
                     cal
                   </td>
                   <td>
