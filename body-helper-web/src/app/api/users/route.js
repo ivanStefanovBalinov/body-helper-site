@@ -21,24 +21,48 @@ export async function PUT(request) {
 
   await connectDB();
 
+  //bmr - base metabolic rate
+  const totalDailyEnergyExpenditure = (bmr, activityRate) =>
+    Math.round(bmr * activityRate);
+
+  const calcDeficit = (totalDailyEnergyExpenditure) =>
+    Math.round(totalDailyEnergyExpenditure * 0.2);
+
+  const calculateCaloriesDeficit = (totalDailyEnergyExpenditure, deficit) =>
+    Math.round(totalDailyEnergyExpenditure - deficit);
+
   const dailyCalories = () => {
     if (gender === "male") {
       const basalMetabolicRate =
         10 * desireWeight + 6.25 * height - 5 * ages + 5;
-      const totalDailyEnergyExpenditure = Math.round(
-        basalMetabolicRate * activity
+      const maleTotalDailyEnergyExpenditure = totalDailyEnergyExpenditure(
+        basalMetabolicRate,
+        activity
       );
-      const deficit = Math.round(totalDailyEnergyExpenditure * 0.2);
+      const deficit = calcDeficit(maleTotalDailyEnergyExpenditure);
 
-      if (weight > desireWeight) {
-        return totalDailyEnergyExpenditure;
+      if (Number(weight) < Number(desireWeight)) {
+        console.log("UP");
+        return maleTotalDailyEnergyExpenditure;
       } else {
-        return Math.round(totalDailyEnergyExpenditure - deficit);
+        console.log("DEFICIT");
+        return calculateCaloriesDeficit(
+          maleTotalDailyEnergyExpenditure,
+          deficit
+        );
       }
     } else {
       const basalMetabolicRate =
         10 * desireWeight + 6.25 * height - 5 * ages - 161;
-      return Math.round(basalMetabolicRate * activity);
+      const totalDailyEnergyExpenditure = Math.round(
+        basalMetabolicRate * activity
+      );
+      const deficit = Math.round(totalDailyEnergyExpenditure * 0.2);
+      if (weight > desireWeight) {
+        return totalDailyEnergyExpenditure;
+      } else {
+        Math.round(totalDailyEnergyExpenditure - deficit);
+      }
     }
   };
 

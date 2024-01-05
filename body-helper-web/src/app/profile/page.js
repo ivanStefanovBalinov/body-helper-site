@@ -16,6 +16,7 @@ const ProfileScreen = () => {
   const [showModal, setShowModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [userMealsData, setUserMealsData] = useState([]);
+  const [reload, setReload] = useState(false);
   const [userInfo, setUserInfo] = useState({
     height: 0,
     weight: 0,
@@ -55,10 +56,13 @@ const ProfileScreen = () => {
       };
       fetchData();
     }
-  }, [status, session]);
+  }, [status, session, reload]);
 
   const hideModal = () => setShowModal(false);
-  const hideUpdateModal = () => setShowUpdateModal(false);
+  const hideUpdateModal = () => {
+    setShowUpdateModal(false);
+    setReload(!reload);
+  };
 
   if (status === "loading") {
     return <Loader />;
