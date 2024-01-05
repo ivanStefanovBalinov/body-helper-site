@@ -42,10 +42,8 @@ export async function PUT(request) {
       const deficit = calcDeficit(maleTotalDailyEnergyExpenditure);
 
       if (Number(weight) < Number(desireWeight)) {
-        console.log("UP");
         return maleTotalDailyEnergyExpenditure;
       } else {
-        console.log("DEFICIT");
         return calculateCaloriesDeficit(
           maleTotalDailyEnergyExpenditure,
           deficit
@@ -54,14 +52,19 @@ export async function PUT(request) {
     } else {
       const basalMetabolicRate =
         10 * desireWeight + 6.25 * height - 5 * ages - 161;
-      const totalDailyEnergyExpenditure = Math.round(
-        basalMetabolicRate * activity
+      const femaleTotalDailyEnergyExpenditure = totalDailyEnergyExpenditure(
+        basalMetabolicRate,
+        activity
       );
-      const deficit = Math.round(totalDailyEnergyExpenditure * 0.2);
-      if (weight > desireWeight) {
-        return totalDailyEnergyExpenditure;
+      console.log(femaleTotalDailyEnergyExpenditure);
+      const deficit = calcDeficit(femaleTotalDailyEnergyExpenditure);
+      if (Number(weight) < Number(desireWeight)) {
+        return femaleTotalDailyEnergyExpenditure;
       } else {
-        Math.round(totalDailyEnergyExpenditure - deficit);
+        return calculateCaloriesDeficit(
+          femaleTotalDailyEnergyExpenditure,
+          deficit
+        );
       }
     }
   };
