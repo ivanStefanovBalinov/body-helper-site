@@ -24,11 +24,20 @@ export async function PUT(request) {
   const dailyCalories = () => {
     if (gender === "male") {
       const basalMetabolicRate =
-        88.362 + 13.397 * desireWeight + 4.799 * height - 5.677 * ages;
-      return Math.round(basalMetabolicRate * activity);
+        10 * desireWeight + 6.25 * height - 5 * ages + 5;
+      const totalDailyEnergyExpenditure = Math.round(
+        basalMetabolicRate * activity
+      );
+      const deficit = Math.round(totalDailyEnergyExpenditure * 0.2);
+
+      if (weight > desireWeight) {
+        return totalDailyEnergyExpenditure;
+      } else {
+        return Math.round(totalDailyEnergyExpenditure - deficit);
+      }
     } else {
       const basalMetabolicRate =
-        447.593 + 9.247 * desireWeight + 3.098 * height - 4.33 * ages;
+        10 * desireWeight + 6.25 * height - 5 * ages - 161;
       return Math.round(basalMetabolicRate * activity);
     }
   };
