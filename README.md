@@ -22,4 +22,4 @@ Body Helper is a Next.js web application designed to promote a healthy lifestyle
 
 All Rights Reserved.
 
-The code and other assets in this repository are proprietary to Ivan Balinov and may not be reproduced, modified, or distributed without the express written permission of the owner.
+The code is proprietary to Ivan Balinov and may not be reproduced, modified, or distributed without the express written permission of the owner.
