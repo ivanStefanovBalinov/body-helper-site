@@ -9,10 +9,10 @@ import { IoMdClose } from "react-icons/io";
 const AddMealsModal = ({ onClick, email, closeModal, data, isUpdate }) => {
   const [formData, setFormData] = useState({
     date: data?.date || "",
-    breakfastCalories: data?.breakfastCalories || 0,
-    lunchCalories: data?.lunchCalories || 0,
-    snackCalories: data?.snackCalories || 0,
-    dinnerCalories: data?.dinnerCalories || 0,
+    breakfastCalories: data?.breakfastCalories || "",
+    lunchCalories: data?.lunchCalories || "",
+    snackCalories: data?.snackCalories || "",
+    dinnerCalories: data?.dinnerCalories || "",
     id: data?._id || "",
   });
   const [showCalculator, setShowCalculator] = useState(false);
@@ -100,7 +100,7 @@ const AddMealsModal = ({ onClick, email, closeModal, data, isUpdate }) => {
             />
           </Form.Group>
           <Button className="my-3" type="submit" variant="dark">
-            Add
+            {isUpdate ? "Update" : "Add"}
           </Button>
           <Button
             className="my-3 mx-3"

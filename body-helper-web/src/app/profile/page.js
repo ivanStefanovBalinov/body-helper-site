@@ -74,6 +74,16 @@ const ProfileScreen = () => {
     setTableRowData(rowData);
   };
 
+  const deleteRowHandler = async (id) => {
+    const data = { email: session.user.email, id: id };
+
+    await fetch("http://localhost:3000/api/users/deletemeals", {
+      method: "DELETE",
+      body: JSON.stringify(data),
+    });
+    setReload(!reload);
+  };
+
   if (status === "loading") {
     return <Loader />;
   }
@@ -131,7 +141,10 @@ const ProfileScreen = () => {
                     cal
                   </td>
                   <td>
-                    <MdDelete className="table-del-btn" />{" "}
+                    <MdDelete
+                      className="table-del-btn"
+                      onClick={() => deleteRowHandler(mealsCalories._id)}
+                    />{" "}
                     <MdEdit
                       className="table-edit-btn"
                       onClick={() => {
