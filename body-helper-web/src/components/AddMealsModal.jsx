@@ -2,6 +2,9 @@
 
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { BsCalculator } from "react-icons/bs";
+import NutrientCalculator from "./Nutrient Calculator/NutrientCalculator";
+import { IoMdClose } from "react-icons/io";
 
 const AddMealsModal = ({ onClick, email, closeModal }) => {
   const [formData, setFormData] = useState({
@@ -11,6 +14,7 @@ const AddMealsModal = ({ onClick, email, closeModal }) => {
     snackCalories: 0,
     dinnerCalories: 0,
   });
+  const [showCalculator, setShowCalculator] = useState(false);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -92,8 +96,25 @@ const AddMealsModal = ({ onClick, email, closeModal }) => {
           <Button className="my-3" type="submit" variant="dark">
             Add
           </Button>
+          <Button
+            className="my-3 mx-3"
+            type="button"
+            variant="dark"
+            onClick={() => setShowCalculator(true)}>
+            <BsCalculator /> Calculator
+          </Button>
         </Form>
       </div>
+      {showCalculator && (
+        <div className="calculator-modal">
+          <NutrientCalculator />
+          <div className="close-calculator-modal">
+            <Button variant="dark" onClick={() => setShowCalculator(false)}>
+              <IoMdClose />
+            </Button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

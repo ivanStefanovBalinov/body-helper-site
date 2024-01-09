@@ -58,7 +58,10 @@ const ProfileScreen = () => {
     }
   }, [status, session, reload]);
 
-  const hideModal = () => setShowModal(false);
+  const hideModal = () => {
+    setReload(!reload);
+    setShowModal(false);
+  };
   const hideUpdateModal = () => {
     setShowUpdateModal(false);
     setReload(!reload);
@@ -121,6 +124,10 @@ const ProfileScreen = () => {
               ))}
             </tbody>
           </table>
+          <p className="red italic">
+            *If your total calories are coloured red it means you have taken
+            more than the recommended daily calories.
+          </p>
         </Col>
         <Col md={3} className="user-characteristics">
           <ListGroup variant="flush">
