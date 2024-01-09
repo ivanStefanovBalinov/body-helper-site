@@ -40,3 +40,56 @@ export async function POST(request) {
 
   return NextResponse.json({ newMealsDetails, success: true }, { status: 200 });
 }
+
+export async function PUT(request) {
+  const {
+    email,
+    breakfastCalories,
+    lunchCalories,
+    snackCalories,
+    dinnerCalories,
+    date,
+    id,
+  } = await request.json();
+
+  await connectDB();
+
+  const user = await User.findOne({ email: email });
+
+  if (!user) {
+    return NextResponse.json(
+      {
+        message: "User not founded",
+        success: false,
+      },
+      { status: 404 }
+    );
+  }
+
+  const index = user.historyOfMeals.findIndex((meal) => meal.id === id);
+
+  if (index === -1) {
+    return NextResponse.json(
+      {
+        message: "Data not founded",
+        success: false,
+      },
+      { status: 404 }
+    );
+  }
+
+  user.historyOfMeals[index] = {
+    breakfastCalories: breakfastCalories,
+    lunchCalories: lunchCalories,
+    snackCalories: snackCalories,
+    dinnerCalories: dinnerCalories,
+    date: date,
+  };
+
+  await user.save();
+
+  return NextResponse.json(
+    { message: "Data successfully updated", success: true },
+    { status: 200 }
+  );
+}
