@@ -15,8 +15,10 @@ const ProfileScreen = () => {
   const { data: session, status } = useSession();
   const [showModal, setShowModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [isUpdate, setIsUpdate] = useState(false);
   const [userMealsData, setUserMealsData] = useState([]);
   const [reload, setReload] = useState(false);
+  const [tableRowData, setTableRowData] = useState({});
   const [userInfo, setUserInfo] = useState({
     height: 0,
     weight: 0,
@@ -67,9 +69,15 @@ const ProfileScreen = () => {
     setReload(!reload);
   };
 
+  const updateRowHandler = (rowData) => {
+    setShowModal(true);
+    setTableRowData(rowData);
+  };
+
   if (status === "loading") {
     return <Loader />;
   }
+
   return (
     <Container>
       <Row>
@@ -81,7 +89,13 @@ const ProfileScreen = () => {
       <Row className="my-3">
         <Col md={9} className="table-header">
           <h2>History of meals </h2>
-          <Button variant="dark" onClick={() => setShowModal(true)}>
+          <Button
+            variant="dark"
+            onClick={() => {
+              setShowModal(true);
+              setTableRowData({});
+              setIsUpdate(false);
+            }}>
             Add
           </Button>
         </Col>
@@ -118,7 +132,13 @@ const ProfileScreen = () => {
                   </td>
                   <td>
                     <MdDelete className="table-del-btn" />{" "}
-                    <MdEdit className="table-edit-btn" />
+                    <MdEdit
+                      className="table-edit-btn"
+                      onClick={() => {
+                        updateRowHandler(mealsCalories);
+                        setIsUpdate(true);
+                      }}
+                    />
                   </td>
                 </tr>
               ))}
@@ -156,6 +176,8 @@ const ProfileScreen = () => {
           email={session.user.email}
           onClick={hideModal}
           closeModal={hideModal}
+          data={tableRowData}
+          isUpdate={isUpdate}
         />
       )}
       {showUpdateModal && (

@@ -6,13 +6,14 @@ import { BsCalculator } from "react-icons/bs";
 import NutrientCalculator from "./Nutrient Calculator/NutrientCalculator";
 import { IoMdClose } from "react-icons/io";
 
-const AddMealsModal = ({ onClick, email, closeModal }) => {
+const AddMealsModal = ({ onClick, email, closeModal, data, isUpdate }) => {
   const [formData, setFormData] = useState({
-    date: "",
-    breakfastCalories: 0,
-    lunchCalories: 0,
-    snackCalories: 0,
-    dinnerCalories: 0,
+    date: data?.date || "",
+    breakfastCalories: data?.breakfastCalories || 0,
+    lunchCalories: data?.lunchCalories || 0,
+    snackCalories: data?.snackCalories || 0,
+    dinnerCalories: data?.dinnerCalories || 0,
+    id: data?._id || "",
   });
   const [showCalculator, setShowCalculator] = useState(false);
 
@@ -21,7 +22,7 @@ const AddMealsModal = ({ onClick, email, closeModal }) => {
     const data = { ...formData, email: email };
 
     await fetch("http://localhost:3000/api/users/addmeals", {
-      method: "POST",
+      method: `${isUpdate ? "PUT" : "POST"}`,
       body: JSON.stringify(data),
     });
     setFormData({
@@ -53,6 +54,7 @@ const AddMealsModal = ({ onClick, email, closeModal }) => {
             <Form.Control
               type="date"
               placeholder="Enter date"
+              value={formData.date}
               name="date"
               onChange={onChangeHandler}
             />
@@ -62,6 +64,7 @@ const AddMealsModal = ({ onClick, email, closeModal }) => {
             <Form.Control
               type="number"
               placeholder="Enter your Breakfast Calories"
+              value={formData.breakfastCalories}
               name="breakfastCalories"
               onChange={onChangeHandler}
             />
@@ -71,6 +74,7 @@ const AddMealsModal = ({ onClick, email, closeModal }) => {
             <Form.Control
               type="number"
               placeholder="Enter your Lunch Calories"
+              value={formData.lunchCalories}
               name="lunchCalories"
               onChange={onChangeHandler}
             />
@@ -80,6 +84,7 @@ const AddMealsModal = ({ onClick, email, closeModal }) => {
             <Form.Control
               type="number"
               placeholder="Enter your Snack Calories"
+              value={formData.snackCalories}
               name="snackCalories"
               onChange={onChangeHandler}
             />
@@ -89,6 +94,7 @@ const AddMealsModal = ({ onClick, email, closeModal }) => {
             <Form.Control
               type="number"
               placeholder="Enter your Dinner Calories"
+              value={formData.dinnerCalories}
               name="dinnerCalories"
               onChange={onChangeHandler}
             />
