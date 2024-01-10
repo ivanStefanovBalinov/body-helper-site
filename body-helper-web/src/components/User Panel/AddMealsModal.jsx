@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { BsCalculator } from "react-icons/bs";
-import NutrientCalculator from "./Nutrient Calculator/NutrientCalculator";
+import NutrientCalculator from "../Nutrient Calculator/NutrientCalculator";
 import { IoMdClose } from "react-icons/io";
 import { toast } from "react-toastify";
 

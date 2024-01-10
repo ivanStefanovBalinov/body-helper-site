@@ -485,3 +485,10 @@ img {
   flex-direction: column;
   z-index: 0;
 }
+
+.chart-selector-wrapper {
+  display: flex;
+  width: 400px;
+  gap: 20px;
+  margin-bottom: 20px;
+}
