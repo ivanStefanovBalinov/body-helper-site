@@ -1,7 +1,15 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, ListGroup, Row } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  ListGroup,
+  Pagination,
+  Row,
+} from "react-bootstrap";
+
 import defaultAvatar from "../../../public/images/default-user-avatar.png";
 import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
@@ -23,6 +31,9 @@ const ProfileScreen = () => {
   const [reload, setReload] = useState(false);
   const [tableRowData, setTableRowData] = useState({});
   const [isError, setIsError] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalRecords, setTotalRecords] = useState();
   const [userInfo, setUserInfo] = useState({
     height: 0,
     weight: 0,
@@ -40,12 +51,16 @@ const ProfileScreen = () => {
           "http://localhost:3000/api/users/getusersmeals",
           {
             method: "POST",
-            body: JSON.stringify({ email: session.user.email }),
+            body: JSON.stringify({
+              email: session.user.email,
+              pageNumber: currentPage,
+            }),
           }
         );
         const data = await response.json();
 
         const userData = data.user;
+        const paginationData = data.pagination;
         const userCharacteristics = {
           height: userData.height,
           weight: userData.weight,
@@ -57,12 +72,14 @@ const ProfileScreen = () => {
           dailyCalories: userData.dailyCalories,
         };
 
-        setUserMealsData(userData.historyOfMeals);
+        setUserMealsData(paginationData.data);
         setUserInfo(userCharacteristics);
+        setTotalPages(paginationData.totalPages);
+        setTotalRecords(paginationData.totalRecords);
       };
       fetchData();
     }
-  }, [status, session, reload]);
+  }, [status, currentPage, session, reload]);
 
   const hideModal = () => {
     setReload(!reload);
@@ -82,7 +99,7 @@ const ProfileScreen = () => {
 
   const sortDates = () => {
     const sortedData = [...userMealsData].sort((prev, curr) => {
-      if (isAscending) {
+      if (!isAscending) {
         return new Date(prev.date) - new Date(curr.date);
       } else {
         return new Date(curr.date) - new Date(prev.date);
@@ -104,6 +121,12 @@ const ProfileScreen = () => {
 
   if (status === "loading") {
     return <Loader />;
+  }
+
+  const paginationButtons = [];
+
+  for (let index = 1; index <= totalPages; index++) {
+    paginationButtons.push(index);
   }
 
   return (
@@ -195,8 +218,8 @@ const ProfileScreen = () => {
             more than the recommended daily calories.
           </p>
         </Col>
-        <Col md={3} className="user-characteristics">
-          <ListGroup variant="flush">
+        <Col md={3}>
+          <ListGroup variant="flush" className="user-characteristics">
             <div className="user-characteristics-h-wrapper">
               <h4>{session.user.name} characteristics</h4>
               <IoSettingsSharp
@@ -216,6 +239,33 @@ const ProfileScreen = () => {
             </ListGroup.Item>
           </ListGroup>
         </Col>
+        <div className="pagination-wrapper">
+          <Pagination>
+            {" "}
+            <Pagination.First onClick={() => setCurrentPage(1)} />
+            <Pagination.Prev
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((prevState) => prevState - 1)}
+            />
+            {paginationButtons.map((num, index) => (
+              <Pagination.Item
+                key={num}
+                active={currentPage === num}
+                disabled={currentPage === num}
+                onClick={() => setCurrentPage(num)}>
+                {num}
+              </Pagination.Item>
+            ))}
+            <Pagination.Next
+              disabled={currentPage === paginationButtons.length}
+              onClick={() => setCurrentPage((prevState) => prevState + 1)}
+            />
+            <Pagination.Last
+              onClick={() => setCurrentPage(paginationButtons.length)}
+            />
+          </Pagination>
+          <p>Total Records: {totalRecords}</p>
+        </div>
       </Row>
       {showModal && (
         <AddMealsModal
