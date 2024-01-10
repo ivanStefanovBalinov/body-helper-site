@@ -6,7 +6,14 @@ import { BsCalculator } from "react-icons/bs";
 import NutrientCalculator from "./Nutrient Calculator/NutrientCalculator";
 import { IoMdClose } from "react-icons/io";
 
-const AddMealsModal = ({ onClick, email, closeModal, data, isUpdate }) => {
+const AddMealsModal = ({
+  onClick,
+  email,
+  closeModal,
+  data,
+  isUpdate,
+  showError,
+}) => {
   const [formData, setFormData] = useState({
     date: data?.date || "",
     breakfastCalories: data?.breakfastCalories || "",
@@ -24,6 +31,10 @@ const AddMealsModal = ({ onClick, email, closeModal, data, isUpdate }) => {
     await fetch("http://localhost:3000/api/users/addmeals", {
       method: `${isUpdate ? "PUT" : "POST"}`,
       body: JSON.stringify(data),
+    }).then((response) => {
+      if (response.status === 403) {
+        showError();
+      }
     });
     setFormData({
       date: "",
