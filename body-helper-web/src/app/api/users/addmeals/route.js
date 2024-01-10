@@ -26,6 +26,18 @@ export async function POST(request) {
     );
   }
 
+  const isDateRecorded = user.historyOfMeals.some((meal) => meal.date === date);
+
+  if (isDateRecorded) {
+    return NextResponse.json(
+      {
+        message: "This date is already recorded.",
+        success: false,
+      },
+      { status: 403 }
+    );
+  }
+
   const newMealsDetails = {
     breakfastCalories: breakfastCalories,
     lunchCalories: lunchCalories,

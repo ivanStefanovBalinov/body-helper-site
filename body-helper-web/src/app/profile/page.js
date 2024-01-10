@@ -9,6 +9,8 @@ import { useSession } from "next-auth/react";
 import AddMealsModal from "@/components/addMealsModal";
 import Loader from "@/components/Loader";
 import { IoSettingsSharp } from "react-icons/io5";
+import { IoChevronDown } from "react-icons/io5";
+import { IoChevronUp } from "react-icons/io5";
 import UpdateUserCharacteristicForm from "@/components/UpdateUserCharacteristicForm";
 
 const ProfileScreen = () => {
@@ -16,9 +18,11 @@ const ProfileScreen = () => {
   const [showModal, setShowModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
+  const [isAscending, setIsAscending] = useState(true);
   const [userMealsData, setUserMealsData] = useState([]);
   const [reload, setReload] = useState(false);
   const [tableRowData, setTableRowData] = useState({});
+  const [isError, setIsError] = useState(false);
   const [userInfo, setUserInfo] = useState({
     height: 0,
     weight: 0,
@@ -74,6 +78,20 @@ const ProfileScreen = () => {
     setTableRowData(rowData);
   };
 
+  const showError = () => setIsError(true);
+
+  const sortDates = () => {
+    const sortedData = [...userMealsData].sort((prev, curr) => {
+      if (isAscending) {
+        return new Date(prev.date) - new Date(curr.date);
+      } else {
+        return new Date(curr.date) - new Date(prev.date);
+      }
+    });
+    setUserMealsData(sortedData);
+    setIsAscending(!isAscending);
+  };
+
   const deleteRowHandler = async (id) => {
     const data = { email: session.user.email, id: id };
 
@@ -105,16 +123,30 @@ const ProfileScreen = () => {
               setShowModal(true);
               setTableRowData({});
               setIsUpdate(false);
+              setIsError(false);
             }}>
             Add
           </Button>
+          {isError && (
+            <p className="red italic">
+              *This date is already recorded in table. If you want to change
+              details press edit button.
+            </p>
+          )}
         </Col>
 
         <Col md={9}>
           <table className="table">
             <thead>
               <tr>
-                <th scope="col">Date</th>
+                <th scope="col">
+                  Date{" "}
+                  {isAscending ? (
+                    <IoChevronDown className="data-sort" onClick={sortDates} />
+                  ) : (
+                    <IoChevronUp className="data-sort" onClick={sortDates} />
+                  )}
+                </th>
                 <th scope="col">Breakfast </th>
                 <th scope="col">Snack </th>
                 <th scope="col">Lunch </th>
@@ -150,6 +182,7 @@ const ProfileScreen = () => {
                       onClick={() => {
                         updateRowHandler(mealsCalories);
                         setIsUpdate(true);
+                        setIsError(false);
                       }}
                     />
                   </td>
@@ -191,6 +224,7 @@ const ProfileScreen = () => {
           closeModal={hideModal}
           data={tableRowData}
           isUpdate={isUpdate}
+          showError={showError}
         />
       )}
       {showUpdateModal && (
