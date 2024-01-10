@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const UpdateUserCharacteristicForm = ({ onClick, email, closeModal }) => {
   const [formData, setFormData] = useState({
@@ -31,6 +32,10 @@ const UpdateUserCharacteristicForm = ({ onClick, email, closeModal }) => {
     await fetch("http://localhost:3000/api/users", {
       method: "PUT",
       body: JSON.stringify(data),
+    }).then((response) => {
+      if (!response.ok) {
+        toast.error("Updating characteristics failed. Please try again.");
+      }
     });
 
     setFormData({
@@ -40,7 +45,7 @@ const UpdateUserCharacteristicForm = ({ onClick, email, closeModal }) => {
       desireWeight: 0,
       gender: "",
     });
-
+    toast.success("Your characteristics are updated successfully. ");
     setIsError(false);
     closeModal();
   };

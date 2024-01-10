@@ -14,14 +14,15 @@ import defaultAvatar from "../../../public/images/default-user-avatar.png";
 import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { useSession } from "next-auth/react";
-import AddMealsModal from "@/components/addMealsModal";
+import AddMealsModal from "@/components/User Panel/AddMealsModal";
 import Loader from "@/components/Loader";
 import { IoSettingsSharp } from "react-icons/io5";
 import { IoChevronDown } from "react-icons/io5";
 import { IoChevronUp } from "react-icons/io5";
-import UpdateUserCharacteristicForm from "@/components/UpdateUserCharacteristicForm";
-import ChangePasswordForm from "@/components/changePasswordForm";
+import UpdateUserCharacteristicForm from "@/components/User Panel/UpdateUserCharacteristicForm";
+import ChangePasswordForm from "@/components/User Panel/ChangePasswordForm";
 import { toast } from "react-toastify";
+import UserCaloriesChartBar from "@/components/User Panel/UserCaloriesChartBar";
 
 const ProfileScreen = () => {
   const { data: session, status } = useSession();
@@ -35,6 +36,7 @@ const ProfileScreen = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalRecords, setTotalRecords] = useState();
+  const [fullHistory, setFullHistory] = useState([]);
   const [userInfo, setUserInfo] = useState({
     height: 0,
     weight: 0,
@@ -73,6 +75,7 @@ const ProfileScreen = () => {
           dailyCalories: userData.dailyCalories,
         };
 
+        setFullHistory(userData.historyOfMeals);
         setUserMealsData(paginationData.data);
         setUserInfo(userCharacteristics);
         setTotalPages(paginationData.totalPages);
@@ -276,6 +279,7 @@ const ProfileScreen = () => {
           <ChangePasswordForm email={session.user.email} />
         </Col>
       </Row>
+      <UserCaloriesChartBar data={fullHistory} />
       {showModal && (
         <AddMealsModal
           email={session.user.email}
