@@ -20,6 +20,8 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { IoChevronDown } from "react-icons/io5";
 import { IoChevronUp } from "react-icons/io5";
 import UpdateUserCharacteristicForm from "@/components/UpdateUserCharacteristicForm";
+import ChangePasswordForm from "@/components/changePasswordForm";
+import { toast } from "react-toastify";
 
 const ProfileScreen = () => {
   const { data: session, status } = useSession();
@@ -30,7 +32,6 @@ const ProfileScreen = () => {
   const [userMealsData, setUserMealsData] = useState([]);
   const [reload, setReload] = useState(false);
   const [tableRowData, setTableRowData] = useState({});
-  const [isError, setIsError] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [totalRecords, setTotalRecords] = useState();
@@ -81,6 +82,17 @@ const ProfileScreen = () => {
     }
   }, [status, currentPage, session, reload]);
 
+  useEffect(() => {
+    if (showModal || showUpdateModal) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [showModal, showUpdateModal]);
+
   const hideModal = () => {
     setReload(!reload);
     setShowModal(false);
@@ -94,8 +106,6 @@ const ProfileScreen = () => {
     setShowModal(true);
     setTableRowData(rowData);
   };
-
-  const showError = () => setIsError(true);
 
   const sortDates = () => {
     const sortedData = [...userMealsData].sort((prev, curr) => {
@@ -116,6 +126,7 @@ const ProfileScreen = () => {
       method: "DELETE",
       body: JSON.stringify(data),
     });
+    toast.success("Data was deleted successfully.");
     setReload(!reload);
   };
 
@@ -146,16 +157,9 @@ const ProfileScreen = () => {
               setShowModal(true);
               setTableRowData({});
               setIsUpdate(false);
-              setIsError(false);
             }}>
             Add
           </Button>
-          {isError && (
-            <p className="red italic">
-              *This date is already recorded in table. If you want to change
-              details press edit button.
-            </p>
-          )}
         </Col>
 
         <Col md={9}>
@@ -205,7 +209,6 @@ const ProfileScreen = () => {
                       onClick={() => {
                         updateRowHandler(mealsCalories);
                         setIsUpdate(true);
-                        setIsError(false);
                       }}
                     />
                   </td>
@@ -217,6 +220,38 @@ const ProfileScreen = () => {
             *If your total calories are coloured red it means you have taken
             more than the recommended daily calories.
           </p>
+          {totalRecords > 10 && (
+            <div className="pagination-wrapper">
+              <Pagination>
+                {" "}
+                <Pagination.First
+                  onClick={() => setCurrentPage(1)}
+                  disabled={currentPage === 1}
+                />
+                <Pagination.Prev
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((prevState) => prevState - 1)}
+                />
+                {paginationButtons.map((num, index) => (
+                  <Pagination.Item
+                    key={num}
+                    active={currentPage === num}
+                    disabled={currentPage === num}
+                    onClick={() => setCurrentPage(num)}>
+                    {num}
+                  </Pagination.Item>
+                ))}
+                <Pagination.Next
+                  disabled={currentPage === paginationButtons.length}
+                  onClick={() => setCurrentPage((prevState) => prevState + 1)}
+                />
+                <Pagination.Last
+                  onClick={() => setCurrentPage(paginationButtons.length)}
+                />
+              </Pagination>
+              <p>Total Records: {totalRecords}</p>
+            </div>
+          )}
         </Col>
         <Col md={3}>
           <ListGroup variant="flush" className="user-characteristics">
@@ -238,34 +273,8 @@ const ProfileScreen = () => {
               Daily Calories: {userInfo.dailyCalories} cal
             </ListGroup.Item>
           </ListGroup>
+          <ChangePasswordForm email={session.user.email} />
         </Col>
-        <div className="pagination-wrapper">
-          <Pagination>
-            {" "}
-            <Pagination.First onClick={() => setCurrentPage(1)} />
-            <Pagination.Prev
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage((prevState) => prevState - 1)}
-            />
-            {paginationButtons.map((num, index) => (
-              <Pagination.Item
-                key={num}
-                active={currentPage === num}
-                disabled={currentPage === num}
-                onClick={() => setCurrentPage(num)}>
-                {num}
-              </Pagination.Item>
-            ))}
-            <Pagination.Next
-              disabled={currentPage === paginationButtons.length}
-              onClick={() => setCurrentPage((prevState) => prevState + 1)}
-            />
-            <Pagination.Last
-              onClick={() => setCurrentPage(paginationButtons.length)}
-            />
-          </Pagination>
-          <p>Total Records: {totalRecords}</p>
-        </div>
       </Row>
       {showModal && (
         <AddMealsModal
@@ -274,7 +283,6 @@ const ProfileScreen = () => {
           closeModal={hideModal}
           data={tableRowData}
           isUpdate={isUpdate}
-          showError={showError}
         />
       )}
       {showUpdateModal && (
