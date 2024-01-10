@@ -5,15 +5,9 @@ import { Button, Form } from "react-bootstrap";
 import { BsCalculator } from "react-icons/bs";
 import NutrientCalculator from "./Nutrient Calculator/NutrientCalculator";
 import { IoMdClose } from "react-icons/io";
+import { toast } from "react-toastify";
 
-const AddMealsModal = ({
-  onClick,
-  email,
-  closeModal,
-  data,
-  isUpdate,
-  showError,
-}) => {
+const AddMealsModal = ({ onClick, email, closeModal, data, isUpdate }) => {
   const [formData, setFormData] = useState({
     date: data?.date || "",
     breakfastCalories: data?.breakfastCalories || "",
@@ -33,7 +27,9 @@ const AddMealsModal = ({
       body: JSON.stringify(data),
     }).then((response) => {
       if (response.status === 403) {
-        showError();
+        toast.error(
+          "This date is already recorded in table. If you want to change details press edit button."
+        );
       }
     });
     setFormData({
@@ -43,6 +39,7 @@ const AddMealsModal = ({
       snackCalories: 0,
       dinnerCalories: 0,
     });
+    toast.success("New data added successfully to your table!");
     closeModal();
   };
 
