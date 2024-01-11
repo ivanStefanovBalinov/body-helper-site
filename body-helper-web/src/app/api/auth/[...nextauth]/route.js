@@ -45,7 +45,7 @@ export const authOptions = {
         if (!isMatch) {
           throw new Error("Invalid credentials");
         }
-        console.log(user);
+
         fetchedUser = user;
         return user;
       },

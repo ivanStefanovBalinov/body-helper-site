@@ -108,9 +108,11 @@ export default async function Home() {
                   and take the first step towards a healthier, happier you.
                   Let's transform together!
                 </h5>
-                <Button variant="dark" size="lg" className="my-3">
-                  Sing In
-                </Button>
+                <div className="my-4">
+                  <Link className="link-button " href="/profile/createprofile">
+                    Sing In
+                  </Link>
+                </div>
               </Col>
               <Col md={6}>
                 <BtImage src="/sign-section-cutted.png" alt="fit-man" fluid />

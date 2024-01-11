@@ -80,7 +80,7 @@ export async function createRecipe(formData) {
 
   revalidatePath("/", "layout");
 
-  // redirect("/recipes");
+  redirect("/recipes");
 }
 
 //GET LATEST RECIPES
