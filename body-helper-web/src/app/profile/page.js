@@ -37,6 +37,7 @@ const ProfileScreen = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [totalRecords, setTotalRecords] = useState();
   const [fullHistory, setFullHistory] = useState([]);
+
   const [userInfo, setUserInfo] = useState({
     height: 0,
     weight: 0,
@@ -70,7 +71,7 @@ const ProfileScreen = () => {
           ages: userData.ages,
           desireWeight: userData.desireWeight,
           dailyCalories: 0,
-          image: undefined,
+          image: userData.image || undefined,
           gender: userData.gender,
           dailyCalories: userData.dailyCalories,
         };
@@ -148,7 +149,7 @@ const ProfileScreen = () => {
       <Row>
         <div className="profile-avatar">
           <Image
-            src={userInfo.image || session.user.image || defaultAvatar}
+            src={userInfo.image || defaultAvatar}
             alt={session.user.name}
             className="user-avatar"
             fill
@@ -170,97 +171,109 @@ const ProfileScreen = () => {
           </Button>
         </Col>
 
-        <Col md={9}>
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">
-                  Date{" "}
-                  {isAscending ? (
-                    <IoChevronDown className="data-sort" onClick={sortDates} />
-                  ) : (
-                    <IoChevronUp className="data-sort" onClick={sortDates} />
-                  )}
-                </th>
-                <th scope="col">Breakfast </th>
-                <th scope="col">Snack </th>
-                <th scope="col">Lunch </th>
-                <th scope="col">Dinner </th>
-                <th scope="col">Total </th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {userMealsData.map((mealsCalories, index) => (
-                <tr key={index + 1}>
-                  <th scope="row">{mealsCalories.date} </th>
-                  <td>{mealsCalories.breakfastCalories} cal</td>
-                  <td>{mealsCalories.snackCalories} cal</td>
-                  <td>{mealsCalories.lunchCalories} cal</td>
-                  <td>{mealsCalories.dinnerCalories} cal</td>
-                  <td
-                    className={
-                      userInfo.dailyCalories >= mealsCalories.total
-                        ? "calories-ok"
-                        : "calories-bad"
-                    }>
-                    {mealsCalories.total}
-                    cal
-                  </td>
-                  <td>
-                    <MdDelete
-                      className="table-del-btn"
-                      onClick={() => deleteRowHandler(mealsCalories._id)}
-                    />{" "}
-                    <MdEdit
-                      className="table-edit-btn"
-                      onClick={() => {
-                        updateRowHandler(mealsCalories);
-                        setIsUpdate(true);
-                      }}
-                    />
-                  </td>
+        {userMealsData.length !== 0 ? (
+          <Col md={9}>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    Date{" "}
+                    {isAscending ? (
+                      <IoChevronDown
+                        className="data-sort"
+                        onClick={sortDates}
+                      />
+                    ) : (
+                      <IoChevronUp className="data-sort" onClick={sortDates} />
+                    )}
+                  </th>
+                  <th scope="col">Breakfast </th>
+                  <th scope="col">Snack </th>
+                  <th scope="col">Lunch </th>
+                  <th scope="col">Dinner </th>
+                  <th scope="col">Total </th>
+                  <th></th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-          <p className="red italic">
-            *If your total calories are coloured red it means you have taken
-            more than the recommended daily calories.
-          </p>
-          {totalRecords > 10 && (
-            <div className="pagination-wrapper">
-              <Pagination>
-                {" "}
-                <Pagination.First
-                  onClick={() => setCurrentPage(1)}
-                  disabled={currentPage === 1}
-                />
-                <Pagination.Prev
-                  disabled={currentPage === 1}
-                  onClick={() => setCurrentPage((prevState) => prevState - 1)}
-                />
-                {paginationButtons.map((num, index) => (
-                  <Pagination.Item
-                    key={num}
-                    active={currentPage === num}
-                    disabled={currentPage === num}
-                    onClick={() => setCurrentPage(num)}>
-                    {num}
-                  </Pagination.Item>
+              </thead>
+              <tbody>
+                {userMealsData.map((mealsCalories, index) => (
+                  <tr key={index + 1}>
+                    <th scope="row">{mealsCalories.date} </th>
+                    <td>{mealsCalories.breakfastCalories} cal</td>
+                    <td>{mealsCalories.snackCalories} cal</td>
+                    <td>{mealsCalories.lunchCalories} cal</td>
+                    <td>{mealsCalories.dinnerCalories} cal</td>
+                    <td
+                      className={
+                        userInfo.dailyCalories >= mealsCalories.total
+                          ? "calories-ok"
+                          : "calories-bad"
+                      }>
+                      {mealsCalories.total}
+                      cal
+                    </td>
+                    <td>
+                      <MdDelete
+                        className="table-del-btn"
+                        onClick={() => deleteRowHandler(mealsCalories._id)}
+                      />{" "}
+                      <MdEdit
+                        className="table-edit-btn"
+                        onClick={() => {
+                          updateRowHandler(mealsCalories);
+                          setIsUpdate(true);
+                        }}
+                      />
+                    </td>
+                  </tr>
                 ))}
-                <Pagination.Next
-                  disabled={currentPage === paginationButtons.length}
-                  onClick={() => setCurrentPage((prevState) => prevState + 1)}
-                />
-                <Pagination.Last
-                  onClick={() => setCurrentPage(paginationButtons.length)}
-                />
-              </Pagination>
-              <p>Total Records: {totalRecords}</p>
-            </div>
-          )}
-        </Col>
+              </tbody>
+            </table>
+            <p className="red italic">
+              *If your total calories are coloured red it means you have taken
+              more than the recommended daily calories.
+            </p>
+            {totalRecords > 10 && (
+              <div className="pagination-wrapper">
+                <Pagination>
+                  {" "}
+                  <Pagination.First
+                    onClick={() => setCurrentPage(1)}
+                    disabled={currentPage === 1}
+                  />
+                  <Pagination.Prev
+                    disabled={currentPage === 1}
+                    onClick={() => setCurrentPage((prevState) => prevState - 1)}
+                  />
+                  {paginationButtons.map((num, index) => (
+                    <Pagination.Item
+                      key={num}
+                      active={currentPage === num}
+                      disabled={currentPage === num}
+                      onClick={() => setCurrentPage(num)}>
+                      {num}
+                    </Pagination.Item>
+                  ))}
+                  <Pagination.Next
+                    disabled={currentPage === paginationButtons.length}
+                    onClick={() => setCurrentPage((prevState) => prevState + 1)}
+                  />
+                  <Pagination.Last
+                    onClick={() => setCurrentPage(paginationButtons.length)}
+                  />
+                </Pagination>
+                <p>Total Records: {totalRecords}</p>
+              </div>
+            )}
+          </Col>
+        ) : (
+          <Col md={9}>
+            <h1 className="my-5 user-header">
+              *You haven't recorded any date yet. Start adding from the button
+              above.
+            </h1>
+          </Col>
+        )}
         <Col md={3}>
           <ListGroup variant="flush" className="user-characteristics">
             <div className="user-characteristics-h-wrapper">
@@ -283,8 +296,13 @@ const ProfileScreen = () => {
           </ListGroup>
           <ChangePasswordForm email={session.user.email} />
         </Col>
+        {userMealsData.length !== 0 && (
+          <Col md={12}>
+            <UserCaloriesChartBar data={fullHistory} />
+          </Col>
+        )}
       </Row>
-      <UserCaloriesChartBar data={fullHistory} />
+
       {showModal && (
         <AddMealsModal
           email={session.user.email}
