@@ -147,7 +147,11 @@ const ProfileScreen = () => {
     <Container>
       <Row>
         <div className="profile-avatar">
-          <Image src={userInfo.image || defaultAvatar} alt="user photo" fill />
+          <Image
+            src={userInfo.image || session.user.image || defaultAvatar}
+            alt="user photo"
+            fill
+          />
         </div>
         <h3 style={{ textAlign: "center" }}>Hi {session?.user.name}</h3>
       </Row>

@@ -71,13 +71,30 @@ const Header = () => {
                   </Dropdown.Menu>
                 </Dropdown>
               ) : (
-                <Button
-                  variant="dark"
-                  onClick={() => signIn()}
-                  style={{ display: "flex", gap: "5px", alignItems: "center" }}>
-                  <FaUser />
-                  Sign In
-                </Button>
+                <Dropdown>
+                  <Dropdown.Toggle variant="dark" id="dropdown-basic">
+                    Sign In
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu>
+                    <Dropdown.Item>
+                      <Button
+                        variant="dark"
+                        onClick={() => signIn()}
+                        style={{
+                          display: "flex",
+                          gap: "5px",
+                          alignItems: "center",
+                        }}>
+                        <FaUser />
+                        Sign In
+                      </Button>
+                    </Dropdown.Item>
+                    <Dropdown.Divider />
+                    <Dropdown.Item>
+                      <Link href="/profile/createprofile">Create Account</Link>
+                    </Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
               )}
               {status === "authenticated" && session.user.isAdmin && (
                 <Link className="nav-items" href="/admin">
