@@ -27,22 +27,24 @@ const HeroCarousel = () => {
   ];
   return (
     <>
-      <Carousel>
-        {carouselInfo.map((item, index) => (
-          <Carousel.Item key={index + 1}>
-            <Image
-              src={item.image}
-              fluid
-              className="carousel-image"
-              alt={item.header}
-            />
-            <Carousel.Caption>
-              <h3>{item.header}</h3>
-              <p>{item.text}</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-        ))}
-      </Carousel>
+      <div className="carousel-wrapper">
+        <Carousel>
+          {carouselInfo.map((item, index) => (
+            <Carousel.Item key={index + 1}>
+              <Image
+                src={item.image}
+                fluid
+                className="carousel-image"
+                alt={item.header}
+              />
+              <Carousel.Caption>
+                <h3>{item.header}</h3>
+                <p>{item.text}</p>
+              </Carousel.Caption>
+            </Carousel.Item>
+          ))}
+        </Carousel>
+      </div>
     </>
   );
 };

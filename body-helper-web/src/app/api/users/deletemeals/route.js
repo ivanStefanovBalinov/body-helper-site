@@ -22,7 +22,7 @@ export async function DELETE(request) {
   const filteredHistory = user.historyOfMeals.filter(
     (meal) => meal._id.toString() !== id
   );
-  console.log(typeof id);
+
   user.historyOfMeals = filteredHistory;
 
   await user.save();

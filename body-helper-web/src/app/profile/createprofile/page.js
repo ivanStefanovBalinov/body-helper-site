@@ -1,10 +1,11 @@
-"use server";
+"use client";
 import ImagePicker from "@/components/ImagePicker";
 import { Col, Row } from "react-bootstrap";
+import { registerAccount } from "../../../../lib/users";
 
 const CreateProfile = () => {
   const submitForm = (formData) => {
-    console.log(FormData);
+    registerAccount(formData);
   };
 
   return (
@@ -12,18 +13,19 @@ const CreateProfile = () => {
       <form action={submitForm}>
         <Row>
           <Col>
-            <label for="name" className="form-label">
-              Name
+            <label htmlFor="name" className="form-label">
+              Full Name
             </label>
             <input
               type="text"
               className="form-control"
               id="name"
               placeholder="John"
+              name="name"
             />
           </Col>
           <Col>
-            <label for="username" className="form-label">
+            <label htmlFor="username" className="form-label">
               User Name
             </label>
             <input
@@ -31,11 +33,12 @@ const CreateProfile = () => {
               className="form-control"
               id="username"
               placeholder="JJ"
+              name="username"
             />
           </Col>
         </Row>
         <div className="mb-2">
-          <label for="email" className="form-label">
+          <label htmlFor="email" className="form-label">
             Email address
           </label>
           <input
@@ -43,43 +46,69 @@ const CreateProfile = () => {
             className="form-control"
             id="email"
             placeholder="john@gmail.com"
+            name="email"
           />
         </div>
         <div className="mb-3">
-          <label for="password" className="form-label">
+          <label htmlFor="password" className="form-label">
             Password
           </label>
-          <input type="password" className="form-control" id="password" />
+          <input
+            type="password"
+            className="form-control"
+            id="password"
+            name="password"
+          />
         </div>
         <div className="mb-3">
           <ImagePicker label="Your avatar" name="image" />
         </div>
         <Row>
           <Col>
-            <label for="weight" className="form-label">
+            <label htmlFor="weight" className="form-label">
               Your Weight
             </label>
-            <input type="number" className="form-control" id="weight" />
+            <input
+              type="number"
+              className="form-control"
+              id="weight"
+              name="weight"
+            />
           </Col>
           <Col>
-            <label for="height" className="form-label">
+            <label htmlFor="height" className="form-label">
               Your Height
             </label>
-            <input type="number" className="form-control" id="height" />
+            <input
+              type="number"
+              className="form-control"
+              id="height"
+              name="height"
+            />
           </Col>
         </Row>
         <Row className="mt-2">
           <Col>
-            <label for="ages" className="form-label">
+            <label htmlFor="ages" className="form-label">
               Your Ages
             </label>
-            <input type="number" className="form-control" id="ages" />
+            <input
+              type="number"
+              className="form-control"
+              id="ages"
+              name="ages"
+            />
           </Col>
           <Col>
-            <label for="desireWeight" className="form-label">
+            <label htmlFor="desireWeight" className="form-label">
               Desired Weight
             </label>
-            <input type="number" className="form-control" id="desireWeight" />
+            <input
+              type="number"
+              className="form-control"
+              id="desireWeight"
+              name="desireWeight"
+            />
           </Col>
         </Row>
         <div className="checkbox-container">
@@ -89,8 +118,9 @@ const CreateProfile = () => {
               type="checkbox"
               value="male"
               id="male"
+              name="gender"
             />
-            <label className="form-check-label" for="male">
+            <label className="form-check-label" htmlFor="male">
               Male
             </label>
           </div>
@@ -98,18 +128,19 @@ const CreateProfile = () => {
             <input
               className="form-check-input"
               type="checkbox"
-              value="male"
+              value="female"
               id="female"
+              name="gender"
             />
-            <label className="form-check-label" for="female">
+            <label className="form-check-label" htmlFor="female">
               Female
             </label>
           </div>
         </div>
         <select
           className="form-select mt-3"
-          aria-label="Default select example">
-          <option selected>Select your activity type...</option>
+          name="activity"
+          defaultValue={"Select your activity type..."}>
           <option value="1.2">Sedentary - little or no exercise</option>
           <option value="1.375">
             Lightly active light - exercise/sports 1-3 days/week

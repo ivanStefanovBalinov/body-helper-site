@@ -149,7 +149,8 @@ const ProfileScreen = () => {
         <div className="profile-avatar">
           <Image
             src={userInfo.image || session.user.image || defaultAvatar}
-            alt="user photo"
+            alt={session.user.name}
+            className="user-avatar"
             fill
           />
         </div>

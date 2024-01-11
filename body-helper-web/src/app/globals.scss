@@ -367,8 +367,11 @@ img {
   margin: auto;
   border-radius: 50%;
   overflow: hidden;
-  img {
+  .user-avatar {
     object-fit: contain;
+    object-position: center;
+    width: none;
+    height: none;
   }
 }
 
@@ -499,7 +502,7 @@ img {
 }
 
 .register-screen {
-  background: #212529;
+  background: #1e2225;
   height: 100vh;
   width: 100%;
 
@@ -513,4 +516,17 @@ img {
     color: white;
     transform: translateY(5%);
   }
+}
+
+.link-button {
+  position: s;
+  background-color: #262726;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin: 100px 0;
+}
+
+.carousel-wrapper {
+  width: 100%;
 }

@@ -56,7 +56,7 @@ export async function PUT(request) {
         basalMetabolicRate,
         activity
       );
-      console.log(femaleTotalDailyEnergyExpenditure);
+
       const deficit = calcDeficit(femaleTotalDailyEnergyExpenditure);
       if (Number(weight) < Number(desireWeight)) {
         return femaleTotalDailyEnergyExpenditure;
