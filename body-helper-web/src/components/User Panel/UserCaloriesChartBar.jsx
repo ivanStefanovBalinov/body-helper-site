@@ -2,50 +2,46 @@
 import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { Chart } from "react-google-charts";
-const UserCaloriesChartBar = ({ month, data }) => {
+import { toast } from "react-toastify";
+const UserCaloriesChartBar = ({ data }) => {
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
   const [chartData, setChartData] = useState([]);
+  const [isDataFound, setIsDataFound] = useState(true);
 
   useEffect(() => {
-    if (selectedMonth.length !== 0 && selectedYear.length !== 0) {
+    const configureDataForChart = (month, year) => {
       const filterArrByMonth = data.filter(
-        (obj) => obj.date.substring(5, 7) === selectedMonth
+        (obj) => obj.date.substring(5, 7) === month
       );
 
       const filterArrByYear = filterArrByMonth.filter(
-        (obj) => obj.date.substring(0, 4) === selectedYear
+        (obj) => obj.date.substring(0, 4) === year
       );
 
-      const resultArray = [];
+      const resultArray = [
+        [`Calorie chart for ${month} - ${year} `, "Calories"],
+      ];
 
       for (const obj of filterArrByYear) {
-        const newArr = [obj.date, obj.total];
+        const newArr = [obj.date, Number(obj.total)];
 
         resultArray.push(newArr);
       }
-      setChartData(resultArray);
+
+      return resultArray;
+    };
+    setIsDataFound(true);
+    if (selectedMonth.length !== 0 && selectedYear.length !== 0) {
+      const chartData = configureDataForChart(selectedMonth, selectedYear);
+      if (chartData.length <= 1) {
+        setIsDataFound(false);
+        toast.error("You have no information recorded for this period.");
+      }
+
+      setChartData(chartData);
     }
   }, [selectedMonth, selectedYear]);
-  const data1 = [
-    [`Calorie chart for ${month}`, "Calories"],
-    ["01-01-23", 1212],
-    ["01-01-23", 2012],
-    ["01-01-23", 2012],
-    ["01-01-23", 2012],
-    ["01-01-23", 2012],
-    ["01-01-23", 2012],
-    ["01-01-23", 2012],
-    ["01-01-23", 2012],
-    ["01-01-23", 2012],
-    ["01-01-23", 2012],
-    ["01-01-23", 2012],
-    ["01-01-23", 2012],
-    ["01-01-23", 2012],
-    ["01-01-23", 2012],
-    ["01-01-23", 2012],
-    ["01-01-23", 2012],
-  ];
 
   const yearsArray = data.map((obj) => new Date(obj.date).getFullYear());
   const uniqueYears = [...new Set(yearsArray)];
@@ -77,7 +73,7 @@ const UserCaloriesChartBar = ({ month, data }) => {
         <Form.Select onChange={(e) => setSelectedMonth(e.target.value)}>
           <option>Select Month</option>
           {months.map((month, index) => (
-            <option key={month} value={`0${index + 1}`}>
+            <option key={month} value={index < 9 ? `0${index + 1}` : index + 1}>
               {month}
             </option>
           ))}
@@ -91,13 +87,26 @@ const UserCaloriesChartBar = ({ month, data }) => {
           ))}
         </Form.Select>
       </div>
-      <Chart
-        chartType="Bar"
-        width="100%"
-        height="500px"
-        data={chartData || []}
-        options={options}
-      />
+      {selectedMonth.length !== 0 && selectedYear.length !== 0 ? (
+        isDataFound ? (
+          <Chart
+            chartType="Bar"
+            width="100%"
+            height="500px"
+            data={chartData}
+            options={options}
+          />
+        ) : (
+          <p className="red italic">
+            *You have no information recorded for this period
+          </p>
+        )
+      ) : (
+        <p className="italic red">
+          *Select month and year to see a chart bar with your calorie balance
+          for the selected period.
+        </p>
+      )}
     </div>
   );
 };
