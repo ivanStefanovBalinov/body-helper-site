@@ -3,6 +3,7 @@
     "connectdb",
     "createprofile",
     "foodcalculator",
+    "signin",
     "toastify",
     "transformative"
   ]

@@ -6,6 +6,7 @@ import connectDB from "../db/connectdb";
 import User from "../db/models/User.Schema";
 import { isInvalidText } from "./helperFunctions";
 import { v2 as cloudinary } from "cloudinary";
+import { dailyCaloriesCalculation } from "./calculateDailyCalories";
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -49,6 +50,15 @@ export async function registerAccount(formData) {
     user.image = undefined;
   }
 
+  const dailyCalories = dailyCaloriesCalculation(
+    user.gender,
+    user.desireWeight,
+    user.height,
+    user.ages,
+    user.weight,
+    user.activity
+  );
+
   const arrayBuffer = await user.image.arrayBuffer();
   const buffer = new Uint8Array(arrayBuffer);
 
@@ -61,6 +71,7 @@ export async function registerAccount(formData) {
       const newUser = {
         ...user,
         image: result.secure_url,
+        dailyCalories: dailyCalories,
       };
 
       await connectDB();

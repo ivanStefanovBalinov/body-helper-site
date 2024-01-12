@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Button,
   Col,
@@ -23,6 +24,7 @@ import UpdateUserCharacteristicForm from "@/components/User Panel/UpdateUserChar
 import ChangePasswordForm from "@/components/User Panel/ChangePasswordForm";
 import { toast } from "react-toastify";
 import UserCaloriesChartBar from "@/components/User Panel/UserCaloriesChartBar";
+import HighOrderComponent from "@/components/User Panel/HighOrderComponent";
 
 const ProfileScreen = () => {
   const { data: session, status } = useSession();
@@ -37,6 +39,9 @@ const ProfileScreen = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [totalRecords, setTotalRecords] = useState();
   const [fullHistory, setFullHistory] = useState([]);
+  const [username, setUsername] = useState("User");
+
+  const router = useRouter();
 
   const [userInfo, setUserInfo] = useState({
     height: 0,
@@ -49,6 +54,7 @@ const ProfileScreen = () => {
   });
 
   useEffect(() => {
+    setUsername("User");
     if (status === "authenticated" && session) {
       const fetchData = async () => {
         const response = await fetch(
@@ -81,6 +87,7 @@ const ProfileScreen = () => {
         setUserInfo(userCharacteristics);
         setTotalPages(paginationData.totalPages);
         setTotalRecords(paginationData.totalRecords);
+        setUsername(session.user.name);
       };
       fetchData();
     }
@@ -150,7 +157,7 @@ const ProfileScreen = () => {
         <div className="profile-avatar">
           <Image
             src={userInfo.image || defaultAvatar}
-            alt={session.user.name}
+            alt="user avatar"
             className="user-avatar"
             fill
           />
@@ -277,7 +284,7 @@ const ProfileScreen = () => {
         <Col md={3}>
           <ListGroup variant="flush" className="user-characteristics">
             <div className="user-characteristics-h-wrapper">
-              <h4>{session.user.name} characteristics</h4>
+              <h4>{username} characteristics</h4>
               <IoSettingsSharp
                 className="table-edit-btn"
                 onClick={() => setShowUpdateModal(true)}
@@ -294,7 +301,7 @@ const ProfileScreen = () => {
               Daily Calories: {userInfo.dailyCalories} cal
             </ListGroup.Item>
           </ListGroup>
-          <ChangePasswordForm email={session.user.email} />
+          <ChangePasswordForm email={session?.user.email} />
         </Col>
         {userMealsData.length !== 0 && (
           <Col md={12}>
@@ -314,7 +321,7 @@ const ProfileScreen = () => {
       )}
       {showUpdateModal && (
         <UpdateUserCharacteristicForm
-          email={session.user.email}
+          email={session?.user.email}
           onClick={hideUpdateModal}
           closeModal={hideUpdateModal}
         />
@@ -323,4 +330,4 @@ const ProfileScreen = () => {
   );
 };
 
-export default ProfileScreen;
+export default HighOrderComponent(ProfileScreen);

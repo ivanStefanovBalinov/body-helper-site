@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import connectDB from "../../../../db/connectdb";
 import User from "../../../../db/models/User.Schema";
+import { dailyCaloriesCalculation } from "../../../../lib/calculateDailyCalories";
 
 export async function POST(request) {
   const { username, name, email, password, image } = await request.json();
@@ -21,53 +22,14 @@ export async function PUT(request) {
 
   await connectDB();
 
-  //bmr - base metabolic rate
-  const totalDailyEnergyExpenditure = (bmr, activityRate) =>
-    Math.round(bmr * activityRate);
-
-  const calcDeficit = (totalDailyEnergyExpenditure) =>
-    Math.round(totalDailyEnergyExpenditure * 0.2);
-
-  const calculateCaloriesDeficit = (totalDailyEnergyExpenditure, deficit) =>
-    Math.round(totalDailyEnergyExpenditure - deficit);
-
-  const dailyCalories = () => {
-    if (gender === "male") {
-      const basalMetabolicRate =
-        10 * desireWeight + 6.25 * height - 5 * ages + 5;
-      const maleTotalDailyEnergyExpenditure = totalDailyEnergyExpenditure(
-        basalMetabolicRate,
-        activity
-      );
-      const deficit = calcDeficit(maleTotalDailyEnergyExpenditure);
-
-      if (Number(weight) < Number(desireWeight)) {
-        return maleTotalDailyEnergyExpenditure;
-      } else {
-        return calculateCaloriesDeficit(
-          maleTotalDailyEnergyExpenditure,
-          deficit
-        );
-      }
-    } else {
-      const basalMetabolicRate =
-        10 * desireWeight + 6.25 * height - 5 * ages - 161;
-      const femaleTotalDailyEnergyExpenditure = totalDailyEnergyExpenditure(
-        basalMetabolicRate,
-        activity
-      );
-
-      const deficit = calcDeficit(femaleTotalDailyEnergyExpenditure);
-      if (Number(weight) < Number(desireWeight)) {
-        return femaleTotalDailyEnergyExpenditure;
-      } else {
-        return calculateCaloriesDeficit(
-          femaleTotalDailyEnergyExpenditure,
-          deficit
-        );
-      }
-    }
-  };
+  const dailyCalories = dailyCaloriesCalculation(
+    gender,
+    desireWeight,
+    height,
+    ages,
+    weight,
+    activity
+  );
 
   const filter = { email: email };
   const update = {
@@ -77,7 +39,7 @@ export async function PUT(request) {
     desireWeight: desireWeight,
     gender: gender,
     activity: activity,
-    dailyCalories: dailyCalories(),
+    dailyCalories: dailyCalories,
   };
 
   const user = await User.findOneAndUpdate(filter, update, {
