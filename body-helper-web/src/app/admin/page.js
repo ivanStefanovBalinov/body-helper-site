@@ -1,3 +1,5 @@
+"use client";
+import HighOrderComponent from "@/components/User Panel/HighOrderComponent";
 import AdminScreen from "@/screens/Admin/AdminScreen";
 
 const AdminPage = () => {
@@ -8,4 +10,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default HighOrderComponent(AdminPage);
