@@ -1,7 +1,6 @@
 "use client";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import {
   Button,
   Col,
@@ -24,7 +23,6 @@ import UpdateUserCharacteristicForm from "@/components/User Panel/UpdateUserChar
 import ChangePasswordForm from "@/components/User Panel/ChangePasswordForm";
 import { toast } from "react-toastify";
 import UserCaloriesChartBar from "@/components/User Panel/UserCaloriesChartBar";
-import HighOrderComponent from "@/components/User Panel/HighOrderComponent";
 
 const ProfileScreen = () => {
   const { data: session, status } = useSession();
@@ -41,8 +39,6 @@ const ProfileScreen = () => {
   const [fullHistory, setFullHistory] = useState([]);
   const [username, setUsername] = useState("User");
 
-  const router = useRouter();
-
   const [userInfo, setUserInfo] = useState({
     height: 0,
     weight: 0,
@@ -55,6 +51,7 @@ const ProfileScreen = () => {
 
   useEffect(() => {
     setUsername("User");
+    console.log("SESSION:", session);
     if (status === "authenticated" && session) {
       const fetchData = async () => {
         const response = await fetch(
@@ -330,4 +327,4 @@ const ProfileScreen = () => {
   );
 };
 
-export default HighOrderComponent(ProfileScreen);
+export default ProfileScreen;
