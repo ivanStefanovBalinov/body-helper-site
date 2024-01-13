@@ -3,6 +3,19 @@ import connectDB from "../../../../db/connectdb";
 import User from "../../../../db/models/User.Schema";
 import { dailyCaloriesCalculation } from "../../../../lib/calculateDailyCalories";
 
+export async function GET(request) {
+  await connectDB();
+  const users = await User.find({});
+
+  if (!users) {
+    return NextResponse(
+      { message: "Users not found", success: false },
+      { status: 404 }
+    );
+  }
+  return NextResponse.json({ data: users, success: true }, { status: 200 });
+}
+
 export async function POST(request) {
   const { username, name, email, password, image } = await request.json();
   await connectDB();
