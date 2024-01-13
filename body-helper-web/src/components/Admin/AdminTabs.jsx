@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Tab, Table, Tabs } from "react-bootstrap";
 import { MdDelete, MdEdit } from "react-icons/md";
 
-const AdminTabs = ({ recipesData, usersData }) => {
+const AdminTabs = () => {
   const [articles, setArticles] = useState([]);
   const [users, setUsers] = useState([]);
   const [recipes, setRecipes] = useState([]);
@@ -32,13 +32,25 @@ const AdminTabs = ({ recipesData, usersData }) => {
     fetchUsers();
   }, []);
 
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      await fetch("http://localhost:3000/api/recipes", {
+        method: "GET",
+      })
+        .then((response) => response.json())
+        .then((recipes) => setRecipes(recipes.data))
+        .catch((err) => console.log("Error:", err));
+    };
+    fetchRecipes();
+  }, []);
+
   return (
     <>
       <Tabs
         defaultActiveKey="articles"
         id="uncontrolled-tab-example"
         className="mb-3">
-        <Tab eventKey="articles" title="Articles" active>
+        <Tab eventKey="articles" title="Articles">
           <Table>
             <thead>
               <tr>
@@ -97,7 +109,33 @@ const AdminTabs = ({ recipesData, usersData }) => {
           </Table>
         </Tab>
         <Tab eventKey="recipes" title="Recipes">
-          Tab content for Contact
+          <Table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Category</th>
+
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {recipes.map((recipe, index) => (
+                <tr key={recipe._id.toString()}>
+                  <th scope="row">{index + 1} </th>
+                  <td>{recipe.title}</td>
+                  <td>{recipe.author}</td>
+                  <td>{recipe.category}</td>
+
+                  <td>
+                    <MdDelete className="table-del-btn" />{" "}
+                    <MdEdit className="table-edit-btn" />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
         </Tab>
       </Tabs>
     </>
