@@ -1,6 +1,6 @@
 import Image from "next/image";
 import heroImg from "../../../public/blog-hero.jpg";
-import { Button, Col, Container, Nav, Navbar, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import { getAllArticles } from "../../../lib/articles";
 import Link from "next/link";
 import { FaRegCalendarAlt } from "react-icons/fa";

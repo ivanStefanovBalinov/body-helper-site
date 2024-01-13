@@ -1,21 +1,12 @@
-import AdminTabs from "@/screens/Admin/AdminTabs";
+import AdminTabs from "@/components/Admin/AdminTabs";
 import Link from "next/link";
-import { Card, Col, Container, Row, Tab, Tabs } from "react-bootstrap";
-import { getAllArticles } from "../../../lib/articles";
-import { notFound } from "next/navigation";
-import { MdDelete, MdEdit } from "react-icons/md";
+import { Card, Col, Container, Row } from "react-bootstrap";
 
 const AdminPage = async () => {
   const sidebarItems = [
     { title: "Create articles", path: "/admin/articles/create" },
     { title: "Create recipe", path: "/admin/recipes/create" },
   ];
-
-  const articles = await getAllArticles();
-
-  if (!articles) {
-    notFound();
-  }
 
   return (
     <>
@@ -33,7 +24,7 @@ const AdminPage = async () => {
             </Card>
           </Col>
           <Col md={9}>
-            <AdminTabs articlesData={[]} recipesData={[]} usersData={[]} />
+            <AdminTabs />
           </Col>
         </Row>
       </Container>
