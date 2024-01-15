@@ -22,7 +22,8 @@ const AdminPage = () => {
       try {
         const session = await getSession();
         setIsSession(session ? true : false);
-        if (!session) {
+
+        if (!session || !session.user.isAdmin) {
           setTimeout(() => {
             router.push("/");
           }, 0);

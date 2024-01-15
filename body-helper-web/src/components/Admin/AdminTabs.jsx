@@ -1,4 +1,6 @@
 "use client";
+import EditArticle from "@/app/admin/articles/[slug]/page";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Tab, Table, Tabs } from "react-bootstrap";
 import { MdDelete, MdEdit } from "react-icons/md";
@@ -7,6 +9,8 @@ const AdminTabs = () => {
   const [articles, setArticles] = useState([]);
   const [users, setUsers] = useState([]);
   const [recipes, setRecipes] = useState([]);
+
+  const router = useRouter();
 
   useEffect(() => {
     const fetchArticles = async () => {
@@ -44,6 +48,14 @@ const AdminTabs = () => {
     fetchRecipes();
   }, []);
 
+  const editHandler = (slug) => {
+    router.push(`/admin/articles/${slug}`);
+  };
+
+  const editUserHandler = (email) => {
+    router.push("/");
+  };
+
   return (
     <>
       <Tabs
@@ -72,7 +84,10 @@ const AdminTabs = () => {
                   <td>{article.numComments}</td>
                   <td>
                     <MdDelete className="table-del-btn" />{" "}
-                    <MdEdit className="table-edit-btn" />
+                    <MdEdit
+                      className="table-edit-btn"
+                      onClick={() => editHandler(article.slug)}
+                    />
                   </td>
                 </tr>
               ))}
@@ -101,7 +116,10 @@ const AdminTabs = () => {
                   <td>{user.isAdmin ? "admin" : "user"}</td>
                   <td>
                     <MdDelete className="table-del-btn" />{" "}
-                    <MdEdit className="table-edit-btn" />
+                    <MdEdit
+                      className="table-edit-btn"
+                      onClick={() => editHandler(user._id)}
+                    />
                   </td>
                 </tr>
               ))}
@@ -130,7 +148,10 @@ const AdminTabs = () => {
 
                   <td>
                     <MdDelete className="table-del-btn" />{" "}
-                    <MdEdit className="table-edit-btn" />
+                    <MdEdit
+                      className="table-edit-btn"
+                      onClick={() => editHandler(recipe.slug)}
+                    />
                   </td>
                 </tr>
               ))}
