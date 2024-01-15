@@ -13,7 +13,7 @@ import {
 import defaultAvatar from "../../../public/images/default-user-avatar.png";
 import { MdDelete } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
-import { useSession } from "next-auth/react";
+import { useSession, getSession } from "next-auth/react";
 import AddMealsModal from "@/components/User Panel/AddMealsModal";
 import Loader from "@/components/Loader";
 import { IoSettingsSharp } from "react-icons/io5";
@@ -23,6 +23,7 @@ import UpdateUserCharacteristicForm from "@/components/User Panel/UpdateUserChar
 import ChangePasswordForm from "@/components/User Panel/ChangePasswordForm";
 import { toast } from "react-toastify";
 import UserCaloriesChartBar from "@/components/User Panel/UserCaloriesChartBar";
+import { useRouter } from "next/navigation";
 
 const ProfileScreen = () => {
   const { data: session, status } = useSession();
@@ -38,6 +39,9 @@ const ProfileScreen = () => {
   const [totalRecords, setTotalRecords] = useState();
   const [fullHistory, setFullHistory] = useState([]);
   const [username, setUsername] = useState("User");
+  const [isSession, setIsSession] = useState(undefined);
+
+  const router = useRouter();
 
   const [userInfo, setUserInfo] = useState({
     height: 0,
@@ -50,8 +54,26 @@ const ProfileScreen = () => {
   });
 
   useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const session = await getSession();
+        setIsSession(session ? true : false);
+        if (!session) {
+          setTimeout(() => {
+            router.push("/");
+          }, 0);
+        }
+      } catch (error) {
+        console.error("Error checking session:", error);
+        setIsSession(false);
+      }
+    };
+
+    checkSession();
+  }, [router]);
+
+  useEffect(() => {
     setUsername("User");
-    console.log("SESSION:", session);
     if (status === "authenticated" && session) {
       const fetchData = async () => {
         const response = await fetch(
@@ -137,6 +159,14 @@ const ProfileScreen = () => {
     toast.success("Data was deleted successfully.");
     setReload(!reload);
   };
+
+  if (isSession === undefined) {
+    return <Loader />;
+  }
+
+  if (!isSession) {
+    return null;
+  }
 
   if (status === "loading") {
     return <Loader />;

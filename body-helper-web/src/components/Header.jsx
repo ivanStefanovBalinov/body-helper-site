@@ -4,10 +4,11 @@ import { Navbar, Nav, Container, Dropdown, Button } from "react-bootstrap";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { FaUser } from "react-icons/fa";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 const Header = () => {
   const { data: session, status } = useSession();
   const path = usePathname();
+  const router = useRouter();
 
   const navItems = [
     { path: "/", title: "Home" },
@@ -60,14 +61,19 @@ const Header = () => {
                       <p>Hi, {session.user.name}</p>
                     </div>
                     <Dropdown.Divider />
-                    <Dropdown.Item>
-                      <Link href="/profile">Profile</Link>
-                    </Dropdown.Item>
-                    <Dropdown.Item>
-                      <Link href="/" onClick={() => signOut()}>
-                        Logout
-                      </Link>
-                    </Dropdown.Item>
+
+                    <Link className="dropdown-item" href="/profile">
+                      Profile
+                    </Link>
+
+                    <button
+                      className="dropdown-item"
+                      onClick={() => {
+                        signOut();
+                        router.push("/");
+                      }}>
+                      Logout
+                    </button>
                   </Dropdown.Menu>
                 </Dropdown>
               ) : (
@@ -90,9 +96,11 @@ const Header = () => {
                       </Button>
                     </Dropdown.Item>
                     <Dropdown.Divider />
-                    <Dropdown.Item>
-                      <Link href="/profile/createprofile">Create Account</Link>
-                    </Dropdown.Item>
+                    <Link
+                      className="dropdown-item"
+                      href="/profile/createprofile">
+                      Create Account
+                    </Link>
                   </Dropdown.Menu>
                 </Dropdown>
               )}
