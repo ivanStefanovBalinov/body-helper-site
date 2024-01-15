@@ -30,6 +30,10 @@ export async function getDataBySlug(model, slug) {
   await connectDB();
   const data = await model.findOne({ slug: slug });
 
+  if (!data) {
+    throw new Error("Resource was not found");
+  }
+
   return data;
 }
 
