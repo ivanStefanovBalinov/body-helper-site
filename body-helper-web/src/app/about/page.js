@@ -22,7 +22,7 @@ const About = () => {
           <h2>About us</h2>
         </div>
         <Row className="my-5">
-          <Col>
+          <Col md={6} sm={12}>
             <h2>Our Mission to Transform Lives</h2>
             <p>
               At Body Helper, our mission is to transform lives through the
@@ -40,19 +40,19 @@ const About = () => {
               just a goal; it's a commitment to your lasting vitality.
             </p>
           </Col>
-          <Col>
+          <Col md={6} sm={12}>
             <div className="about-img-wrapper">
               <Image src="/about-1.jpg" alt="About photo" fill />
             </div>
           </Col>
         </Row>
         <Row className="my-5">
-          <Col>
+          <Col md={6} sm={12}>
             <div className="about-img-wrapper-xl">
               <Image src="/about-2.jpg" alt="About photo" fill />
             </div>
           </Col>
-          <Col>
+          <Col md={6} sm={12}>
             <h2>Tools for Your Wellness Journey</h2>
             <p>
               "At Body Helper, we go beyond aspirations – we provide tangible
