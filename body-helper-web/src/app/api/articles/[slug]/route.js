@@ -42,8 +42,6 @@ export async function PUT(request, context) {
 
   const filter = { slug: slug };
 
-  console.log("UPDATED:", updateArticle);
-
   const update = await Article.findOneAndUpdate(filter, updateArticle, {
     new: true,
   });
@@ -57,6 +55,24 @@ export async function PUT(request, context) {
 
   return NextResponse.json(
     { message: "Article updated.", success: true },
+    { status: 200 }
+  );
+}
+
+export async function DELETE(request, context) {
+  const { params } = context;
+  const slug = params.slug;
+
+  const article = await Article.findOneAndDelete({ slug: slug });
+
+  if (!article) {
+    return NextResponse.json(
+      { message: "Article not found", success: false },
+      { status: 404 }
+    );
+  }
+  return NextResponse.json(
+    { message: "Article was deleted successfully.", success: true },
     { status: 200 }
   );
 }

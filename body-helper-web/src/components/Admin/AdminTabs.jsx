@@ -4,11 +4,13 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Tab, Table, Tabs } from "react-bootstrap";
 import { MdDelete, MdEdit } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const AdminTabs = () => {
   const [articles, setArticles] = useState([]);
   const [users, setUsers] = useState([]);
   const [recipes, setRecipes] = useState([]);
+  const [reload, setReload] = useState(false);
 
   const router = useRouter();
 
@@ -22,7 +24,7 @@ const AdminTabs = () => {
         .catch((err) => console.log("Error:", err));
     };
     fetchArticles();
-  }, []);
+  }, [reload]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -56,6 +58,19 @@ const AdminTabs = () => {
     router.push("/");
   };
 
+  const deleteArticleHandler = async (slug) => {
+    await fetch(`http://localhost:3000/api/articles/${slug}`, {
+      method: "DELETE",
+    }).then((response) => {
+      if (response.ok) {
+        toast.success("Article was deleted successfully!");
+        setReload(!reload);
+      } else {
+        toast.error("Deletion Failed!");
+      }
+    });
+  };
+
   return (
     <>
       <Tabs
@@ -83,7 +98,10 @@ const AdminTabs = () => {
                   <td>{article.rating}</td>
                   <td>{article.numComments}</td>
                   <td>
-                    <MdDelete className="table-del-btn" />{" "}
+                    <MdDelete
+                      className="table-del-btn"
+                      onClick={() => deleteArticleHandler(article.slug)}
+                    />{" "}
                     <MdEdit
                       className="table-edit-btn"
                       onClick={() => editHandler(article.slug)}
