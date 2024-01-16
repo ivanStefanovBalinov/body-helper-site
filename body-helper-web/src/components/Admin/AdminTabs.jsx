@@ -48,18 +48,18 @@ const AdminTabs = () => {
         .catch((err) => console.log("Error:", err));
     };
     fetchRecipes();
-  }, []);
+  }, [reload]);
 
   const editHandler = (slug, subdirectory) => {
     router.push(`/admin/${subdirectory}/${slug}`);
   };
 
   const capitalizeFirstLetter = (word) => {
-    const arr = word.split("");
-    arr[0] = arr[0].toUpperCase();
-    arr.pop();
-    arr.join("");
-    return arr;
+    if (typeof word !== "string") {
+      return null;
+    }
+
+    return word.charAt(0).toUpperCase() + word.slice(1, -1);
   };
 
   const deleteHandler = async (slug, subdirectory) => {

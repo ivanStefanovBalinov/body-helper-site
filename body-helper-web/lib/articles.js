@@ -3,7 +3,7 @@ import { v2 as cloudinary } from "cloudinary";
 import connectDB from "../db/connectdb";
 import Article from "../db/models/Article.model";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/dist/server/api-utils";
+import { redirect } from "next/navigation";
 import xss from "xss";
 import slugify from "slugify";
 import User from "../db/models/User.Schema";
@@ -69,7 +69,7 @@ export async function createArticle(prevState, formData) {
     })
     .end(buffer);
 
-  revalidatePath("/", "layout");
+  revalidatePath("/blog", "layout");
 
   redirect("/blog");
 }

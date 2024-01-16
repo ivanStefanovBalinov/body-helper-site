@@ -3,7 +3,7 @@ import { v2 as cloudinary } from "cloudinary";
 import connectDB from "../db/connectdb";
 import Recipe from "../db/models/Recipe.model";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/dist/server/api-utils";
+import { redirect } from "next/navigation";
 import xss from "xss";
 import slugify from "slugify";
 import {
@@ -78,9 +78,8 @@ export async function createRecipe(formData) {
     })
     .end(buffer);
 
-  revalidatePath("/", "layout");
-
-  redirect("/");
+  revalidatePath("/recipes", "layout");
+  redirect("/recipes");
 }
 
 //GET LATEST RECIPES
