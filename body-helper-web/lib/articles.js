@@ -71,7 +71,7 @@ export async function createArticle(prevState, formData) {
 
   revalidatePath("/", "layout");
   //Must change redirect path
-  redirect("/blog");
+  redirect("/");
 }
 
 //GET LATEST ARTICLES
