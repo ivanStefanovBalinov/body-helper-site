@@ -54,14 +54,22 @@ const AdminTabs = () => {
     router.push(`/admin/${subdirectory}/${slug}`);
   };
 
-  // const editRecipeHandler = slug;
+  const capitalizeFirstLetter = (word) => {
+    const arr = word.split("");
+    arr[0] = arr[0].toUpperCase();
+    arr.pop();
+    arr.join("");
+    return arr;
+  };
 
-  const deleteArticleHandler = async (slug) => {
-    await fetch(`http://localhost:3000/api/articles/${slug}`, {
+  const deleteHandler = async (slug, subdirectory) => {
+    await fetch(`http://localhost:3000/api/${subdirectory}/${slug}`, {
       method: "DELETE",
     }).then((response) => {
       if (response.ok) {
-        toast.success("Article was deleted successfully!");
+        toast.success(
+          `${capitalizeFirstLetter(subdirectory)} was deleted successfully!`
+        );
         setReload(!reload);
       } else {
         toast.error("Deletion Failed!");
@@ -98,7 +106,7 @@ const AdminTabs = () => {
                   <td>
                     <MdDelete
                       className="table-del-btn"
-                      onClick={() => deleteArticleHandler(article.slug)}
+                      onClick={() => deleteHandler(article.slug, "articles")}
                     />{" "}
                     <MdEdit
                       className="table-edit-btn"
@@ -163,7 +171,10 @@ const AdminTabs = () => {
                   <td>{recipe.category}</td>
 
                   <td>
-                    <MdDelete className="table-del-btn" />{" "}
+                    <MdDelete
+                      className="table-del-btn"
+                      onClick={() => deleteHandler(recipe.slug, "recipes")}
+                    />{" "}
                     <MdEdit
                       className="table-edit-btn"
                       onClick={() => editHandler(recipe.slug, "recipes")}

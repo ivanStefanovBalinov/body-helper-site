@@ -70,8 +70,8 @@ export async function createArticle(prevState, formData) {
     .end(buffer);
 
   revalidatePath("/", "layout");
-  //Must change redirect path
-  redirect("/");
+
+  redirect("/blog");
 }
 
 //GET LATEST ARTICLES
