@@ -6,9 +6,12 @@ import { createRecipe } from "../../../../../lib/recipes";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 const CreateRecipe = () => {
   const [instructions, setInstructions] = useState();
   const [ingredients, setIngredients] = useState();
+  const router = useRouter();
   const modules = {
     toolbar: [
       ["bold", "italic", "underline", "strike"],
@@ -35,6 +38,7 @@ const CreateRecipe = () => {
     formData.set("instructions", instructions);
     formData.set("ingredients", ingredients);
     createRecipe(formData);
+    router.push("/recipes");
   };
 
   return (
@@ -122,7 +126,6 @@ const CreateRecipe = () => {
               </div>
               <div className={classes.actions}>
                 <button>Submit</button>
-                {/* <MealsFormSubmitButton /> */}
               </div>
             </Col>
           </Row>
