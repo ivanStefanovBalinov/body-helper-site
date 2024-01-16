@@ -20,7 +20,7 @@ export async function GET(request, context) {
 export async function PUT(request, context) {
   const { params } = context;
   const slug = params.slug;
-  const { title, summary, author, sources, content } = await request.json;
+  const { title, summary, author, sources, content } = await request.json();
 
   const article = await Article.find({ slug: slug });
 
@@ -41,6 +41,8 @@ export async function PUT(request, context) {
   };
 
   const filter = { slug: slug };
+
+  console.log("UPDATED:", updateArticle);
 
   const update = await Article.findOneAndUpdate(filter, updateArticle, {
     new: true,

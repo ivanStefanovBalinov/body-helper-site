@@ -98,7 +98,7 @@ const EditArticle = ({ params }) => {
               type="text"
               className="form-control"
               id="sources"
-              name="source"
+              name="sources"
               value={article.sources}
               onChange={onChangeHandler}
             />
