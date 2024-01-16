@@ -50,13 +50,11 @@ const AdminTabs = () => {
     fetchRecipes();
   }, []);
 
-  const editHandler = (slug) => {
-    router.push(`/admin/articles/${slug}`);
+  const editHandler = (slug, subdirectory) => {
+    router.push(`/admin/${subdirectory}/${slug}`);
   };
 
-  const editUserHandler = (email) => {
-    router.push("/");
-  };
+  // const editRecipeHandler = slug;
 
   const deleteArticleHandler = async (slug) => {
     await fetch(`http://localhost:3000/api/articles/${slug}`, {
@@ -104,7 +102,7 @@ const AdminTabs = () => {
                     />{" "}
                     <MdEdit
                       className="table-edit-btn"
-                      onClick={() => editHandler(article.slug)}
+                      onClick={() => editHandler(article.slug, "articles")}
                     />
                   </td>
                 </tr>
@@ -168,7 +166,7 @@ const AdminTabs = () => {
                     <MdDelete className="table-del-btn" />{" "}
                     <MdEdit
                       className="table-edit-btn"
-                      onClick={() => editHandler(recipe.slug)}
+                      onClick={() => editHandler(recipe.slug, "recipes")}
                     />
                   </td>
                 </tr>

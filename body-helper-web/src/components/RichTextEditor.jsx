@@ -1,9 +1,14 @@
 "use client";
-import React from "react";
-import ReactQuill from "react-quill";
+import React, { useMemo } from "react";
+// import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import dynamic from "next/dynamic";
 
 const RichTextEditor = ({ value, onChange }) => {
+  const ReactQuill = useMemo(
+    () => dynamic(() => import("react-quill"), { ssr: false }),
+    []
+  );
   const modules = {
     toolbar: [
       ["bold", "italic", "underline", "strike"],
