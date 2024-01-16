@@ -77,3 +77,21 @@ export async function PUT(request, context) {
     { status: 200 }
   );
 }
+
+export async function DELETE(request, context) {
+  const { params } = context;
+  const slug = params.slug;
+
+  const recipe = await Recipe.findOneAndDelete({ slug: slug });
+
+  if (!recipe) {
+    return NextResponse.json(
+      { message: "Recipe not found", success: false },
+      { status: 404 }
+    );
+  }
+  return NextResponse.json(
+    { message: "Recipe was deleted successfully.", success: true },
+    { status: 200 }
+  );
+}
