@@ -21,12 +21,10 @@ const Header = () => {
 
   useEffect(() => {
     if (session && status === "authenticated") {
-      console.log("EFFECT:", session);
+      console.log("EFFECT:", session.user.isAdmin);
       setIsAdmin(session.user.isAdmin);
     }
   }, []);
-
-  console.log("Session:", session);
 
   return (
     <header style={{ marginBottom: "50px" }}>
