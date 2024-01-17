@@ -53,6 +53,7 @@ export const authOptions = {
   ],
 
   secret: process.env.NEXTAUTH_SECRET,
+
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
@@ -63,6 +64,7 @@ export const authOptions = {
     async session({ session, token, user }) {
       // session.accessToken = token.accessToken;
       session.user.userId = fetchedUser._id;
+      session.maxAge = 60 * 60 * 24;
       session.user.isAdmin = fetchedUser.isAdmin;
       return session;
     },

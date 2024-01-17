@@ -1,11 +1,12 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar, Nav, Container, Dropdown, Button } from "react-bootstrap";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { FaUser } from "react-icons/fa";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 const Header = () => {
+  const [isAdmin, setIsAdmin] = useState(false);
   const { data: session, status } = useSession();
   const path = usePathname();
   const router = useRouter();
@@ -17,6 +18,15 @@ const Header = () => {
     { path: "/blog", title: "Blog" },
     { path: "/about", title: "About Us" },
   ];
+
+  useEffect(() => {
+    if (session && status === "authenticated") {
+      console.log("EFFECT:", session);
+      setIsAdmin(session.user.isAdmin);
+    }
+  }, []);
+
+  console.log("Session:", session);
 
   return (
     <header style={{ marginBottom: "50px" }}>

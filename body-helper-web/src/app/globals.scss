@@ -538,3 +538,34 @@ img {
   border-top: 2px solid #afafaf4d;
   padding-top: 20px;
 }
+
+.footer-ul {
+  padding: 0;
+  li {
+    list-style: none;
+    margin-bottom: 10px;
+    a {
+      color: #262726;
+      font-weight: bold;
+      transition: 0.5s ease;
+      &:hover {
+        color: #e06805;
+      }
+    }
+  }
+}
+
+.footer-socials {
+  display: flex;
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  li {
+    a {
+      font-size: 1.5rem;
+      color: #262726;
+    }
+  }
+}
