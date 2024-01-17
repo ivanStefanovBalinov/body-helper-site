@@ -10,6 +10,14 @@ import manCook from "../../public/man-cook.png";
 import { getLatestRecipes } from "../../lib/recipes";
 import { IoIosMail } from "react-icons/io";
 
+//Finish Function
+async function getSubscription(formData) {
+  const email = {
+    email: formData.get("email"),
+  };
+  const res = await fetch("");
+}
+
 export default async function Home() {
   const firstSectionContent = [
     {
@@ -314,9 +322,10 @@ export default async function Home() {
                           </div>
                           <div className="form-input">
                             <input
-                              type="text"
+                              type="email"
                               placeholder="Enter your email"
                               className="form-input"
+                              name="email"
                             />
                           </div>
                           <div className="form-button">
