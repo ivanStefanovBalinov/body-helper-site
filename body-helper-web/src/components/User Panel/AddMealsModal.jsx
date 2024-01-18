@@ -22,7 +22,7 @@ const AddMealsModal = ({ onClick, email, closeModal, data, isUpdate }) => {
     e.preventDefault();
     const data = { ...formData, email: email };
 
-    await fetch("http://localhost:3000/api/users/addmeals", {
+    await fetch("https://body-helper.vercel.app/api/users/addmeals", {
       method: `${isUpdate ? "PUT" : "POST"}`,
       body: JSON.stringify(data),
     }).then((response) => {

@@ -77,7 +77,7 @@ const ProfileScreen = () => {
     if (status === "authenticated" && session) {
       const fetchData = async () => {
         const response = await fetch(
-          "http://localhost:3000/api/users/getusersmeals",
+          "https://body-helper.vercel.app/api/users/getusersmeals",
           {
             method: "POST",
             body: JSON.stringify({
@@ -152,7 +152,7 @@ const ProfileScreen = () => {
   const deleteRowHandler = async (id) => {
     const data = { email: session.user.email, id: id };
 
-    await fetch("http://localhost:3000/api/users/deletemeals", {
+    await fetch("https://body-helper.vercel.app/api/users/deletemeals", {
       method: "DELETE",
       body: JSON.stringify(data),
     });

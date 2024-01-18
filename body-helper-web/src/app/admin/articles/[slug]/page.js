@@ -13,7 +13,7 @@ const EditArticle = ({ params }) => {
 
   useEffect(() => {
     const fetchArticle = async () => {
-      await fetch(`http://localhost:3000/api/articles/${slug}`, {
+      await fetch(`https://body-helper.vercel.app/api/articles/${slug}`, {
         method: "GET",
       })
         .then((response) => response.json())
@@ -36,7 +36,7 @@ const EditArticle = ({ params }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    await fetch(`http://localhost:3000/api/articles/${slug}`, {
+    await fetch(`http://https://body-helper.vercel.app/api/articles/${slug}`, {
       method: "PUT",
       body: JSON.stringify(article),
     }).then((response) => {

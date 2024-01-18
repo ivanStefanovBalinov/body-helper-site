@@ -29,7 +29,7 @@ const UpdateUserCharacteristicForm = ({ onClick, email, closeModal }) => {
       setIsError(true);
     }
 
-    await fetch("http://localhost:3000/api/users", {
+    await fetch("https://body-helper.vercel.app/api/users", {
       method: "PUT",
       body: JSON.stringify(data),
     }).then((response) => {
