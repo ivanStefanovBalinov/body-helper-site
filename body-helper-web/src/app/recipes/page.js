@@ -85,7 +85,7 @@ const Recipes = async () => {
             {recipes.map((recipe, index) => {
               if (index !== latestRecipeIndex) {
                 return (
-                  <Col md={4} key={recipe._id.toString()}>
+                  <Col lg={4} md={6} sm={12} key={recipe._id.toString()}>
                     <Link
                       className="recipe-link-card"
                       href={`/recipes/${recipe.slug}`}
