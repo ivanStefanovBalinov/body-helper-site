@@ -21,7 +21,7 @@ const AdminPage = () => {
     const checkSession = async () => {
       try {
         const session = await getSession();
-        setIsSession(session ? true : false);
+        setIsSession(session && session.user.isAdmin ? true : false);
 
         if (!session) {
           setTimeout(() => {

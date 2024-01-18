@@ -4,6 +4,27 @@ import Image from "next/image";
 import Link from "next/link";
 import { getRecipesByCategory } from "../../../../../lib/recipes";
 import NutrientDetails from "@/components/NutrientDetails";
+
+export async function generateMetaData({ params }) {
+  const slug = params.slug;
+  const recipe = await getRecipesByCategory(slug);
+  return {
+    title: recipe.title,
+    description: recipe.summary,
+    author: recipe.author,
+    keywords: [
+      "Fitness",
+      "Nutrition",
+      "Diets",
+      "Healthy",
+      "Calories",
+      "Meals",
+      "Recipes",
+      "Cooking",
+    ],
+  };
+}
+
 const RecipeCategory = async ({ params }) => {
   const slug = params.slug;
   const title = slug

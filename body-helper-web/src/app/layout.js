@@ -10,6 +10,16 @@ import { ToastContainer, toast } from "react-toastify";
 export const metadata = {
   title: "Body Helper",
   description: "Transform Your Life: Join Our Fitness Revolution",
+  keywords: [
+    "Fitness",
+    "Nutrition",
+    "Diets",
+    "Training",
+    "Bodybuilding",
+    "Healthy",
+    "Calories",
+  ],
+  creator: "Ivan Balinov",
 };
 
 export default function RootLayout({ children, session }) {

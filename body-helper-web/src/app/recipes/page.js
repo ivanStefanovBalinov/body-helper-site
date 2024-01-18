@@ -14,6 +14,24 @@ import { GiMeat } from "react-icons/gi";
 import { FaFishFins } from "react-icons/fa6";
 import MealCategories from "@/components/MealCategories";
 
+export const metadata = {
+  title: "Body Helper-Recipes",
+  description: "Browse the delicious meals shared by our awesome team.",
+  keywords: [
+    "Fitness",
+    "Nutrition",
+    "Diets",
+    "Training",
+    "Bodybuilding",
+    "Healthy",
+    "Calories",
+    "Meals",
+    "Recipes",
+    "Cooking",
+  ],
+  creator: "Ivan Balinov",
+};
+
 const Recipes = async () => {
   const recipes = await getAllRecipes();
   const latestRecipeIndex = recipes.length - 1;
