@@ -36,6 +36,23 @@ const reasons = [
     text: "Keeping track of nutrients and calories fosters nutritional literacy. Understanding the nutritional value of different foods enables individuals to make informed decisions, promoting a culture of health and well-being.",
   },
 ];
+
+export const metadata = {
+  title: "Nutrient Calculator",
+  description:
+    "The nutrient calculator is a powerful tool that enables users to compute the nutritional content of meals by aggregating various ingredients and their respective weights, providing a comprehensive overview of the meal's nutritional profile.",
+  keywords: [
+    "Fitness",
+    "Nutrition",
+    "Diets",
+    "Training",
+    "Bodybuilding",
+    "Healthy",
+    "Calories",
+  ],
+  creator: "Ivan Balinov",
+};
+
 const FoodCalculator = () => {
   return (
     <>

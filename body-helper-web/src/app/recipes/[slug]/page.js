@@ -8,6 +8,26 @@ import Link from "next/link";
 import { GiFlame } from "react-icons/gi";
 import CommentForm from "@/components/CommentForm";
 
+export async function generateMetaData({ params }) {
+  const slug = params.slug;
+  const recipe = await getRecipe(slug);
+  return {
+    title: recipe.title,
+    description: recipe.summary,
+    author: recipe.author,
+    keywords: [
+      "Fitness",
+      "Nutrition",
+      "Diets",
+      "Healthy",
+      "Calories",
+      "Meals",
+      "Recipes",
+      "Cooking",
+    ],
+  };
+}
+
 const Recipe = async ({ params }) => {
   const slug = params.slug;
   const recipe = await getRecipe(slug);

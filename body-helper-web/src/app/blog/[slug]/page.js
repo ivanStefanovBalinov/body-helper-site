@@ -6,6 +6,28 @@ import Link from "next/link";
 import Rating from "@/components/Rating";
 import CommentForm from "@/components/CommentForm";
 
+export async function generateMetaData({ params }) {
+  const slug = params.slug;
+  const article = await getArticle(slug);
+  return {
+    title: article.title,
+    description: article.summary,
+    author: article.author,
+    keywords: [
+      "Fitness",
+      "Nutrition",
+      "Diets",
+      "Training",
+      "Bodybuilding",
+      "Healthy",
+      "Calories",
+      "Meals",
+      "Recipes",
+      "Cooking",
+    ],
+  };
+}
+
 const BlogArticles = async ({ params }) => {
   const slug = params.slug;
   const article = await getArticle(slug);

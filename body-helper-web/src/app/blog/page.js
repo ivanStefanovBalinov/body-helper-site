@@ -7,6 +7,12 @@ import { FaRegCalendarAlt } from "react-icons/fa";
 import { notFound } from "next/navigation";
 import Rating from "@/components/Rating";
 
+export const metadata = {
+  title: "Body Helper-Blog",
+  description: "Discover our catchy articles about training and healthy live.",
+  keywords: ["Fitness", "Nutrition", "Diets", "Training", "Bodybuilding"],
+};
+
 const Blog = async () => {
   const articles = await getAllArticles();
   if (!articles) {
