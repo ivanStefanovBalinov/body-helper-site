@@ -151,7 +151,7 @@ const NutrientCalculator = () => {
       <Row>
         <Form onSubmit={submitHandler}>
           <p>*Enter your food name and weight</p>
-          <Row>
+          <Row className="input-row">
             <Form.Group as={Col} md={4}>
               <Form.Control
                 required
@@ -270,7 +270,7 @@ const NutrientCalculator = () => {
           </div>
         )}
         <Row className="my-5">
-          <Col md={6}>
+          <Col md={6} sm={{ order: "last" }} xs={{ order: "last" }}>
             <ListGroup variant="flush" className="food-list">
               {foodList.length === 0 && (
                 <>
@@ -302,8 +302,8 @@ const NutrientCalculator = () => {
               })}
             </ListGroup>
           </Col>
-          <Col md={6}>
-            <Card style={{ width: "18rem" }}>
+          <Col md={6} sm={{ order: "first" }} xs={{ order: "first" }}>
+            <Card style={{ width: "18rem" }} className="calc-display-details">
               <Card.Body>
                 <Card.Title>Meal Nutrition Details</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">

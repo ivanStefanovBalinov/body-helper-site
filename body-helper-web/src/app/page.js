@@ -7,9 +7,7 @@ import Link from "next/link";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import Rating from "@/components/Rating";
 import nutritionSectionImg from "../../public/nutiotion-section.jpg";
-import manCook from "../../public/man-cook.png";
 import { getLatestRecipes } from "../../lib/recipes";
-import { IoIosMail } from "react-icons/io";
 import SubscribeSection from "@/components/SubscribeSection";
 
 export default async function Home() {

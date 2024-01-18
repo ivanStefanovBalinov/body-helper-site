@@ -647,6 +647,25 @@ img {
 }
 
 @media only screen and (max-width: 770px) {
+  .calc-display-details {
+    width: 100%;
+  }
+  .hero-section {
+    h2 {
+      font-size: 3rem;
+    }
+  }
+  .input-row {
+    gap: 15px;
+  }
+  .nutrition-detail-wrapper {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 10px;
+  }
   .carousel-caption {
     bottom: 0.95rem;
     padding: 0 10px;
@@ -678,5 +697,11 @@ img {
         }
       }
     }
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .card {
+    width: 330px;
   }
 }

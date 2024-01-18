@@ -4,8 +4,6 @@ import { Col, Row } from "react-bootstrap";
 import manCook from "../../public/man-cook.png";
 import { IoIosMail } from "react-icons/io";
 import Image from "next/image";
-import { getSubscription } from "../../lib/subscription";
-import { useFormState } from "react-dom";
 import { toast } from "react-toastify";
 
 const SubscribeSection = () => {
