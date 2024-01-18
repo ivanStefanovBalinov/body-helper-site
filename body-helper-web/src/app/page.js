@@ -1,3 +1,4 @@
+"use server";
 import HeroCarousel from "@/components/HeroCarousel";
 import { Button, Col, Container, Row, Image as BtImage } from "react-bootstrap";
 import { getLatestArticles } from "../../lib/articles";
@@ -9,14 +10,7 @@ import nutritionSectionImg from "../../public/nutiotion-section.jpg";
 import manCook from "../../public/man-cook.png";
 import { getLatestRecipes } from "../../lib/recipes";
 import { IoIosMail } from "react-icons/io";
-
-//Finish Function
-async function getSubscription(formData) {
-  const email = {
-    email: formData.get("email"),
-  };
-  const res = await fetch("");
-}
+import SubscribeSection from "@/components/SubscribeSection";
 
 export default async function Home() {
   const firstSectionContent = [
@@ -304,45 +298,7 @@ export default async function Home() {
         </section>
         <section>
           <Container>
-            <div className="newsletter">
-              <Row>
-                <Col md={6}>
-                  <div>
-                    <span>Subscribe</span>
-                    <h2>Join Body Helper Newsletter</h2>
-                    <div className="newsletter-text">
-                      Stay in the loop! Sign up for our newsletter to receive
-                      the latest updates directly to your inbox.
-                    </div>
-                    <div>
-                      <form className="newsletter-from">
-                        <div className="newsletter-from-wrapper">
-                          <div className="form-icon">
-                            <IoIosMail />
-                          </div>
-                          <div className="form-input">
-                            <input
-                              type="email"
-                              placeholder="Enter your email"
-                              className="form-input"
-                              name="email"
-                            />
-                          </div>
-                          <div className="form-button">
-                            <button type="submit">Subscribe</button>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </Col>
-                <Col md={6}>
-                  <div className="newsletter-image">
-                    <Image src={manCook} alt="Man Cook" fill />
-                  </div>
-                </Col>
-              </Row>
-            </div>
+            <SubscribeSection />
           </Container>
         </section>
       </main>
