@@ -270,7 +270,11 @@ const NutrientCalculator = () => {
           </div>
         )}
         <Row className="my-5">
-          <Col md={6} sm={{ order: "last" }} xs={{ order: "last" }}>
+          <Col
+            lg={{ order: "fist" }}
+            md={6}
+            sm={{ order: "last" }}
+            xs={{ order: "last" }}>
             <ListGroup variant="flush" className="food-list">
               {foodList.length === 0 && (
                 <>
@@ -302,7 +306,11 @@ const NutrientCalculator = () => {
               })}
             </ListGroup>
           </Col>
-          <Col md={6} sm={{ order: "first" }} xs={{ order: "first" }}>
+          <Col
+            lg={{ order: "last" }}
+            md={6}
+            sm={{ order: "first" }}
+            xs={{ order: "first" }}>
             <Card style={{ width: "18rem" }} className="calc-display-details">
               <Card.Body>
                 <Card.Title>Meal Nutrition Details</Card.Title>
