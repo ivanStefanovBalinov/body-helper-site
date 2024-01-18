@@ -3,13 +3,18 @@ import classes from "../../articles/create/page.module.css";
 import { Col, Container, Row } from "react-bootstrap";
 import ImagePicker from "@/components/ImagePicker";
 import { createRecipe } from "../../../../../lib/recipes";
-import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 
 const CreateRecipe = () => {
   const [instructions, setInstructions] = useState();
   const [ingredients, setIngredients] = useState();
+
+  const ReactQuill = useMemo(
+    () => dynamic(() => import("react-quill"), { ssr: false }),
+    []
+  );
 
   const modules = {
     toolbar: [
