@@ -16,7 +16,7 @@ const AdminTabs = () => {
 
   useEffect(() => {
     const fetchArticles = async () => {
-      await fetch("http://localhost:3000/api/articles", {
+      await fetch("https://body-helper.vercel.app/api/articles", {
         method: "GET",
       })
         .then((response) => response.json())
@@ -28,7 +28,7 @@ const AdminTabs = () => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      await fetch("http://localhost:3000/api/users", {
+      await fetch("https://body-helper.vercel.app/api/users", {
         method: "GET",
       })
         .then((response) => response.json())
@@ -40,7 +40,7 @@ const AdminTabs = () => {
 
   useEffect(() => {
     const fetchRecipes = async () => {
-      await fetch("http://localhost:3000/api/recipes", {
+      await fetch("https://body-helper.vercel.app/api/recipes", {
         method: "GET",
       })
         .then((response) => response.json())
@@ -63,7 +63,7 @@ const AdminTabs = () => {
   };
 
   const deleteHandler = async (slug, subdirectory) => {
-    await fetch(`http://localhost:3000/api/${subdirectory}/${slug}`, {
+    await fetch(`https://body-helper.vercel.app/api/${subdirectory}/${slug}`, {
       method: "DELETE",
     }).then((response) => {
       if (response.ok) {

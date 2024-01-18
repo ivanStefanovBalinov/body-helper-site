@@ -30,7 +30,7 @@ const ChangePasswordForm = ({ email }) => {
       newPassword: formData.newPassword,
     };
 
-    await fetch("http://localhost:3000/api/users/changepassword", {
+    await fetch("https://body-helper.vercel.app/api/users/changepassword", {
       method: "PUT",
       body: JSON.stringify(data),
     }).then((response) => {

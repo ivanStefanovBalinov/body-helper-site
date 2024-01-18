@@ -12,7 +12,7 @@ const EditRecipe = ({ params }) => {
 
   useEffect(() => {
     const fetchRecipe = async () => {
-      await fetch(`http://localhost:3000/api/recipes/${slug}`, {
+      await fetch(`https://body-helper.vercel.app/api/recipes/${slug}`, {
         method: "GET",
       })
         .then((response) => response.json())
@@ -31,7 +31,7 @@ const EditRecipe = ({ params }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    await fetch(`http://localhost:3000/api/recipes/${slug}`, {
+    await fetch(`https://body-helper.vercel.app/api/recipes/${slug}`, {
       method: "PUT",
       body: JSON.stringify(recipe),
     }).then((response) => {

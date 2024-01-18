@@ -35,7 +35,7 @@ const NutrientCalculator = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`http://localhost:3000/api/foods`, {
+      const response = await fetch(`https://body-helper.vercel.app/api/foods`, {
         method: "GET",
       });
       const data = await response.json();
@@ -121,7 +121,7 @@ const NutrientCalculator = () => {
     ) {
       return;
     }
-    await fetch("http://localhost:3000/api/foods", {
+    await fetch("https://body-helper.vercel.app/api/foods", {
       method: "POST",
       body: JSON.stringify(newFood),
     });

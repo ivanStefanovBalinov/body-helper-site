@@ -12,7 +12,7 @@ const SubscribeSection = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     const data = { email: email };
-    await fetch("http://localhost:3000/api/newsletter/subscribe", {
+    await fetch("https://body-helper.vercel.app/api/newsletter/subscribe", {
       method: "POST",
       body: JSON.stringify(data),
     }).then((response) => {
