@@ -36,7 +36,7 @@ const EditArticle = ({ params }) => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    await fetch(`http://https://body-helper.vercel.app/api/articles/${slug}`, {
+    await fetch(`https://body-helper.vercel.app/api/articles/${slug}`, {
       method: "PUT",
       body: JSON.stringify(article),
     }).then((response) => {
